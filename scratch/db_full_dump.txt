@@ -1,0 +1,743 @@
+
+==================== ALL TABLES ====================
+        table_name        
+--------------------------
+ addresses
+ drivers
+ faqs
+ fulfillment_allocations
+ inventories
+ inventory_transactions
+ invoices
+ notifications
+ order_items
+ orders
+ password_reset_tokens
+ products
+ proof_of_deliveries
+ routes
+ shipment_tracking_events
+ shipments
+ support_contacts
+ support_ticket_messages
+ support_tickets
+ system_settings
+ users
+ vehicles
+ warehouses
+(23 rows)
+
+
+==================== 1. USERS ====================
+ id  |                    email                     |          full_name          |       role        |  status  | warehouse_id 
+-----+----------------------------------------------+-----------------------------+-------------------+----------+--------------
+   1 | sanjanaaa.shru@gmail.com                     | PrimeRoute Operations       | ADMIN             | ACTIVE   |             
+   3 | testcustomer@gmail.com                       | Test Customer               | CUSTOMER          | ACTIVE   |             
+   4 | shrutisanjanasahoo@gmail.com                 | Shruti Sanjana Sahoo        | CUSTOMER          | ACTIVE   |             
+   5 | manoj3@gmail.com                             | Manoj                       | CUSTOMER          | ACTIVE   |             
+   6 | gudi78@gmail.com                             | Guddy                       | CUSTOMER          | ACTIVE   |             
+   7 | vjiu@gmail.com                               | dtry                        | CUSTOMER          | ACTIVE   |             
+   8 | testuser@primeroute.com                      | Test Customer               | CUSTOMER          | INACTIVE |             
+   9 | testcustomer@primeroute.com                  | Test Customer Corp          | CUSTOMER          | ACTIVE   |             
+  10 | supporttest@primeroute.com                   | Customer Support Test       | CUSTOMER          | ACTIVE   |             
+  11 | demo_customer@primeroute.com                 | Demo Customer               | CUSTOMER          | ACTIVE   |             
+  12 | customer_b_639245524445763086@primeroute.com | Customer B Isolation Test   | CUSTOMER          | ACTIVE   |             
+  13 | customer_b_639245540223223008@primeroute.com | Customer B Isolation Test   | CUSTOMER          | INACTIVE |             
+  14 | rohan.sharma.test@primeroute.com             | Rohan Sharma Updated        | CUSTOMER          | ACTIVE   |             
+  15 | client.portal.test.1789028867@primeroute.com | Tanya Logistics Global      | CUSTOMER          | INACTIVE |             
+  16 | routjig09@gmail.com                          | Jigyasha Rout               | CUSTOMER          | ACTIVE   |             
+  17 | kousik12@gmail.com                           | Koushik                     | CUSTOMER          | ACTIVE   |             
+  18 | koushik@gmail.com                            | fghj                        | CUSTOMER          | INACTIVE |             
+  20 | priya@primeroute.com                         | Priya Sharma                | WAREHOUSE_MANAGER | ACTIVE   |            1
+  21 | admin@primeroute.com                         | PrimeRoute Operations Admin | ADMIN             | ACTIVE   |             
+  22 | ramesh@primeroute.com                        | Ramesh Kumar                | DRIVER            | ACTIVE   |            1
+  24 | ccu.east@primeroute.com                      | P. Mukherjee                | WAREHOUSE_MANAGER | ACTIVE   |            6
+  31 | anil.deshmukh.1790082100291@primeroute.com   | Anil Deshmukh               | DRIVER            | ACTIVE   |            1
+  35 | arjun.das@primeroute.in                      | Arjun Das                   | DRIVER            | ACTIVE   |             
+  36 | testcustomer_1790356301283@primeroute.com    | Test Customer Workflow      | CUSTOMER          | ACTIVE   |             
+  37 | testcustomer_1790356322471@primeroute.com    | Test Customer Workflow      | CUSTOMER          | ACTIVE   |             
+  38 | testcustomer_1790356403490@primeroute.com    | Test Customer Workflow      | CUSTOMER          | ACTIVE   |             
+  39 | customer@primeroute.com                      | Demo Customer               | CUSTOMER          | ACTIVE   |             
+  40 | customer2@primeroute.com                     | Secondary Customer          | CUSTOMER          | ACTIVE   |             
+ 185 | test.cust.1790598146062@primeroute.com       | Verification Customer       | CUSTOMER          | ACTIVE   |             
+ 186 | test.cust.1790598189564@primeroute.com       | Verification Customer       | CUSTOMER          | ACTIVE   |             
+ 187 | test.cust.1790598232950@primeroute.com       | Verification Customer       | CUSTOMER          | ACTIVE   |             
+ 188 | priya.patel@primeroute.in                    | Priya Patel                 | DRIVER            | ACTIVE   |            6
+ 189 | sneha.kulkarni@primeroute.in                 | Sneha Kulkarni              | DRIVER            | ACTIVE   |            6
+ 496 | customer.d8.1790663563586@primeroute.com     | Verification Customer       | CUSTOMER          | ACTIVE   |             
+ 497 | test.cust.d8.1790663595481@primeroute.com    | Test Customer               | CUSTOMER          | ACTIVE   |             
+ 534 | audit.cust.1790664294700@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 535 | audit.cust.1790664420680@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 536 | audit.cust.1790664436556@primeroute.com      | Audit Cust                  | CUSTOMER          | ACTIVE   |             
+ 537 | audit.cust.1790664450550@primeroute.com      | Audit Cust                  | CUSTOMER          | ACTIVE   |             
+ 538 | audit.cust.1790664561963@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 539 | audit.cust.1790664631659@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 540 | audit.cust.1790664650707@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 541 | audit.cust.1790664700197@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 542 | audit.cust.1790664731023@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 543 | audit.cust.1790664755005@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 544 | audit.cust.1790664776159@primeroute.com      | Audit Customer              | CUSTOMER          | ACTIVE   |             
+ 581 | notif.cust.1790665532535@primeroute.com      | Notification Test Customer  | CUSTOMER          | ACTIVE   |             
+(47 rows)
+
+
+==================== 2. ORDERS ====================
+ id  |  order_number   | customer_id |               user_email                |       user_name       |   status   | total_amount | payment_method | payment_status |         created_at         
+-----+-----------------+-------------+-----------------------------------------+-----------------------+------------+--------------+----------------+----------------+----------------------------
+   2 | PR-ORD-47142154 |           8 | testuser@primeroute.com                 | Test Customer         | DELIVERED  |              |                |                | 2026-09-08 11:29:02.162484
+   4 | PR-ORD-58271408 |           9 | testcustomer@primeroute.com             | Test Customer Corp    | DELIVERED  |              |                |                | 2026-09-08 14:34:31.413427
+   9 | PR-ORD-62661405 |           9 | testcustomer@primeroute.com             | Test Customer Corp    | IN_TRANSIT |              |                |                | 2026-09-08 15:47:41.413853
+  12 | PR-ORD-67363257 |           9 | testcustomer@primeroute.com             | Test Customer Corp    | DELIVERED  |              |                |                | 2026-09-08 17:06:03.263414
+  13 | PR-ORD-71673158 |           9 | testcustomer@primeroute.com             | Test Customer Corp    | PENDING    |              |                |                | 2026-09-08 18:17:53.163271
+  18 | PR-ORD-27539459 |           5 | manoj3@gmail.com                        | Manoj                 | PENDING    |      2447.32 |                |                | 2026-09-10 13:35:39.463901
+  37 | PR-ORD-60638742 |          17 | kousik12@gmail.com                      | Koushik               | DELIVERED  |      4130.94 |                |                | 2026-09-16 17:40:38.751432
+  49 | PR-ORD-77062649 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | DELIVERED  |      1142.48 |                |                | 2026-09-25 13:21:19.473286
+  55 | PR-ORD-76406402 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | DELIVERED  |     21363.85 |                |                | 2026-09-28 16:50:05.575008
+ 128 | PR-ORD-27321798 |         186 | test.cust.1790598189564@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:18.531117
+ 129 | PR-ORD-54307458 |         186 | test.cust.1790598189564@primeroute.com  | Verification Customer | DELIVERED  |       389.16 |                |                | 2026-09-28 17:53:18.814256
+ 130 | PR-ORD-56494127 |         186 | test.cust.1790598189564@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:18.888837
+ 131 | PR-ORD-46233198 |         186 | test.cust.1790598189564@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:18.937737
+ 132 | PR-ORD-37274661 |         186 | test.cust.1790598189564@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:19.000457
+ 133 | PR-ORD-26636988 |         187 | test.cust.1790598232950@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:54.258666
+ 134 | PR-ORD-16099917 |         187 | test.cust.1790598232950@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:54.327701
+ 135 | PR-ORD-63593421 |         187 | test.cust.1790598232950@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:54.382184
+ 136 | PR-ORD-48728460 |         187 | test.cust.1790598232950@primeroute.com  | Verification Customer | CONFIRMED  |       389.16 |                |                | 2026-09-28 17:53:54.419055
+ 137 | PR-ORD-82150412 |         187 | test.cust.1790598232950@primeroute.com  | Verification Customer | DELIVERED  |       389.16 |                |                | 2026-09-28 17:53:54.478133
+ 342 | PR-ORD-94110895 |         538 | audit.cust.1790664561963@primeroute.com | Audit Customer        | CONFIRMED  |        18408 |                |                | 2026-09-29 12:19:26.646718
+ 343 | PR-ORD-26085134 |         538 | audit.cust.1790664561963@primeroute.com | Audit Customer        | CONFIRMED  |        45135 |                |                | 2026-09-29 12:19:29.203379
+ 344 | PR-ORD-34633951 |         539 | audit.cust.1790664631659@primeroute.com | Audit Customer        | CONFIRMED  |        18408 |                |                | 2026-09-29 12:20:33.187146
+ 345 | PR-ORD-16467351 |         539 | audit.cust.1790664631659@primeroute.com | Audit Customer        | CONFIRMED  |        45135 |                |                | 2026-09-29 12:20:33.495137
+ 346 | PR-ORD-61389919 |         540 | audit.cust.1790664650707@primeroute.com | Audit Customer        | CONFIRMED  |        18408 |                |                | 2026-09-29 12:20:52.394556
+ 347 | PR-ORD-96968126 |         540 | audit.cust.1790664650707@primeroute.com | Audit Customer        | DELIVERED  |        45135 |                |                | 2026-09-29 12:20:52.553954
+ 348 | PR-ORD-85643323 |         541 | audit.cust.1790664700197@primeroute.com | Audit Customer        | CONFIRMED  |        18408 |                |                | 2026-09-29 12:21:41.731339
+ 349 | PR-ORD-57315778 |         541 | audit.cust.1790664700197@primeroute.com | Audit Customer        | CONFIRMED  |        45135 |                |                | 2026-09-29 12:21:42.198556
+ 350 | PR-ORD-58346299 |         542 | audit.cust.1790664731023@primeroute.com | Audit Customer        | CONFIRMED  |        18408 |                |                | 2026-09-29 12:22:12.409996
+ 351 | PR-ORD-67247594 |         542 | audit.cust.1790664731023@primeroute.com | Audit Customer        | DELIVERED  |        45135 |                |                | 2026-09-29 12:22:12.607764
+ 352 | PR-ORD-64445960 |         543 | audit.cust.1790664755005@primeroute.com | Audit Customer        | CONFIRMED  |        18408 |                |                | 2026-09-29 12:22:36.367837
+ 353 | PR-ORD-96879235 |         543 | audit.cust.1790664755005@primeroute.com | Audit Customer        | DELIVERED  |        45135 |                |                | 2026-09-29 12:22:36.689471
+ 354 | PR-ORD-84510132 |         544 | audit.cust.1790664776159@primeroute.com | Audit Customer        | CONFIRMED  |        18408 |                |                | 2026-09-29 12:22:57.206716
+ 355 | PR-ORD-49840198 |         544 | audit.cust.1790664776159@primeroute.com | Audit Customer        | DELIVERED  |        45135 |                |                | 2026-09-29 12:22:57.33515
+ 572 | PR-ORD-02931783 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | UPI            | UNPAID         | 2026-09-29 21:25:04.054967
+ 573 | PR-ORD-02075206 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | CARD           | UNPAID         | 2026-09-29 21:25:04.310808
+ 574 | PR-ORD-97771716 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | NET_BANKING    | UNPAID         | 2026-09-29 21:25:04.388514
+ 575 | PR-ORD-70773595 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | BANK_TRANSFER  | UNPAID         | 2026-09-29 21:25:04.461481
+ 576 | PR-ORD-64627198 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | COD            | UNPAID         | 2026-09-29 21:25:04.529493
+ 577 | PR-ORD-92315570 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | CREDIT         | UNPAID         | 2026-09-29 21:25:04.593614
+ 578 | PR-ORD-62142108 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | UPI            | UNPAID         | 2026-09-29 21:25:46.55462
+ 579 | PR-ORD-11966957 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | CARD           | UNPAID         | 2026-09-29 21:25:46.620254
+ 580 | PR-ORD-34106130 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | NET_BANKING    | UNPAID         | 2026-09-29 21:25:46.684898
+ 581 | PR-ORD-05986676 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | BANK_TRANSFER  | UNPAID         | 2026-09-29 21:25:46.734716
+ 582 | PR-ORD-43666873 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | COD            | UNPAID         | 2026-09-29 21:25:46.79077
+ 583 | PR-ORD-76258410 |          39 | customer@primeroute.com                 | Demo Customer         | CONFIRMED  |       389.16 | CREDIT         | UNPAID         | 2026-09-29 21:25:46.84261
+ 584 | PR-ORD-97050885 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CANCELLED  |      1102.12 | UPI            | UNPAID         | 2026-09-29 21:49:32.010805
+ 585 | PR-ORD-45496077 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CANCELLED  |      1111.09 | UPI            | UNPAID         | 2026-09-29 21:51:05.422983
+ 586 | PR-ORD-30750634 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CONFIRMED  |       339.84 | CARD           | UNPAID         | 2026-09-29 21:53:32.739061
+ 635 | PR-ORD-52560607 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CONFIRMED  |       384.68 | UPI            | UNPAID         | 2026-09-29 22:20:56.600088
+ 636 | PR-ORD-81864338 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CONFIRMED  |       384.68 | CARD           | UNPAID         | 2026-09-29 22:20:56.921366
+ 637 | PR-ORD-19543436 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CONFIRMED  |       384.68 | NET_BANKING    | UNPAID         | 2026-09-29 22:20:57.093493
+ 638 | PR-ORD-77094728 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CONFIRMED  |       384.68 | BANK_TRANSFER  | UNPAID         | 2026-09-29 22:20:57.244946
+ 639 | PR-ORD-26252901 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CONFIRMED  |       384.68 | COD            | UNPAID         | 2026-09-29 22:20:57.387485
+ 640 | PR-ORD-80034974 |           4 | shrutisanjanasahoo@gmail.com            | Shruti Sanjana Sahoo  | CONFIRMED  |       384.68 | CREDIT         | UNPAID         | 2026-09-29 22:20:57.54216
+(54 rows)
+
+
+==================== 3. SHIPMENTS ====================
+ id  |   tracking_number   | order_id |   status   |  operational_stage   | driver_id |  driver_name   | vehicle_id | origin_warehouse_id | destination_warehouse_id |         created_at         
+-----+---------------------+----------+------------+----------------------+-----------+----------------+------------+---------------------+--------------------------+----------------------------
+   1 | TRK-PR-ORD-67363257 |       12 | DELIVERED  | DELIVERED            |        21 | Anil Deshmukh  |         13 |                   1 |                        6 | 2026-09-08 17:06:03.263414
+   3 | TRK-PR-ORD-71673158 |       13 | PENDING    | PACKED               |           |                |            |                   1 |                        6 | 2026-09-08 18:17:53.163271
+   8 | TRK-PR-YHUAKNVP     |        9 | IN_TRANSIT | READY_FOR_DISPATCH   |           |                |            |                   1 |                        6 | 2026-09-10 10:59:59.149685
+   9 | TRK-PR-4JPXB5EQ     |        4 | DELIVERED  | DELIVERED            |        20 | Ramesh Kumar   |            |                   1 |                        6 | 2026-09-10 11:03:17.457138
+  10 | TRK-PR-FESYQXAW     |        2 | DELIVERED  | DISPATCHED           |           |                |            |                   1 |                        6 | 2026-09-10 12:03:10.570133
+  11 | TRK-PR-3S3FY3TM     |       18 | PENDING    | READY_FOR_DISPATCH   |           |                |            |                   1 |                        6 | 2026-09-10 13:35:39.463901
+  28 | TRK-PR-XULYSP7V     |       37 | DELIVERED  | DISPATCHED           |           |                |            |                   1 |                        6 | 2026-09-16 17:47:40.036595
+  42 | PR-TRK-CGKQN6B2     |       49 | DELIVERED  | DELIVERED            |        20 | Ramesh Kumar   |          1 |                   1 |                        6 | 2026-09-25 13:21:19.473286
+  48 | PR-TRK-ES3LB8ET     |       55 | DELIVERED  | DELIVERED            |        13 | Priya Patel    |          8 |                   6 |                          | 2026-09-28 16:50:05.575008
+ 103 | PR-TRK-REQ6NUYS     |      128 | CONFIRMED  | READY_FOR_DISPATCH   |        16 | Sneha Kulkarni |          9 |                   6 |                          | 2026-09-28 17:53:18.531117
+ 104 | PR-TRK-5PWT9E8Z     |      129 | DELIVERED  | DELIVERED            |        20 | Ramesh Kumar   |          1 |                   1 |                          | 2026-09-28 17:53:18.814256
+ 105 | PR-TRK-NEB9CFHT     |      131 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-28 17:53:18.937737
+ 106 | PR-TRK-EPPUE43T     |      132 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-28 17:53:19.000457
+ 107 | PR-TRK-FVT2EQ3E     |      133 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-28 17:53:54.258666
+ 108 | PR-TRK-J2EM9RHX     |      134 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   1 |                          | 2026-09-28 17:53:54.327701
+ 109 | PR-TRK-8VK5GVCS     |      136 | CONFIRMED  | PICKING              |           |                |            |                   6 |                          | 2026-09-28 17:53:54.419055
+ 110 | PR-TRK-DGN6XMQS     |      137 | DELIVERED  | DELIVERED            |        13 | Priya Patel    |          8 |                   6 |                          | 2026-09-28 17:53:54.478133
+ 315 | PR-TRK-EQYPB6RX     |      342 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-29 12:19:26.646718
+ 316 | PR-TRK-R4GPRH5Z     |      343 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   1 |                          | 2026-09-29 12:19:29.203379
+ 317 | PR-TRK-28G6BKQP     |      344 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-29 12:20:33.187146
+ 318 | PR-TRK-7H9RNQ2B     |      345 | CONFIRMED  | PACKED               |           |                |            |                   1 |                          | 2026-09-29 12:20:33.495137
+ 319 | PR-TRK-HS6NG3FM     |      346 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-29 12:20:52.394556
+ 320 | PR-TRK-F73S5GTP     |      347 | DELIVERED  | DELIVERED            |        21 | Anil Deshmukh  |         13 |                   1 |                          | 2026-09-29 12:20:52.553954
+ 321 | PR-TRK-XCSNB5XQ     |      348 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-29 12:21:41.731339
+ 322 | PR-TRK-JYG92BTS     |      349 | CONFIRMED  | PACKED               |           |                |            |                   1 |                          | 2026-09-29 12:21:42.198556
+ 323 | PR-TRK-7QPTDW9Z     |      350 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-29 12:22:12.409996
+ 324 | PR-TRK-2VA2X9XW     |      351 | DELIVERED  | DELIVERED            |        21 | Anil Deshmukh  |         13 |                   1 |                          | 2026-09-29 12:22:12.607764
+ 325 | PR-TRK-F3VT8NS8     |      352 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-29 12:22:36.367837
+ 326 | PR-TRK-9BSQF5DM     |      353 | DELIVERED  | DELIVERED            |        20 | Ramesh Kumar   |          1 |                   1 |                          | 2026-09-29 12:22:36.689471
+ 327 | PR-TRK-5TWK4GS8     |      354 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   6 |                          | 2026-09-29 12:22:57.206716
+ 328 | PR-TRK-LUW4RXU3     |      355 | DELIVERED  | DELIVERED            |        21 | Anil Deshmukh  |         13 |                   1 |                          | 2026-09-29 12:22:57.33515
+ 545 | PR-TRK-SLPMB8WN     |      586 | CONFIRMED  | READY_FOR_PROCESSING |           |                |            |                   1 |                          | 2026-09-29 21:53:32.739061
+(32 rows)
+
+
+==================== 4. INVOICES ====================
+ id |   invoice_number    | order_id | customer_id | total_amount | payment_method | payment_status | invoice_status |         created_at         
+----+---------------------+----------+-------------+--------------+----------------+----------------+----------------+----------------------------
+  1 | INV-PR-2026-000001  |       18 |           5 |      2797.32 | UPI            | PAID           | PAID           | 2026-08-08 13:13:06.037959
+  3 | INV-PR-2026-000003  |       12 |           9 |         3300 | BANK_TRANSFER  | UNPAID         | ISSUED         | 2026-08-10 13:13:06.088538
+  4 | INV-PR-2026-000004  |       13 |           9 |         3300 | UPI            | PAID           | PAID           | 2026-08-11 13:13:06.099281
+  6 | INV-PR-2026-000006  |        2 |           8 |         3300 | BANK_TRANSFER  | UNPAID         | ISSUED         | 2026-08-13 13:13:06.119688
+ 11 | INV-PR-2026-000011  |        9 |           9 |         3300 | BANK_TRANSFER  | UNPAID         | OVERDUE        | 2026-08-18 13:13:06.18217
+ 12 | INV-PR-2026-000012  |        4 |           9 |         3300 | BANK_TRANSFER  | UNPAID         | ISSUED         | 2026-08-19 13:13:06.191544
+ 17 | INV-PR-2026-000137  |      137 |         187 |       389.16 | UPI            | PAID           | PAID           | 2026-09-28 17:53:54.478133
+ 18 | INV-PR-2026-000136  |      136 |         187 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:54.419055
+ 19 | INV-PR-2026-000135  |      135 |         187 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:54.382184
+ 20 | INV-PR-2026-000131  |      131 |         186 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:18.937737
+ 21 | INV-PR-2026-000343  |      343 |         538 |        45135 |                | UNPAID         | ISSUED         | 2026-09-29 12:19:29.203379
+ 22 | INV-PR-2026-000346  |      346 |         540 |        18408 |                | UNPAID         | ISSUED         | 2026-09-29 12:20:52.394556
+ 23 | INV-PR-2026-000355  |      355 |         544 |        45135 | UPI            | PAID           | PAID           | 2026-09-29 12:22:57.33515
+ 24 | INV-PR-2026-000348  |      348 |         541 |        18408 |                | UNPAID         | ISSUED         | 2026-09-29 12:21:41.731339
+ 25 | INV-PR-2026-000037  |       37 |          17 |      4130.94 | UPI            | PAID           | PAID           | 2026-09-16 17:40:38.751432
+ 26 | INV-PR-2026-000133  |      133 |         187 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:54.258666
+ 27 | INV-PR-2026-000055  |       55 |           4 |     21363.85 | UPI            | PAID           | PAID           | 2026-09-28 16:50:05.575008
+ 28 | INV-PR-2026-000128  |      128 |         186 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:18.531117
+ 29 | INV-PR-2026-000353  |      353 |         543 |        45135 |                | UNPAID         | ISSUED         | 2026-09-29 12:22:36.689471
+ 30 | INV-PR-2026-000129  |      129 |         186 |       389.16 | UPI            | PAID           | PAID           | 2026-09-28 17:53:18.814256
+ 31 | INV-PR-2026-000349  |      349 |         541 |        45135 |                | UNPAID         | ISSUED         | 2026-09-29 12:21:42.198556
+ 32 | INV-PR-2026-000351  |      351 |         542 |        45135 | UPI            | PAID           | PAID           | 2026-09-29 12:22:12.607764
+ 33 | INV-PR-2026-000132  |      132 |         186 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:19.000457
+ 34 | INV-PR-2026-000352  |      352 |         543 |        18408 |                | UNPAID         | ISSUED         | 2026-09-29 12:22:36.367837
+ 35 | INV-PR-2026-000134  |      134 |         187 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:54.327701
+ 36 | INV-PR-2026-000350  |      350 |         542 |        18408 |                | UNPAID         | ISSUED         | 2026-09-29 12:22:12.409996
+ 37 | INV-PR-2026-000354  |      354 |         544 |        18408 |                | UNPAID         | ISSUED         | 2026-09-29 12:22:57.206716
+ 38 | INV-PR-2026-000347  |      347 |         540 |        45135 | UPI            | PAID           | PAID           | 2026-09-29 12:20:52.553954
+ 39 | INV-PR-2026-000342  |      342 |         538 |        18408 |                | UNPAID         | ISSUED         | 2026-09-29 12:19:26.646718
+ 40 | INV-PR-2026-000049  |       49 |           4 |      1142.48 | UPI            | PAID           | PAID           | 2026-09-25 13:21:19.473286
+ 41 | INV-PR-2026-000344  |      344 |         539 |        18408 |                | UNPAID         | ISSUED         | 2026-09-29 12:20:33.187146
+ 42 | INV-PR-2026-000345  |      345 |         539 |        45135 |                | UNPAID         | ISSUED         | 2026-09-29 12:20:33.495137
+ 43 | INV-PR-2026-000130  |      130 |         186 |       389.16 |                | UNPAID         | ISSUED         | 2026-09-28 17:53:18.888837
+ 44 | INV-PR-ORD-02931783 |      572 |          39 |       389.16 | UPI            | UNPAID         | ISSUED         | 2026-09-29 21:25:04.054967
+ 45 | INV-PR-ORD-02075206 |      573 |          39 |       389.16 | CARD           | UNPAID         | ISSUED         | 2026-09-29 21:25:04.310808
+ 46 | INV-PR-ORD-97771716 |      574 |          39 |       389.16 | NET_BANKING    | UNPAID         | ISSUED         | 2026-09-29 21:25:04.388514
+ 47 | INV-PR-ORD-70773595 |      575 |          39 |       389.16 | BANK_TRANSFER  | UNPAID         | ISSUED         | 2026-09-29 21:25:04.461481
+ 48 | INV-PR-ORD-64627198 |      576 |          39 |       389.16 | COD            | UNPAID         | ISSUED         | 2026-09-29 21:25:04.529493
+ 49 | INV-PR-ORD-92315570 |      577 |          39 |       389.16 | CREDIT         | UNPAID         | ISSUED         | 2026-09-29 21:25:04.593614
+ 50 | INV-PR-ORD-62142108 |      578 |          39 |       389.16 | UPI            | UNPAID         | ISSUED         | 2026-09-29 21:25:46.55462
+ 51 | INV-PR-ORD-11966957 |      579 |          39 |       389.16 | CARD           | UNPAID         | ISSUED         | 2026-09-29 21:25:46.620254
+ 52 | INV-PR-ORD-34106130 |      580 |          39 |       389.16 | NET_BANKING    | UNPAID         | ISSUED         | 2026-09-29 21:25:46.684898
+ 53 | INV-PR-ORD-05986676 |      581 |          39 |       389.16 | BANK_TRANSFER  | UNPAID         | ISSUED         | 2026-09-29 21:25:46.734716
+ 54 | INV-PR-ORD-43666873 |      582 |          39 |       389.16 | COD            | UNPAID         | ISSUED         | 2026-09-29 21:25:46.79077
+ 55 | INV-PR-ORD-76258410 |      583 |          39 |       389.16 | CREDIT         | UNPAID         | ISSUED         | 2026-09-29 21:25:46.84261
+ 56 | INV-PR-ORD-97050885 |      584 |           4 |      1102.12 | UPI            | UNPAID         | CANCELLED      | 2026-09-29 21:49:32.010805
+ 57 | INV-PR-ORD-45496077 |      585 |           4 |      1111.09 | UPI            | UNPAID         | CANCELLED      | 2026-09-29 21:51:05.422983
+ 58 | INV-PR-ORD-30750634 |      586 |           4 |       339.84 | CARD           | PAID           | PAID           | 2026-09-29 21:53:32.739061
+ 59 | INV-PR-ORD-52560607 |      635 |           4 |       384.68 | UPI            | PAID           | PAID           | 2026-09-29 22:20:56.600088
+ 60 | INV-PR-ORD-81864338 |      636 |           4 |       384.68 | CARD           | PAID           | PAID           | 2026-09-29 22:20:56.921366
+ 61 | INV-PR-ORD-19543436 |      637 |           4 |       384.68 | NET_BANKING    | PAID           | PAID           | 2026-09-29 22:20:57.093493
+ 62 | INV-PR-ORD-77094728 |      638 |           4 |       384.68 | BANK_TRANSFER  | PAID           | PAID           | 2026-09-29 22:20:57.244946
+ 63 | INV-PR-ORD-26252901 |      639 |           4 |       384.68 | COD            | PAID           | PAID           | 2026-09-29 22:20:57.387485
+ 64 | INV-PR-ORD-80034974 |      640 |           4 |       384.68 | CREDIT         | PAID           | PAID           | 2026-09-29 22:20:57.54216
+(54 rows)
+
+
+==================== 5. PROOF OF DELIVERIES ====================
+ id | shipment_id |          recipient_name          |           received_by            |        delivered_at        
+----+-------------+----------------------------------+----------------------------------+----------------------------
+  1 |          42 | Shruti Sanjana Sahoo             | Shruti Sanjana Sahoo             | 2026-09-28 15:03:09.331912
+  2 |         110 | Verification Customer            | Verification Customer            | 2026-09-28 18:17:41.187106
+  3 |          48 | Shruti Sanjana Sahoo             | Shruti Sanjana Sahoo             | 2026-09-28 18:29:36.152183
+  4 |           9 | Test Customer Corp               | Test Customer Corp               | 2026-09-29 10:56:49.84581
+  6 |           1 | Test Customer Corp               | Test Customer Corp               | 2026-09-29 11:03:13.151694
+ 12 |         320 | Consignee                        | Consignee                        | 2026-09-29 12:22:06.338862
+ 13 |         324 | Consignee                        | Consignee                        | 2026-09-29 12:22:50.681895
+ 14 |         328 | Kolkata Consignee Representative | Kolkata Consignee Representative | 2026-09-29 12:22:57.895421
+ 17 |         104 | Verification Customer            | Verification Customer            | 2026-09-29 12:45:07.887444
+ 29 |         326 | Audit Customer                   | Audit Customer                   | 2026-09-29 22:44:51.14629
+(10 rows)
+
+
+==================== 6. SUPPORT TICKETS ====================
+[ERROR: Command failed: C:\Program Files\PostgreSQL\18\bin\psql.exe -U postgres -d primeroute_db -c SELECT id, ticket_number, customer_name, customer_email, category, priority, status FROM support_tickets ORDER BY id;
+ERROR:  column "customer_name" does not exist
+LINE 1: SELECT id, ticket_number, customer_name, customer_email, cat...
+                                  ^
+]
+==================== 7. NOTIFICATIONS ====================
+ id  | user_id |                     title                      |        type        | is_read |         created_at         
+-----+---------+------------------------------------------------+--------------------+---------+----------------------------
+   1 |       9 | Profile Updated                                | SECURITY           | t       | 2026-09-08 18:16:28.445137
+   2 |       9 | Password Changed                               | SECURITY           | f       | 2026-09-08 18:16:41.997656
+   3 |       9 | Order Placed Successfully                      | ORDER              | f       | 2026-09-08 18:17:57.228781
+   4 |       9 | Profile Updated                                | SECURITY           | f       | 2026-09-08 18:25:17.995648
+   5 |       4 | Profile Updated                                | SECURITY           | t       | 2026-09-08 18:27:04.037935
+   6 |       4 | Profile Updated                                | SECURITY           | t       | 2026-09-08 18:27:15.297805
+   7 |       4 | Profile Updated                                | SECURITY           | t       | 2026-09-08 18:29:13.324482
+   8 |       4 | Order Placed Successfully                      | ORDER              | t       | 2026-09-08 18:41:59.945388
+   9 |       9 | Support Ticket Opened                          | SUPPORT            | f       | 2026-09-08 18:47:32.995312
+  12 |       4 | Order Placed Successfully                      | ORDER              | t       | 2026-09-08 19:05:05.964168
+  13 |      10 | Support Ticket Opened                          | SUPPORT            | f       | 2026-09-09 11:42:36.813197
+  14 |       4 | Support Ticket Opened                          | SUPPORT            | t       | 2026-09-09 11:51:38.455103
+  15 |       4 | Profile Updated                                | SECURITY           | t       | 2026-09-09 11:59:19.658968
+  16 |       4 | Password Changed                               | SECURITY           | t       | 2026-09-09 12:00:06.715399
+  17 |      11 | Support Ticket Opened                          | SUPPORT            | f       | 2026-09-09 12:07:24.042919
+  18 |      11 | Ticket Status Changed                          | SUPPORT            | f       | 2026-09-09 12:07:24.298599
+  19 |      11 | Support Team Replied                           | SUPPORT            | f       | 2026-09-09 12:07:24.372523
+  20 |      11 | Ticket Status Changed                          | SUPPORT            | f       | 2026-09-09 12:07:24.500674
+  21 |      11 | Support Ticket Opened                          | SUPPORT            | f       | 2026-09-09 12:33:41.004828
+  22 |      11 | Ticket Status Changed                          | SUPPORT            | f       | 2026-09-09 12:33:41.699913
+  23 |      11 | Support Team Replied                           | SUPPORT            | f       | 2026-09-09 12:33:41.851781
+  24 |      11 | Ticket Status Changed                          | SUPPORT            | f       | 2026-09-09 12:33:42.150914
+  25 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:26:34.571511
+  26 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:26:34.635445
+  27 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:31:31.3542
+  28 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:31:31.392129
+  29 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:31:44.125038
+  30 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:31:44.150126
+  31 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:31:44.356143
+  32 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-09 18:31:44.398234
+  33 |       4 | Order Placed Successfully                      | ORDER              | t       | 2026-09-09 18:41:54.231095
+  34 |       9 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-10 10:59:59.189333
+  35 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 11:00:06.965614
+  36 |       9 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-10 11:03:17.466902
+  37 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 11:03:17.50183
+  38 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 11:18:29.378402
+  39 |       8 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-10 12:03:10.593354
+  40 |       8 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 12:07:24.250905
+  41 |       8 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 12:40:31.035704
+  42 |       8 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 12:41:13.625527
+  43 |       8 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 12:49:01.853763
+  44 |       8 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 12:52:16.589974
+  45 |       5 | Order Placed Successfully                      | ORDER              | f       | 2026-09-10 13:35:39.511132
+  46 |       5 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 13:37:12.195474
+  47 |       5 | Order Status Updated                           | ORDER              | f       | 2026-09-10 13:38:48.246706
+  48 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 16:20:54.430879
+  49 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 16:20:54.499101
+  50 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 16:25:31.198855
+  51 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 16:25:31.242858
+  52 |       8 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 16:28:34.664126
+  53 |       4 | Order Placed Successfully                      | ORDER              | t       | 2026-09-10 18:25:17.4251
+  54 |       5 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 18:26:24.164223
+  55 |       4 | Shipment Status Updated                        | SHIPMENT           | t       | 2026-09-10 18:35:39.834365
+  56 |       4 | Shipment Status Updated                        | SHIPMENT           | t       | 2026-09-10 18:41:55.977399
+  57 |       8 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-10 18:48:46.936674
+  63 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-11 15:26:25.309365
+  64 |       9 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-11 15:26:25.406531
+  68 |      11 | Support Team Replied                           | SUPPORT            | f       | 2026-09-11 16:01:01.684327
+  72 |       5 | Support Ticket Opened                          | SUPPORT            | f       | 2026-09-11 16:15:15.218967
+  73 |       5 | Support Team Replied                           | SUPPORT            | f       | 2026-09-11 16:16:05.714183
+  74 |       5 | Ticket Status Changed                          | SUPPORT            | t       | 2026-09-11 16:16:17.843754
+  75 |       5 | Ticket Status Changed                          | SUPPORT            | t       | 2026-09-11 16:16:21.818665
+  76 |       5 | Ticket Status Changed                          | SUPPORT            | f       | 2026-09-11 16:22:18.692641
+  77 |       5 | Support Team Replied                           | SUPPORT            | f       | 2026-09-11 16:23:41.205926
+  78 |       5 | Ticket Status Changed                          | SUPPORT            | f       | 2026-09-11 16:23:50.754973
+  79 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-11 16:43:04.292339
+  80 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-11 16:44:47.974837
+  81 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 16:44:48.297112
+  82 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 16:44:48.583726
+  83 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-11 16:53:55.370174
+  84 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 16:53:55.69897
+  85 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 16:53:55.979847
+  86 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-11 16:54:07.836323
+  87 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 16:54:08.137867
+  88 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 16:54:08.416979
+  89 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-11 16:54:58.614512
+  90 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 16:55:53.137415
+  91 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 17:10:12.712627
+  93 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 18:15:36.410634
+  94 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 18:15:37.207488
+  95 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 18:21:36.061982
+  96 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 18:21:37.334136
+  97 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-11 18:22:55.610861
+  98 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-11 18:23:34.608032
+  99 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-11 18:28:38.492862
+ 101 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-12 10:45:52.752572
+ 103 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | t       | 2026-09-12 11:14:48.351688
+ 111 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-12 14:43:55.866186
+ 112 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-12 14:43:56.672048
+ 113 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-12 14:45:07.706467
+ 114 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-12 14:45:08.328832
+ 115 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-12 14:46:00.696985
+ 116 |       1 | Admin Profile Updated                          | SECURITY           | t       | 2026-09-12 14:46:22.449565
+ 117 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-12 14:46:23.081838
+ 118 |      16 | Profile Updated                                | SECURITY           | f       | 2026-09-12 14:55:06.980723
+ 119 |      16 | Profile Updated                                | SECURITY           | f       | 2026-09-12 15:00:01.564218
+ 120 |      16 | Profile Updated                                | SECURITY           | f       | 2026-09-12 15:00:18.60426
+ 121 |      16 | Profile Updated                                | SECURITY           | t       | 2026-09-12 15:00:40.978719
+ 122 |      16 | Profile Updated                                | SECURITY           | f       | 2026-09-12 15:04:36.919857
+ 123 |      16 | Profile Updated                                | SECURITY           | f       | 2026-09-12 15:04:52.294883
+ 124 |      16 | Profile Updated                                | SECURITY           | f       | 2026-09-12 15:05:09.080403
+ 126 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-12 16:18:19.543788
+ 129 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | t       | 2026-09-12 16:18:20.104507
+ 144 |       4 | Support Ticket Opened                          | SUPPORT            | t       | 2026-09-12 17:06:01.89013
+ 145 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | t       | 2026-09-12 17:06:01.908711
+ 146 |       4 | Support Team Replied                           | SUPPORT            | t       | 2026-09-12 17:06:01.92664
+ 147 |       4 | Ticket Status Changed                          | SUPPORT            | t       | 2026-09-12 17:06:01.940331
+ 148 |       4 | Support Ticket Opened                          | SUPPORT            | t       | 2026-09-12 17:07:02.775705
+ 149 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | t       | 2026-09-12 17:07:02.780245
+ 150 |       4 | Support Team Replied                           | SUPPORT            | t       | 2026-09-12 17:07:02.795417
+ 151 |       4 | Ticket Status Changed                          | SUPPORT            | t       | 2026-09-12 17:07:02.807456
+ 152 |       4 | Order Placed Successfully                      | ORDER              | t       | 2026-09-12 17:07:39.724811
+ 153 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-12 17:07:39.729612
+ 154 |       4 | Order Placed Successfully                      | ORDER              | t       | 2026-09-12 17:07:56.295703
+ 155 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-12 17:07:56.299925
+ 156 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-12 17:07:56.615142
+ 157 |       4 | Support Ticket Opened                          | SUPPORT            | t       | 2026-09-12 17:07:56.648899
+ 158 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | t       | 2026-09-12 17:07:56.652904
+ 159 |       4 | Support Team Replied                           | SUPPORT            | t       | 2026-09-12 17:07:56.666069
+ 160 |       4 | Ticket Status Changed                          | SUPPORT            | t       | 2026-09-12 17:07:56.679557
+ 161 |       4 | Order Placed Successfully                      | ORDER              | t       | 2026-09-12 17:22:08.287957
+ 162 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-12 17:22:08.292954
+ 163 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-12 17:22:08.58575
+ 164 |       4 | Support Ticket Opened                          | SUPPORT            | t       | 2026-09-12 17:22:08.61057
+ 165 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | t       | 2026-09-12 17:22:08.614491
+ 166 |       4 | Support Team Replied                           | SUPPORT            | t       | 2026-09-12 17:22:08.632471
+ 167 |       4 | Ticket Status Changed                          | SUPPORT            | t       | 2026-09-12 17:22:08.645236
+ 168 |       1 | Support Ticket Response                        | SUPPORT_TICKET     | t       | 2026-09-12 17:38:21.660034
+ 169 |       1 | Support Ticket Response                        | SUPPORT_TICKET     | t       | 2026-09-12 17:40:38.298363
+ 170 |       4 | Support Team Replied                           | SUPPORT            | t       | 2026-09-12 17:42:10.604419
+ 171 |       4 | Order Cancelled                                | ORDER              | f       | 2026-09-12 17:45:19.801494
+ 172 |       1 | Order Cancelled                                | ORDER              | t       | 2026-09-12 17:45:19.810228
+ 173 |       4 | Support Ticket Opened                          | SUPPORT            | f       | 2026-09-12 17:49:26.56518
+ 174 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | t       | 2026-09-12 17:49:26.569111
+ 175 |       1 | Support Ticket Response                        | SUPPORT_TICKET     | t       | 2026-09-12 17:49:52.501498
+ 176 |       4 | Support Team Replied                           | SUPPORT            | t       | 2026-09-12 17:50:31.160236
+ 177 |       4 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-12 18:11:43.601424
+ 178 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-12 18:11:43.611253
+ 179 |       4 | Shipment Status Updated                        | SHIPMENT           | t       | 2026-09-12 18:13:20.610898
+ 180 |       1 | Shipment Status Updated                        | SHIPMENT_UPDATE    | t       | 2026-09-12 18:13:20.616016
+ 181 |       4 | Order Placed Successfully                      | ORDER              | f       | 2026-09-13 00:59:27.688277
+ 182 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-13 00:59:27.7266
+ 183 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-13 01:03:05.612006
+ 184 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-13 01:03:17.614928
+ 185 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-15 10:17:53.324691
+ 186 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-15 10:18:10.232565
+ 187 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-15 10:37:06.389279
+ 188 |       4 | Shipment Dispatched                            | SHIPMENT           | t       | 2026-09-15 10:38:25.58108
+ 189 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-15 10:38:25.592377
+ 190 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-15 11:02:20.675235
+ 191 |       4 | Order Placed Successfully                      | ORDER              | f       | 2026-09-15 11:18:40.221314
+ 192 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-15 11:18:40.227795
+ 193 |       8 | Shipment Status Updated                        | DELIVERY_COMPLETED | f       | 2026-09-15 11:21:16.911142
+ 194 |       1 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | t       | 2026-09-15 11:21:16.917108
+ 195 |       4 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-15 11:23:27.817778
+ 196 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-15 11:23:27.828203
+ 197 |       4 | Order Status Updated                           | ORDER              | t       | 2026-09-15 11:23:47.153173
+ 198 |       4 | New Invoice Generated                          | BILLING            | f       | 2026-09-15 11:32:26.772017
+ 199 |       1 | New Invoice Generated                          | INVOICE_CREATED    | t       | 2026-09-15 11:32:26.781018
+ 200 |       4 | Profile Updated                                | SECURITY           | f       | 2026-09-16 10:35:47.159921
+ 201 |       4 | Profile Updated                                | SECURITY           | f       | 2026-09-16 11:47:36.559919
+ 202 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-16 11:49:20.995675
+ 204 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-16 13:23:50.957164
+ 205 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-16 13:27:22.15721
+ 206 |       1 | Admin Security Alert                           | SECURITY           | t       | 2026-09-16 13:35:40.80955
+ 208 |       4 | Order Placed Successfully                      | ORDER              | f       | 2026-09-16 15:14:50.871145
+ 209 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-16 15:14:50.905841
+ 210 |       4 | Order Cancelled                                | ORDER              | f       | 2026-09-16 15:16:08.119118
+ 211 |       1 | Order Cancelled                                | ORDER              | t       | 2026-09-16 15:16:08.131567
+ 212 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-16 15:16:54.449238
+ 213 |       4 | Order Placed Successfully                      | ORDER              | f       | 2026-09-16 15:21:11.164852
+ 214 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-16 15:21:11.174308
+ 215 |       4 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-16 15:25:42.491116
+ 216 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-16 15:25:42.505722
+ 217 |       4 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-16 15:26:24.277861
+ 218 |       1 | Shipment Status Updated                        | SHIPMENT_UPDATE    | t       | 2026-09-16 15:26:24.290024
+ 219 |       4 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-16 15:26:46.883328
+ 220 |       1 | Shipment Status Updated                        | SHIPMENT_UPDATE    | t       | 2026-09-16 15:26:46.896107
+ 221 |       4 | Shipment Status Updated                        | DELIVERY_COMPLETED | f       | 2026-09-16 15:26:54.499633
+ 222 |       1 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | t       | 2026-09-16 15:26:54.511532
+ 223 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-16 15:29:33.185291
+ 224 |       1 | Route Status Updated                           | ROUTE_UPDATE       | t       | 2026-09-16 15:40:25.850089
+ 225 |       1 | Route Status Updated                           | ROUTE_UPDATE       | t       | 2026-09-16 15:55:54.535276
+ 226 |       4 | Order Status Updated                           | ORDER              | f       | 2026-09-16 15:57:15.085637
+ 227 |       4 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-16 16:14:01.124284
+ 228 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-16 16:14:01.141514
+ 229 |       4 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-16 16:14:19.117884
+ 230 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-16 16:14:19.128118
+ 231 |       4 | Shipment Status Updated                        | DELIVERY_COMPLETED | t       | 2026-09-16 16:14:19.188285
+ 232 |       1 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | t       | 2026-09-16 16:14:19.196944
+ 235 |       1 | Shipment Status Updated                        | SHIPMENT_UPDATE    | t       | 2026-09-16 16:14:23.340939
+ 236 |      16 | Order Placed Successfully                      | ORDER              | f       | 2026-09-16 16:25:07.766549
+ 237 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-16 16:25:07.77124
+ 238 |      16 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-16 16:26:32.322072
+ 239 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-16 16:26:32.32924
+ 240 |      16 | Shipment Status Updated                        | SHIPMENT           | f       | 2026-09-16 16:26:40.934807
+ 241 |       1 | Shipment Status Updated                        | SHIPMENT_UPDATE    | t       | 2026-09-16 16:26:40.942768
+ 242 |       4 | Shipment Status Updated                        | DELIVERY_COMPLETED | f       | 2026-09-16 16:46:01.796034
+ 243 |       1 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | t       | 2026-09-16 16:46:01.808002
+ 249 |       4 | Shipment Dispatched                            | SHIPMENT           | t       | 2026-09-16 16:53:30.396234
+ 250 |       1 | Shipment Dispatched                            | SHIPMENT_UPDATE    | t       | 2026-09-16 16:53:30.401585
+ 251 |      16 | Order Status Updated                           | ORDER              | f       | 2026-09-16 16:53:59.081152
+ 252 |      16 | Order Status Updated                           | ORDER              | f       | 2026-09-16 16:54:28.838392
+ 253 |      16 | Order Status Updated                           | ORDER              | f       | 2026-09-16 16:56:37.696347
+ 254 |      16 | Order Status Updated                           | ORDER              | f       | 2026-09-16 16:57:51.042342
+ 255 |      17 | Order Placed Successfully                      | ORDER              | f       | 2026-09-16 17:40:38.789795
+ 256 |       1 | New Order Received                             | NEW_ORDER          | t       | 2026-09-16 17:40:38.831459
+ 257 |      17 | Shipment Dispatched                            | SHIPMENT           | f       | 2026-09-16 17:47:40.119057
+ 259 |      17 | Order Status Updated                           | ORDER              | f       | 2026-09-16 17:48:17.754921
+ 260 |      17 | Order Status Updated                           | ORDER              | f       | 2026-09-16 18:11:01.858412
+ 262 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 13:26:01.814055
+ 264 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:10:38.943663
+ 265 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:10:38.948233
+ 267 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:10:49.463959
+ 268 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:10:49.468892
+ 270 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:11:31.952001
+ 271 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:11:31.955673
+ 273 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:12:26.559603
+ 274 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-17 15:12:26.563915
+ 275 |      20 | Support Ticket Opened                          | SUPPORT            | t       | 2026-09-17 15:35:08.924467
+ 276 |      21 | New Customer Support Ticket                    | SUPPORT_TICKET     | f       | 2026-09-17 15:35:08.949778
+ 277 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | f       | 2026-09-17 15:35:08.954277
+ 278 |      16 | Shipment Status Updated                        | DELIVERY_COMPLETED | f       | 2026-09-21 16:25:51.115316
+ 279 |      21 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | f       | 2026-09-21 16:25:51.135477
+ 280 |       1 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | f       | 2026-09-21 16:25:51.139199
+ 282 |      16 | Shipment Status Updated                        | DELIVERY_COMPLETED | f       | 2026-09-21 16:28:29.17411
+ 283 |      21 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | f       | 2026-09-21 16:28:29.191211
+ 284 |       1 | Shipment Delivered Successfully                | DELIVERY_COMPLETED | f       | 2026-09-21 16:28:29.195957
+ 287 |      21 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 16:52:21.769923
+ 288 |       1 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 16:52:21.773546
+ 290 |      21 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 16:52:38.232204
+ 291 |       1 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 16:52:38.236515
+ 293 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:21:40.525221
+ 294 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:21:40.532109
+ 296 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:29:13.013047
+ 297 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:29:13.016249
+ 299 |      21 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 18:29:13.091179
+ 300 |       1 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 18:29:13.094141
+ 302 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:31:08.69183
+ 303 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:31:08.694654
+ 305 |      21 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 18:31:08.729418
+ 306 |       1 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 18:31:08.732875
+ 308 |      21 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:31:40.090023
+ 309 |       1 | New Order Received                             | NEW_ORDER          | f       | 2026-09-22 18:31:40.093129
+ 311 |      21 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 18:31:40.131732
+ 312 |       1 | Shipment Created                               | SHIPMENT_UPDATE    | f       | 2026-09-22 18:31:40.133894
+ 313 |       4 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-24 18:17:06.257079
+ 314 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-24 18:17:06.292432
+ 315 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-24 18:17:06.298466
+ 316 |       4 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-25 11:10:12.071676
+ 317 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-25 11:10:12.093785
+ 318 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-25 11:10:12.096245
+ 319 |       4 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-25 13:21:19.814471
+ 320 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-25 13:21:19.849532
+ 321 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-25 13:21:19.859854
+ 323 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-25 22:47:38.354825
+ 324 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-25 22:47:38.357644
+ 325 |       1 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-26 13:11:12.24343
+ 326 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-26 13:11:12.271724
+ 327 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-26 13:11:12.276029
+ 328 |       1 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-26 13:11:24.627221
+ 329 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-26 13:11:24.63489
+ 330 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-26 13:11:24.638366
+ 331 |       1 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-26 13:24:58.319996
+ 332 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-26 13:24:58.327119
+ 333 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-26 13:24:58.331018
+ 334 |       4 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-28 16:50:05.79927
+ 335 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-28 16:50:05.851587
+ 336 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-28 16:50:05.860305
+ 337 |     186 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-28 17:53:18.721975
+ 338 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-28 17:53:18.749985
+ 339 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-28 17:53:18.754894
+ 340 |     186 | Order Received - Awaiting Warehouse Assignment | ORDER              | f       | 2026-09-28 17:53:18.89827
+ 341 |      21 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-28 17:53:18.904077
+ 342 |       1 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-28 17:53:18.907824
+ 343 |     187 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-28 17:53:54.284411
+ 344 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-28 17:53:54.294005
+ 345 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-28 17:53:54.297286
+ 346 |     187 | Order Received - Awaiting Warehouse Assignment | ORDER              | f       | 2026-09-28 17:53:54.3888
+ 347 |      21 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-28 17:53:54.393184
+ 348 |       1 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-28 17:53:54.395308
+ 350 |      21 | New Customer Support Ticket                    | SUPPORT_TICKET     | f       | 2026-09-29 11:55:12.710978
+ 351 |       1 | New Customer Support Ticket                    | SUPPORT_TICKET     | f       | 2026-09-29 11:55:12.715612
+ 352 |     538 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 12:19:26.725368
+ 353 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:19:26.735206
+ 354 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:19:26.738811
+ 355 |     539 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 12:20:33.208498
+ 356 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:20:33.215452
+ 357 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:20:33.218588
+ 358 |     540 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 12:20:52.413747
+ 359 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:20:52.420122
+ 360 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:20:52.422284
+ 361 |     541 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 12:21:41.765328
+ 362 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:21:41.792751
+ 363 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:21:41.795961
+ 364 |     542 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 12:22:12.426685
+ 365 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:22:12.434472
+ 366 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:22:12.43797
+ 367 |     543 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 12:22:36.381655
+ 368 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:22:36.38673
+ 369 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:22:36.388719
+ 370 |     544 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 12:22:57.227506
+ 371 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:22:57.232748
+ 372 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 12:22:57.235075
+ 389 |      20 | Pallet Relocation Alert                        | WARNING            | f       | 2026-09-29 13:39:55.095383
+ 390 |      20 | Inbound Dock Arrival                           | INFO               | f       | 2026-09-29 13:39:55.095383
+ 391 |      39 | Order Received - Awaiting Warehouse Assignment | ORDER              | f       | 2026-09-29 21:25:04.190022
+ 392 |      21 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:25:04.21535
+ 393 |       1 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:25:04.221025
+ 394 |      39 | Order Received - Awaiting Warehouse Assignment | ORDER              | f       | 2026-09-29 21:25:46.569176
+ 395 |      21 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:25:46.574114
+ 396 |       1 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:25:46.577184
+ 397 |       4 | Password Changed                               | SECURITY           | f       | 2026-09-29 21:46:33.402598
+ 398 |       4 | Profile Updated                                | SECURITY           | f       | 2026-09-29 21:47:41.42029
+ 399 |       4 | Order Received - Awaiting Warehouse Assignment | ORDER              | f       | 2026-09-29 21:49:32.046721
+ 400 |      21 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:49:32.054608
+ 401 |       1 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:49:32.064605
+ 402 |       4 | Order Cancelled                                | ORDER              | f       | 2026-09-29 21:50:34.515405
+ 403 |       4 | Order Received - Awaiting Warehouse Assignment | ORDER              | f       | 2026-09-29 21:51:05.441739
+ 404 |      21 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:51:05.447918
+ 405 |       1 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 21:51:05.453483
+ 406 |       4 | Order Cancelled                                | ORDER              | f       | 2026-09-29 21:51:57.155341
+ 407 |       4 | Order Confirmed & Shipment Created             | ORDER              | f       | 2026-09-29 21:53:32.854693
+ 408 |      21 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 21:53:32.861997
+ 409 |       1 | New Order & Shipment Created                   | NEW_ORDER          | f       | 2026-09-29 21:53:32.865341
+ 410 |       4 | Order Received - Awaiting Warehouse Assignment | ORDER              | f       | 2026-09-29 22:20:56.671509
+ 411 |      21 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 22:20:56.683887
+ 412 |       1 | Order Allocation Exception                     | EXCEPTION          | f       | 2026-09-29 22:20:56.686499
+(328 rows)
+
+
+==================== 8. DRIVERS ====================
+[ERROR: Command failed: C:\Program Files\PostgreSQL\18\bin\psql.exe -U postgres -d primeroute_db -c SELECT id, full_name, email, phone, status, warehouse_id, user_id FROM drivers ORDER BY id;
+ERROR:  column "user_id" does not exist
+LINE 1: ...d, full_name, email, phone, status, warehouse_id, user_id FR...
+                                                             ^
+]
+==================== 9. VEHICLES ====================
+[ERROR: Command failed: C:\Program Files\PostgreSQL\18\bin\psql.exe -U postgres -d primeroute_db -c SELECT id, vehicle_number, vehicle_type, capacity, fuel_type, status, warehouse_id FROM vehicles ORDER BY id;
+ERROR:  column "fuel_type" does not exist
+LINE 1: ...ELECT id, vehicle_number, vehicle_type, capacity, fuel_type,...
+                                                             ^
+]
+==================== 10. WAREHOUSES ====================
+[ERROR: Command failed: C:\Program Files\PostgreSQL\18\bin\psql.exe -U postgres -d primeroute_db -c SELECT id, warehouse_code, warehouse_name, city, state, capacity, current_utilization, status FROM warehouses ORDER BY id;
+ERROR:  column "capacity" does not exist
+LINE 1: ... id, warehouse_code, warehouse_name, city, state, capacity, ...
+                                                             ^
+]
+==================== 11. ROUTES ====================
+[ERROR: Command failed: C:\Program Files\PostgreSQL\18\bin\psql.exe -U postgres -d primeroute_db -c SELECT id, route_code, origin_warehouse_id, destination_warehouse_id, distance_km, estimated_hours, status FROM routes ORDER BY id;
+ERROR:  column "origin_warehouse_id" does not exist
+LINE 1: SELECT id, route_code, origin_warehouse_id, destination_ware...
+                               ^
+]
+==================== 12. PRODUCTS ====================
+[ERROR: Command failed: C:\Program Files\PostgreSQL\18\bin\psql.exe -U postgres -d primeroute_db -c SELECT id, sku, name, category, unit_price, weight_kg FROM products ORDER BY id;
+ERROR:  column "weight_kg" does not exist
+LINE 1: SELECT id, sku, name, category, unit_price, weight_kg FROM p...
+                                                    ^
+]
+==================== 13. ADDRESSES ====================
+[ERROR: Command failed: C:\Program Files\PostgreSQL\18\bin\psql.exe -U postgres -d primeroute_db -c SELECT id, user_id, customer_name, address_line1, city, state, postal_code, is_default FROM addresses ORDER BY id;
+ERROR:  column "user_id" does not exist
+LINE 1: SELECT id, user_id, customer_name, address_line1, city, stat...
+                   ^
+]
+==================== 14. FULFILLMENT ALLOCATIONS ====================
+ id |        allocated_at        | allocated_by | allocation_method | allocation_score | allocation_status |         created_at         | distance_km |              reason              |         updated_at         | order_id | warehouse_id 
+----+----------------------------+--------------+-------------------+------------------+-------------------+----------------------------+-------------+----------------------------------+----------------------------+----------+--------------
+  3 | 2026-09-25 13:21:19.473286 | SYSTEM       | AUTOMATIC         |           286.16 | ALLOCATED         | 2026-09-25 13:21:19.641678 |     1196.13 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-25 13:21:19.641678 |       49 |            1
+  9 | 2026-09-28 16:50:05.575008 | SYSTEM       | AUTOMATIC         |           145.43 | ALLOCATED         | 2026-09-28 16:50:05.621962 |     1196.13 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:39:15.701883 |       55 |            6
+ 10 | 2026-09-28 17:53:18.531117 | SYSTEM       | AUTOMATIC         |           386.63 | ALLOCATED         | 2026-09-28 17:53:18.571259 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:18.571259 |      128 |            6
+ 11 | 2026-09-28 17:53:18.814256 | SYSTEM       | AUTOMATIC         |              300 | ALLOCATED         | 2026-09-28 17:53:18.819485 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:18.819485 |      129 |            1
+ 12 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-28 17:53:18.892608 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-28 17:53:18.892608 |      130 |             
+ 13 | 2026-09-28 17:53:18.937737 | SYSTEM       | AUTOMATIC         |           386.53 | ALLOCATED         | 2026-09-28 17:53:18.942    |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:18.942    |      131 |            6
+ 14 | 2026-09-28 17:53:19.000457 | SYSTEM       | AUTOMATIC         |           386.43 | ALLOCATED         | 2026-09-28 17:53:19.005333 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:19.005333 |      132 |            6
+ 15 | 2026-09-28 17:53:54.258666 | SYSTEM       | AUTOMATIC         |           386.33 | ALLOCATED         | 2026-09-28 17:53:54.26221  |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:54.26221  |      133 |            6
+ 16 | 2026-09-28 17:53:54.327701 | SYSTEM       | AUTOMATIC         |            299.9 | ALLOCATED         | 2026-09-28 17:53:54.332745 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:54.332745 |      134 |            1
+ 17 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-28 17:53:54.38561  |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-28 17:53:54.38561  |      135 |             
+ 18 | 2026-09-28 17:53:54.419055 | SYSTEM       | AUTOMATIC         |           386.23 | ALLOCATED         | 2026-09-28 17:53:54.422631 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:54.422631 |      136 |            6
+ 19 | 2026-09-28 17:53:54.478133 | SYSTEM       | AUTOMATIC         |           386.13 | ALLOCATED         | 2026-09-28 17:53:54.481427 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-28 17:53:54.481427 |      137 |            6
+ 20 | 2026-09-29 12:19:26.646718 | SYSTEM       | AUTOMATIC         |            382.6 | ALLOCATED         | 2026-09-29 12:19:26.667113 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:19:26.667113 |      342 |            6
+ 21 | 2026-09-29 12:19:29.203379 | SYSTEM       | AUTOMATIC         |            297.2 | ALLOCATED         | 2026-09-29 12:19:29.206183 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:19:29.206183 |      343 |            1
+ 22 | 2026-09-29 12:20:33.187146 | SYSTEM       | AUTOMATIC         |            382.6 | ALLOCATED         | 2026-09-29 12:20:33.18993  |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:20:33.18993  |      344 |            6
+ 23 | 2026-09-29 12:20:33.495137 | SYSTEM       | AUTOMATIC         |            297.2 | ALLOCATED         | 2026-09-29 12:20:33.498528 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:20:33.498528 |      345 |            1
+ 24 | 2026-09-29 12:20:52.394556 | SYSTEM       | AUTOMATIC         |            382.6 | ALLOCATED         | 2026-09-29 12:20:52.397234 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:20:52.397234 |      346 |            6
+ 25 | 2026-09-29 12:20:52.553954 | SYSTEM       | AUTOMATIC         |            297.2 | ALLOCATED         | 2026-09-29 12:20:52.556518 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:20:52.556518 |      347 |            1
+ 26 | 2026-09-29 12:21:41.731339 | SYSTEM       | AUTOMATIC         |            382.6 | ALLOCATED         | 2026-09-29 12:21:41.733326 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:21:41.733326 |      348 |            6
+ 27 | 2026-09-29 12:21:42.198556 | SYSTEM       | AUTOMATIC         |            297.2 | ALLOCATED         | 2026-09-29 12:21:42.201503 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:21:42.201503 |      349 |            1
+ 28 | 2026-09-29 12:22:12.409996 | SYSTEM       | AUTOMATIC         |            382.6 | ALLOCATED         | 2026-09-29 12:22:12.413991 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:22:12.413991 |      350 |            6
+ 29 | 2026-09-29 12:22:12.607764 | SYSTEM       | AUTOMATIC         |            297.2 | ALLOCATED         | 2026-09-29 12:22:12.610639 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:22:12.610639 |      351 |            1
+ 30 | 2026-09-29 12:22:36.367837 | SYSTEM       | AUTOMATIC         |            382.6 | ALLOCATED         | 2026-09-29 12:22:36.368836 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:22:36.368836 |      352 |            6
+ 31 | 2026-09-29 12:22:36.689471 | SYSTEM       | AUTOMATIC         |            297.2 | ALLOCATED         | 2026-09-29 12:22:36.691444 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:22:36.691444 |      353 |            1
+ 32 | 2026-09-29 12:22:57.206716 | SYSTEM       | AUTOMATIC         |            382.6 | ALLOCATED         | 2026-09-29 12:22:57.208573 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:22:57.208573 |      354 |            6
+ 33 | 2026-09-29 12:22:57.33515  | SYSTEM       | AUTOMATIC         |            297.2 | ALLOCATED         | 2026-09-29 12:22:57.336583 |           0 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 12:22:57.336583 |      355 |            1
+ 34 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:04.100599 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:04.100599 |      572 |             
+ 35 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:04.317168 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:04.317701 |      573 |             
+ 36 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:04.393596 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:04.393596 |      574 |             
+ 37 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:04.467422 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:04.467422 |      575 |             
+ 38 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:04.534361 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:04.534361 |      576 |             
+ 39 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:04.599617 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:04.599617 |      577 |             
+ 40 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:46.557839 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:46.557839 |      578 |             
+ 41 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:46.624196 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:46.624196 |      579 |             
+ 42 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:46.687851 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:46.687851 |      580 |             
+ 43 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:46.738331 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:46.738331 |      581 |             
+ 44 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:46.7948   |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:46.7948   |      582 |             
+ 45 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:25:46.846081 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:25:46.846081 |      583 |             
+ 46 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:49:32.028415 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:49:32.028415 |      584 |             
+ 47 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 21:51:05.428758 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 21:51:05.428758 |      585 |             
+ 48 | 2026-09-29 21:53:32.739061 | SYSTEM       | AUTOMATIC         |            249.7 | ALLOCATED         | 2026-09-29 21:53:32.744113 |     1196.13 | OPTIMAL_WAREHOUSE_ALLOCATED      | 2026-09-29 21:53:32.744113 |      586 |            1
+ 49 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 22:20:56.634784 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 22:20:56.634784 |      635 |             
+ 50 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 22:20:56.924431 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 22:20:56.924431 |      636 |             
+ 51 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 22:20:57.096575 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 22:20:57.096575 |      637 |             
+ 52 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 22:20:57.24667  |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 22:20:57.24667  |      638 |             
+ 53 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 22:20:57.389796 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 22:20:57.389796 |      639 |             
+ 54 |                            | SYSTEM       | AUTOMATIC         |                  | EXCEPTION         | 2026-09-29 22:20:57.544188 |             | NO_ELIGIBLE_WAREHOUSE_FOR_ORIGIN | 2026-09-29 22:20:57.544188 |      640 |             
+(47 rows)
+
+
+==================== 15. INVENTORY TRANSACTIONS ====================
+ id | new_available |           performed_by           | previous_available |                 product_name                  | quantity |                       reason                       | reference_order | reference_shipment  |                      sku                      |         timestamp          | transaction_type | inventory_id | warehouse_id 
+----+---------------+----------------------------------+--------------------+-----------------------------------------------+----------+----------------------------------------------------+-----------------+---------------------+-----------------------------------------------+----------------------------+------------------+--------------+--------------
+  1 |            57 | System Initializer               |                  0 | Industrial Servo Motor AC-220V                |       65 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1001                                      | 2026-09-17 12:14:03.789751 | RECEIVE          |            1 |            1
+  2 |            35 | System Initializer               |                  0 | Heavy Duty Hydraulic Cylinder 5T              |       40 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1002                                      | 2026-09-17 12:14:03.79918  | RECEIVE          |            2 |            1
+  3 |           158 | System Initializer               |                  0 | Precision Ball Bearing Kit 6205               |      180 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1003                                      | 2026-09-17 12:14:03.807246 | RECEIVE          |            3 |            1
+  4 |           270 | System Initializer               |                  0 | IoT Cold Chain Sensor Beacons                 |      320 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1004                                      | 2026-09-17 12:14:03.815272 | RECEIVE          |            4 |            1
+  5 |            82 | System Initializer               |                  0 | Pneumatic Pressure Regulators                 |       95 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1005                                      | 2026-09-17 12:14:03.824007 | RECEIVE          |            5 |            1
+  6 |           420 | System Initializer               |                  0 | Composite Cargo Lashing Belts                 |      450 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1006                                      | 2026-09-17 12:14:03.832792 | RECEIVE          |            6 |            1
+  7 |            75 | System Initializer               |                  0 | Thermally Insulated Pallet Blankets           |       85 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1007                                      | 2026-09-17 12:14:03.839462 | RECEIVE          |            7 |            1
+  8 |           192 | System Initializer               |                  0 | High-Flow Diesel Fuel Filters                 |      210 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1008                                      | 2026-09-17 12:14:03.846935 | RECEIVE          |            8 |            1
+  9 |            18 | System Initializer               |                  0 | Automated Barcode Handheld Scanners           |       24 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1009                                      | 2026-09-17 12:14:03.854596 | RECEIVE          |            9 |            1
+ 10 |            12 | System Initializer               |                  0 | Industrial Stretch Film Wrap 500mm            |       12 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1010                                      | 2026-09-17 12:14:03.863032 | RECEIVE          |           10 |            1
+ 11 |             6 | System Initializer               |                  0 | Hazardous Chemical Absorbent Pads             |        8 | Baseline warehouse inventory provisioning          | WH-INIT-2026    |                     | SKU-1011                                      | 2026-09-17 12:14:03.869585 | RECEIVE          |           11 |            1
+ 12 |            25 | Priya Sharma                     |                  0 | Product SKU-ELEC-001                          |       25 | Vendor Delivery Batch PO-9921                      | PO-9921         |                     | SKU-ELEC-001                                  | 2026-09-17 12:26:36.971148 | RECEIVE          |           12 |            1
+ 13 |            15 | Priya Sharma                     |                 25 | Product SKU-ELEC-001                          |       10 | Staging for Outbound Consignment                   |                 |                     | SKU-ELEC-001                                  | 2026-09-17 12:26:37.00036  | RESERVE          |           12 |            1
+ 14 |            40 | Priya Sharma                     |                 15 | Product SKU-ELEC-001                          |       25 | Vendor Delivery Batch PO-9921                      | PO-9921         |                     | SKU-ELEC-001                                  | 2026-09-17 12:29:38.596773 | RECEIVE          |           12 |            1
+ 15 |            30 | Priya Sharma                     |                 40 | Product SKU-ELEC-001                          |       10 | Staging for Outbound Consignment                   |                 |                     | SKU-ELEC-001                                  | 2026-09-17 12:29:38.678118 | RESERVE          |           12 |            1
+ 17 |            55 | Priya Sharma                     |                 30 | Product SKU-ELEC-001                          |       25 | Vendor Delivery Batch PO-9921                      | PO-9921         |                     | SKU-ELEC-001                                  | 2026-09-17 12:37:12.21152  | RECEIVE          |           12 |            1
+ 18 |            45 | Priya Sharma                     |                 55 | Product SKU-ELEC-001                          |       10 | Staging for Outbound Consignment                   |                 |                     | SKU-ELEC-001                                  | 2026-09-17 12:37:12.242451 | RESERVE          |           12 |            1
+ 20 |            50 | System Initializer               |                  0 | Dell Latitude 5430 Laptop                     |       50 | Baseline catalog provisioning                      | WH-INIT-PROD    |                     | PR-LAP-001                                    | 2026-09-17 13:24:24.652113 | RECEIVE          |           13 |            1
+ 21 |            40 | System Initializer               |                  0 | UltraSharp 27-inch 4K Monitor                 |       40 | Baseline catalog provisioning                      | WH-INIT-PROD    |                     | PR-MON-001                                    | 2026-09-17 13:24:24.665986 | RECEIVE          |           14 |            1
+ 22 |           120 | System Initializer               |                  0 | Pro Wireless Mechanical Keyboard              |      120 | Baseline catalog provisioning                      | WH-INIT-PROD    |                     | PR-KBD-001                                    | 2026-09-17 13:24:24.677536 | RECEIVE          |           15 |            1
+ 23 |            35 | System Initializer               |                  0 | Precision Wireless Mouse                      |       35 | Baseline catalog provisioning                      | WH-INIT-PROD    |                     | PR-MOU-001                                    | 2026-09-17 13:24:24.688223 | RECEIVE          |           16 |            1
+ 24 |            35 | System Initializer               |                  0 | Ergonomic High-Back Office Chair              |       35 | Baseline catalog provisioning                      | WH-INIT-PROD    |                     | PR-CHR-001                                    | 2026-09-17 13:24:24.699836 | RECEIVE          |           17 |            1
+ 25 |            35 | System Initializer               |                  0 | Laser Multi-Function Network Printer          |       35 | Baseline catalog provisioning                      | WH-INIT-PROD    |                     | PR-PRN-001                                    | 2026-09-17 13:24:24.711083 | RECEIVE          |           18 |            1
+ 40 |            35 | Priya Sharma                     |                 35 | Ergonomic High-Back Office Chair              |        0 | Manual cycle audit reconciliation (Diff: +0)       |                 |                     | PR-CHR-001                                    | 2026-09-17 18:29:32.089288 | ADJUSTMENT       |           17 |            1
+ 41 |            34 | Priya Sharma                     |                 35 | Ergonomic High-Back Office Chair              |        1 | Order reservation hold                             | PR-ORD-86597899 |                     | PR-CHR-001                                    | 2026-09-17 18:40:13.480893 | RESERVE          |           17 |            1
+ 42 |            22 | Priya Sharma                     |                 34 | Ergonomic High-Back Office Chair              |       12 | Order reservation hold                             | PR-ORD-18153381 |                     | PR-CHR-001                                    | 2026-09-17 18:40:20.142888 | RESERVE          |           17 |            1
+ 43 |            32 | Warehouse Manager (Priya Sharma) |                 22 | Ergonomic High-Back Office Chair              |       10 | Restocking SKU PR-CHR-001                          | RCV-712415      |                     | PR-CHR-001                                    | 2026-09-23 18:21:38.607572 | RECEIVE          |           17 |            1
+ 44 |            33 | Priya Sharma                     |                 32 | Ergonomic High-Back Office Chair              |        1 | Manual cycle audit reconciliation (Diff: +1)       |                 |                     | PR-CHR-001                                    | 2026-09-23 18:21:58.589834 | ADJUSTMENT       |           17 |            1
+ 45 |           122 | Warehouse Manager (Priya Sharma) |                112 | Pro Wireless Mechanical Keyboard              |       10 | Restocking SKU PR-KBD-001                          | RCV-647984      |                     | PR-KBD-001                                    | 2026-09-23 18:22:13.337929 | RECEIVE          |           15 |            1
+ 46 |            73 | Priya Sharma                     |                 33 | Ergonomic High-Back Office Chair              |       40 | Manual cycle audit reconciliation (Diff: +40)      |                 |                     | PR-CHR-001                                    | 2026-09-24 11:16:05.790382 | ADJUSTMENT       |           17 |            1
+ 51 |            37 | Shruti Sanjana Sahoo             |                 40 | Dell Latitude 5430 Laptop                     |        3 | Order #PR-ORD-77062649 inventory reservation       | PR-ORD-77062649 |                     | PR-LAP-001                                    | 2026-09-25 13:21:19.473286 | RESERVE          |           13 |            1
+ 54 |            37 | Priya Sharma                     |                 37 | Dell Latitude 5430 Laptop                     |        3 | Outbound Dispatch for Shipment PR-TRK-CGKQN6B2     | PR-ORD-77062649 | PR-TRK-CGKQN6B2     | PR-LAP-001                                    | 2026-09-28 12:17:05.362983 | DISPATCH         |           13 |            1
+ 55 |            74 | Warehouse Manager (Priya Sharma) |                 73 | Ergonomic High-Back Office Chair              |        1 | Stock replenishment for SKU PR-CHR-001             |                 |                     | PR-CHR-001                                    | 2026-09-28 15:31:35.527406 | RECEIVE          |           17 |            1
+ 56 |            75 | Warehouse Manager (Priya Sharma) |                 74 | Ergonomic High-Back Office Chair              |        1 | Stock replenishment for SKU PR-CHR-001             |                 |                     | PR-CHR-001                                    | 2026-09-28 16:09:42.565947 | RECEIVE          |           17 |            1
+ 57 |             0 | Priya Sharma                     |                  0 | Industrial Electronics Equipment              |        2 | Outbound Dispatch for Shipment TRK-PR-ORD-67363257 | PR-ORD-67363257 | TRK-PR-ORD-67363257 | Industrial Electronics Equipment              | 2026-09-28 16:24:06.658107 | DISPATCH         |              |            1
+ 58 |            31 | Shruti Sanjana Sahoo             |                 35 | Laser Multi-Function Network Printer          |        4 | Order #PR-ORD-76406402 inventory reservation       | PR-ORD-76406402 |                     | PR-PRN-001                                    | 2026-09-28 16:50:05.575008 | RESERVE          |           18 |            1
+ 59 |            49 | Verification Customer            |                 50 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-27321798 inventory reservation       | PR-ORD-27321798 |                     | PR-LAP-001                                    | 2026-09-28 17:53:18.531117 | RESERVE          |           28 |            6
+ 60 |            36 | Verification Customer            |                 37 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-54307458 inventory reservation       | PR-ORD-54307458 |                     | PR-LAP-001                                    | 2026-09-28 17:53:18.814256 | RESERVE          |           13 |            1
+ 61 |            48 | Verification Customer            |                 49 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-46233198 inventory reservation       | PR-ORD-46233198 |                     | PR-LAP-001                                    | 2026-09-28 17:53:18.937737 | RESERVE          |           28 |            6
+ 62 |            47 | Verification Customer            |                 48 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-37274661 inventory reservation       | PR-ORD-37274661 |                     | PR-LAP-001                                    | 2026-09-28 17:53:19.000457 | RESERVE          |           28 |            6
+ 63 |            46 | Verification Customer            |                 47 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-26636988 inventory reservation       | PR-ORD-26636988 |                     | PR-LAP-001                                    | 2026-09-28 17:53:54.258666 | RESERVE          |           28 |            6
+ 64 |            35 | Verification Customer            |                 36 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-16099917 inventory reservation       | PR-ORD-16099917 |                     | PR-LAP-001                                    | 2026-09-28 17:53:54.327701 | RESERVE          |           13 |            1
+ 65 |            45 | Verification Customer            |                 46 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-48728460 inventory reservation       | PR-ORD-48728460 |                     | PR-LAP-001                                    | 2026-09-28 17:53:54.419055 | RESERVE          |           28 |            6
+ 66 |            44 | Verification Customer            |                 45 | Dell Latitude 5430 Laptop                     |        1 | Order #PR-ORD-82150412 inventory reservation       | PR-ORD-82150412 |                     | PR-LAP-001                                    | 2026-09-28 17:53:54.478133 | RESERVE          |           28 |            6
+ 67 |            44 | P. Mukherjee                     |                 44 | Dell Latitude 5430 Laptop                     |        1 | Outbound Dispatch for Shipment PR-TRK-DGN6XMQS     | PR-ORD-82150412 | PR-TRK-DGN6XMQS     | PR-LAP-001                                    | 2026-09-28 18:16:46.011587 | DISPATCH         |           28 |            6
+ 68 |            31 | P. Mukherjee                     |                 31 | Laser Multi-Function Network Printer          |        4 | Outbound Dispatch for Shipment PR-TRK-ES3LB8ET     | PR-ORD-76406402 | PR-TRK-ES3LB8ET     | PR-PRN-001                                    | 2026-09-28 18:28:39.623915 | DISPATCH         |           33 |            6
+ 69 |             0 | Priya Sharma                     |                  0 | Telecommunication Hardware (Bangalore Origin) |       10 | Outbound Dispatch for Shipment PR-TRK-F73S5GTP     | PR-ORD-96968126 | PR-TRK-F73S5GTP     | Telecommunication Hardware (Bangalore Origin) | 2026-09-29 12:20:52.931921 | DISPATCH         |              |            1
+ 70 |             0 | Priya Sharma                     |                  0 | Telecommunication Hardware (Bangalore Origin) |       10 | Outbound Dispatch for Shipment PR-TRK-2VA2X9XW     | PR-ORD-67247594 | PR-TRK-2VA2X9XW     | Telecommunication Hardware (Bangalore Origin) | 2026-09-29 12:22:12.901045 | DISPATCH         |              |            1
+ 71 |             0 | Priya Sharma                     |                  0 | Telecommunication Hardware (Bangalore Origin) |       10 | Outbound Dispatch for Shipment PR-TRK-LUW4RXU3     | PR-ORD-49840198 | PR-TRK-LUW4RXU3     | Telecommunication Hardware (Bangalore Origin) | 2026-09-29 12:22:57.653073 | DISPATCH         |              |            1
+ 72 |            35 | Priya Sharma                     |                 35 | Dell Latitude 5430 Laptop                     |        1 | Outbound Dispatch for Shipment PR-TRK-5PWT9E8Z     | PR-ORD-54307458 | PR-TRK-5PWT9E8Z     | PR-LAP-001                                    | 2026-09-29 12:43:18.116946 | DISPATCH         |           13 |            1
+ 73 |             0 | Priya Sharma                     |                  0 | Telecommunication Hardware (Bangalore Origin) |       10 | Outbound Dispatch for Shipment PR-TRK-9BSQF5DM     | PR-ORD-96879235 | PR-TRK-9BSQF5DM     | Telecommunication Hardware (Bangalore Origin) | 2026-09-29 12:46:29.227455 | DISPATCH         |              |            1
+ 74 |            33 | Shruti Sanjana Sahoo             |                 35 | Precision Wireless Mouse                      |        2 | Order #PR-ORD-30750634 inventory reservation       | PR-ORD-30750634 |                     | PR-MOU-001                                    | 2026-09-29 21:53:32.739061 | RESERVE          |           16 |            1
+(52 rows)
+

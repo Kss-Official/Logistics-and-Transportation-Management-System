@@ -1,0 +1,4 @@
+$env:PGPASSWORD = "postgres123"
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -d primeroute_db -f "d:\Transportation-Logistic\scratch\reconcile_invoices.sql"
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -d primeroute_db -c "SELECT o.id, o.order_number, o.payment_method, o.payment_status as ord_payment_status, i.id as invoice_id, i.invoice_number, i.invoice_status, i.payment_status as inv_payment_status, i.amount_paid, i.balance_due, i.payment_date FROM orders o LEFT JOIN invoices i ON i.order_id = o.id WHERE o.order_number = 'PR-ORD-10001907';"
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -d primeroute_db -c "SELECT o.order_number, o.payment_method, o.payment_status as ord_payment_status, i.invoice_number, i.invoice_status, i.payment_status as inv_payment_status, i.total_amount, i.amount_paid, i.balance_due, i.payment_date FROM orders o LEFT JOIN invoices i ON i.order_id = o.id ORDER BY o.id DESC LIMIT 12;"

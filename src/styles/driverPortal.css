@@ -1,0 +1,495 @@
+/* ==========================================================================
+   PRIMEROUTE LOGISTICS — DRIVER PORTAL DESIGN SYSTEM
+   Visual Identity: LIGHT BLUE / BLUE FLEET OPERATIONAL SYSTEM
+   ========================================================================== */
+
+:root {
+  --driver-primary: #2563eb;
+  --driver-primary-hover: #1d4ed8;
+  --driver-primary-dark: #1e3a8a;
+  --driver-primary-light: #eff6ff;
+  --driver-primary-soft: #dbeafe;
+  --driver-border: #bfdbfe;
+  --driver-border-subtle: #e2e8f0;
+  --driver-bg: #f8fafc;
+  --driver-card-bg: #ffffff;
+  --driver-text: #0f172a;
+  --driver-text-muted: #64748b;
+  --driver-text-light: #94a3b8;
+  --driver-success: #16a34a;
+  --driver-success-light: #dcfce7;
+  --driver-warning: #f59e0b;
+  --driver-warning-light: #fef3c7;
+  --driver-danger: #dc2626;
+  --driver-danger-light: #fee2e2;
+  --driver-sidebar-width: 290px;
+}
+
+/* ── App Shell & Responsive Wrappers ── */
+.driver-app-shell {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  display: flex;
+  background-color: var(--driver-bg);
+  color: var(--driver-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.driver-main-wrapper {
+  margin-left: var(--driver-sidebar-width);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 0;
+  max-width: calc(100vw - var(--driver-sidebar-width));
+  width: calc(100% - var(--driver-sidebar-width));
+  box-sizing: border-box;
+  background-color: var(--driver-bg);
+}
+
+/* ── Driver Portal Sidebar Navigation-style Logout Item ── */
+.driver-sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  border: none;
+  background: transparent;
+  color: #EF4444;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  text-align: left;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.driver-sidebar-logout:hover {
+  background-color: #FEF2F2;
+  color: #DC2626;
+}
+
+.driver-sidebar-logout:hover .logout-nav-icon {
+  color: #DC2626;
+}
+
+.driver-page-content {
+  flex: 1;
+  padding: 0;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.driver-page-container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 20px 24px 72px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Sticky Operational Header ── */
+.driver-top-header {
+  height: 64px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+/* ── Driver Cards ── */
+.driver-card {
+  background-color: var(--driver-card-bg);
+  border: 1px solid var(--driver-border-subtle);
+  border-radius: 14px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.driver-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.driver-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--driver-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── KPI Grid ── */
+.driver-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.driver-kpi-card {
+  background-color: #ffffff;
+  border: 1px solid var(--driver-border-subtle);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.driver-kpi-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--driver-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.driver-kpi-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--driver-text);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* ── Buttons ── */
+.driver-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--driver-primary);
+  color: #ffffff;
+  border: 1px solid transparent;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.driver-btn-primary:hover:not(:disabled) {
+  background-color: var(--driver-primary-hover);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+  transform: translateY(-1px);
+}
+
+.driver-btn-primary:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.driver-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: var(--driver-primary);
+  border: 1px solid var(--driver-border);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.driver-btn-secondary:hover:not(:disabled) {
+  background-color: var(--driver-primary-light);
+  border-color: var(--driver-primary);
+}
+
+.driver-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.driver-btn-danger:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+/* ── Status Badges ── */
+.driver-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.driver-badge-blue {
+  background-color: var(--driver-primary-light);
+  color: var(--driver-primary);
+  border: 1px solid var(--driver-border);
+}
+
+.driver-badge-green {
+  background-color: var(--driver-success-light);
+  color: var(--driver-success);
+  border: 1px solid #bbf7d0;
+}
+
+.driver-badge-amber {
+  background-color: var(--driver-warning-light);
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.driver-badge-slate {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.driver-badge-danger {
+  background-color: var(--driver-danger-light);
+  color: var(--driver-danger);
+  border: 1px solid #fca5a5;
+}
+
+/* ── Operational Stepper ── */
+.driver-stepper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  margin: 16px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.driver-step-node {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--driver-text-muted);
+  white-space: nowrap;
+}
+
+.driver-step-node.active {
+  color: var(--driver-primary);
+  font-weight: 700;
+}
+
+.driver-step-node.completed {
+  color: var(--driver-success);
+}
+
+.driver-step-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e2e8f0;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.driver-step-node.active .driver-step-dot {
+  background-color: var(--driver-primary);
+  color: #ffffff;
+  box-shadow: 0 0 0 3px var(--driver-primary-soft);
+}
+
+.driver-step-node.completed .driver-step-dot {
+  background-color: var(--driver-success);
+  color: #ffffff;
+}
+
+.driver-step-line {
+  flex: 1;
+  height: 2px;
+  background-color: #e2e8f0;
+  min-width: 20px;
+}
+
+.driver-step-line.completed {
+  background-color: var(--driver-success);
+}
+
+/* ── Mobile Bottom Navigation Bar ── */
+.driver-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.driver-bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #64748b;
+  font-size: 10.5px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+  padding: 4px 0;
+}
+
+.driver-bottom-nav-item.active {
+  color: var(--driver-primary);
+  font-weight: 700;
+}
+
+.driver-bottom-nav-item:active {
+  background-color: var(--driver-primary-light);
+}
+
+/* ── Tables & Data Grids ── */
+.driver-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.driver-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+  table-layout: fixed;
+}
+
+.driver-table th {
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  font-weight: 700;
+  font-size: 11.5px;
+  padding: 12px 14px;
+  white-space: nowrap;
+}
+
+.driver-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.driver-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* ── Responsive Rules ── */
+@media (max-width: 1024px) {
+  .driver-sidebar {
+    transform: translateX(-100%) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    z-index: 1100 !important;
+  }
+
+  .driver-sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  .driver-sidebar-close-btn {
+    display: flex !important;
+  }
+
+  .driver-main-wrapper {
+    margin-left: 0 !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+
+  .driver-bottom-nav {
+    display: flex !important;
+  }
+
+  .driver-page-container {
+    padding: 16px 16px 84px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  .driver-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .driver-kpi-value {
+    font-size: 22px;
+  }
+
+  .driver-card {
+    padding: 16px;
+  }
+}

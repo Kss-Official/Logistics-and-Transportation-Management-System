@@ -1,0 +1,1 @@
+SELECT * FROM notifications WHERE message LIKE '%PR-ORD-29842877%' OR message LIKE '%PR-ORD-74855865%' OR title LIKE '%PR-ORD-29842877%' OR title LIKE '%PR-ORD-74855865%';
