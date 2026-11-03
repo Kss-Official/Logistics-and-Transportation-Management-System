@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   ArrowLeft
 } from 'lucide-react';
+import BrandLogo from '../common/BrandLogo';
 
 export type PortalType = 'customer' | 'warehouse' | 'driver' | 'admin';
 
@@ -240,31 +241,7 @@ export default function PortalLoginLayout({
 
         {/* Top Branding */}
         <div style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-            <div
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 10,
-                background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ffffff',
-                boxShadow: '0 4px 12px rgba(37, 99, 235, 0.4)',
-              }}
-            >
-              <Package size={20} strokeWidth={2.4} />
-            </div>
-            <div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                PrimeRoute
-              </div>
-              <div style={{ fontSize: 11, fontWeight: 500, color: '#94a3b8', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                Logistics OS
-              </div>
-            </div>
-          </div>
+          <BrandLogo variant="light" size="md" />
         </div>
 
         {/* Center Visual Content */}

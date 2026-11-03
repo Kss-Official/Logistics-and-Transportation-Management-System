@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -32,6 +32,9 @@ import type { DeliveryAssignment, DriverRouteData, RouteStepItem, RouteWaypointI
 
 export default function DriverRoute() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const targetId = searchParams.get('id');
+
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
   const markerGroupRef = useRef<L.LayerGroup | null>(null);
@@ -64,19 +67,14 @@ export default function DriverRoute() {
     setErrorMsg(null);
     try {
       const [delData, rData] = await Promise.all([
-        driverPortalService.getCurrentDelivery(),
-        driverPortalService.getDeliveryRoute('active'),
+        targetId && targetId.trim()
+          ? driverPortalService.getDeliveryById(targetId.trim())
+          : driverPortalService.getCurrentDelivery(),
+        driverPortalService.getDeliveryRoute(targetId && targetId.trim() ? targetId.trim() : 'active'),
       ]);
 
-      const isActive = Boolean(
-        delData && (delData.status === 'IN_TRANSIT' || delData.status === 'OUT_FOR_DELIVERY')
-      );
       setDelivery(delData);
-      if (!isActive) {
-        setRouteData(null);
-      } else {
-        setRouteData(rData);
-      }
+      setRouteData(rData);
     } catch (err: any) {
       console.error('Error fetching driver route context:', err);
       setErrorMsg('Failed to load active delivery route telemetry.');
@@ -88,7 +86,7 @@ export default function DriverRoute() {
 
   useEffect(() => {
     fetchRouteAndDelivery();
-  }, []);
+  }, [targetId]);
 
   // Recalculate route when GPS changes significantly (> 100 meters)
   const prevCoordsRef = useRef<[number, number] | null>(null);
@@ -523,7 +521,7 @@ export default function DriverRoute() {
               {refreshing ? 'Refreshing...' : 'Refresh Route'}
             </button>
             <Link
-              to="/driver/current-delivery"
+              to={delivery?.id ? `/driver/current-delivery?id=${encodeURIComponent(delivery.id)}` : '/driver/current-delivery'}
               className="driver-btn-secondary"
               style={{ padding: '8px 14px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}
             >

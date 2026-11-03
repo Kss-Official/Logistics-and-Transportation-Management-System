@@ -2,19 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PublicHeader from '../components/public/PublicHeader';
 import PublicFooter from '../components/public/PublicFooter';
-import publicService from '../services/publicService';
-import type { PublicContactInfo } from '../services/publicService';
+import publicService, { type PublicContactInfo, type PublicFreightInquiryResponse } from '../services/publicService';
 import { useToast } from '../components/common/Toast';
 import {
-  Phone, Mail, MapPin, Clock, ArrowRight,
-  Send, CheckCircle2, Building2, ShieldCheck, MessageSquare,
-  HelpCircle, AlertCircle, Loader2
+  Phone, Mail, MapPin, ArrowRight,
+  CheckCircle2, AlertCircle, Loader2
 } from 'lucide-react';
+import {
+  validateCompanyName,
+  validateContactName,
+  validateEmail,
+  validatePhone,
+  validateOrigin,
+  validateDestination,
+  validateMessage,
+  type PublicFormErrors,
+} from '../utils/publicValidation';
+
+import contactHeroImg from '../assets/contact_support_desk.jpg';
 
 export default function Contact() {
   const { showToast } = useToast();
   const [contact, setContact] = useState<PublicContactInfo | null>(null);
-  const [loadingContact, setLoadingContact] = useState(true);
+  const [, setLoadingContact] = useState(true);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -28,8 +38,11 @@ export default function Contact() {
     message: '',
   });
 
+  const [errors, setErrors] = useState<PublicFormErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<PublicFreightInquiryResponse | null>(null);
   const [formError, setFormError] = useState('');
 
   useEffect(() => {
@@ -46,77 +59,161 @@ export default function Contact() {
     ? `${contact.companyAddress}, ${contact.city}, ${contact.state} ${contact.postalCode}`
     : 'Plot 42, Tech Logistics Park, Whitefield, Bengaluru, Karnataka 560066';
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateField = (field: string, val: string): string | undefined => {
+    switch (field) {
+      case 'companyName':
+        return validateCompanyName(val);
+      case 'fullName':
+        return validateContactName(val);
+      case 'email':
+        return validateEmail(val);
+      case 'phone':
+        return validatePhone(val);
+      case 'origin':
+        return validateOrigin(val);
+      case 'destination':
+        return validateDestination(val);
+      case 'message':
+        return validateMessage(val);
+      default:
+        return undefined;
+    }
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const errorMsg = validateField(field, (formData as Record<string, string>)[field] || '');
+    setErrors((prev) => ({ ...prev, [field]: errorMsg }));
+  };
+
+  const handleChange = (field: string, val: string) => {
+    setFormData((prev) => ({ ...prev, [field]: val }));
+    if (formError) setFormError('');
+    if (touched[field]) {
+      const errorMsg = validateField(field, val);
+      setErrors((prev) => ({ ...prev, [field]: errorMsg }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.companyName.trim() || !formData.fullName.trim() || !formData.email.trim()) {
-      setFormError('Please fill in your company name, full name, and valid corporate email.');
+    setFormError('');
+
+    const newErrors: PublicFormErrors = {
+      companyName: validateCompanyName(formData.companyName),
+      contactName: validateContactName(formData.fullName),
+      email: validateEmail(formData.email),
+      phone: validatePhone(formData.phone),
+      origin: validateOrigin(formData.origin),
+      destination: validateDestination(formData.destination),
+      message: validateMessage(formData.message),
+    };
+
+    setTouched({
+      companyName: true,
+      fullName: true,
+      email: true,
+      phone: true,
+      origin: true,
+      destination: true,
+      message: true,
+    });
+
+    setErrors(newErrors);
+
+    const hasErrors = Object.values(newErrors).some((err) => Boolean(err));
+    if (hasErrors) {
       return;
     }
 
     setFormSubmitting(true);
-    setFormError('');
 
-    // Frontend-only submission simulation with realistic response
-    setTimeout(() => {
-      setFormSubmitting(false);
+    try {
+      const payload = {
+        companyName: formData.companyName.trim(),
+        contactName: formData.fullName.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        origin: formData.origin.trim(),
+        destination: formData.destination.trim(),
+        serviceType: formData.serviceRequired,
+        message: formData.message ? formData.message.trim() : undefined,
+        inquiryType: 'CONSULTATION' as const,
+      };
+
+      const result = await publicService.submitFreightInquiry(payload);
+      setSubmissionResult(result);
       setFormSuccess(true);
-      showToast('success', 'Inquiry Received', 'Our freight desk will contact you within 2 hours.');
-    }, 600);
+      showToast('success', 'Inquiry Submitted', `Reference ${result.inquiryNumber} logged.`);
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string; errors?: Record<string, string> } } };
+      if (axiosErr?.response?.data?.errors) {
+        setErrors((prev) => ({ ...prev, ...axiosErr.response?.data?.errors }));
+        setFormError('Please correct the highlighted fields and try again.');
+      } else if (axiosErr?.response?.data?.message) {
+        setFormError(axiosErr.response.data.message);
+      } else {
+        setFormError('Failed to submit inquiry. Please check your network connection.');
+      }
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   return (
-    <div className="pr-public-site">
+    <div className="editorial-root">
       <PublicHeader />
       <main>
-        {/* ========================================================
-            1. HERO SECTION (LIGHT ENTERPRISE THEME)
-            ======================================================== */}
-        <section
-          style={{
-            padding: '48px 0 64px',
-            background: 'linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%)',
-            borderBottom: '1px solid #e2e8f0',
-          }}
-        >
-          <div className="pr-container">
-            <div style={{ maxWidth: '800px' }}>
-              <div className="pr-hero-badge-corporate" style={{ marginBottom: '16px' }}>
-                <span className="pr-live-dot"></span>
-                <span>DIRECT LOGISTICS SUPPORT</span>
+        {/* ── 1. EDITORIAL HERO (FULL-WIDTH BRIGHT LOGISTICS HERO) ── */}
+        <section className="editorial-page-hero">
+          <div className="editorial-page-hero-media">
+            <img
+              src={contactHeroImg}
+              alt="PrimeRoute Logistics Express Highway Terminal"
+              className="editorial-page-hero-img"
+            />
+          </div>
+          <div className="editorial-page-hero-overlay" />
+
+          <div className="editorial-page-hero-container">
+            <div className="editorial-page-hero-content">
+              <div className="editorial-page-hero-label">
+                CONTACT PRIMEROUTE
               </div>
 
-              <h1
-                style={{
-                  fontSize: 'clamp(32px, 4.2vw, 48px)',
-                  fontWeight: 800,
-                  color: '#0f172a',
-                  lineHeight: 1.18,
-                  letterSpacing: '-0.02em',
-                  margin: '0 0 16px',
-                }}
-              >
-                Contact PrimeRoute Operations & Freight Desk.
+              <h1 className="editorial-page-hero-title">
+                CONNECT WITH OUR<br />
+                <span className="blue-highlight">FREIGHT DESK.</span>
               </h1>
 
-              <p
-                style={{
-                  fontSize: '17px',
-                  color: '#475569',
-                  lineHeight: 1.65,
-                  margin: '0 0 28px',
-                }}
-              >
+              <p className="editorial-page-hero-desc">
                 Need to book commercial freight, inquire about cross-dock warehousing, or discuss enterprise transportation contracts? Our central dispatch control team is available 24/7.
               </p>
+
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                <a
+                  href="#contact-form"
+                  className="editorial-btn-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <span>SEND INQUIRY</span>
+                  <ArrowRight size={15} />
+                </a>
+                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="editorial-btn-outline-light">
+                  <Phone size={14} />
+                  <span>CALL HOTLINE</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ========================================================
-            2. CONTACT CARDS & INTERACTIVE FORM GRID
-            ======================================================== */}
-        <section style={{ padding: '80px 0', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
+        {/* ── 2. CONTACT CARDS & INTERACTIVE FORM GRID ── */}
+        <section id="contact-form" style={{ padding: '80px 0', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+          <div className="editorial-container">
             <div
               style={{
                 display: 'grid',
@@ -214,18 +311,22 @@ export default function Contact() {
                   </p>
                 </div>
 
-                {formSuccess ? (
+                {formSuccess && submissionResult ? (
                   <div style={{ padding: '32px', textAlign: 'center', background: '#f0fdf4', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
                     <CheckCircle2 size={48} color="#16a34a" style={{ margin: '0 auto 16px' }} />
+                    <div style={{ display: 'inline-block', background: '#dcfce7', color: '#166534', fontSize: '12px', fontWeight: 800, padding: '4px 14px', borderRadius: '20px', letterSpacing: '0.06em', marginBottom: '14px', border: '1px solid #86efac' }}>
+                      REFERENCE: {submissionResult.inquiryNumber}
+                    </div>
                     <h4 style={{ fontSize: '20px', fontWeight: 800, color: '#166534', margin: '0 0 8px' }}>
-                      Inquiry Submitted Successfully
+                      {submissionResult.message || 'Inquiry Submitted Successfully'}
                     </h4>
                     <p style={{ fontSize: '14.5px', color: '#15803d', lineHeight: 1.6, margin: '0 0 20px' }}>
-                      Thank you for contacting PrimeRoute Logistics. Reference <strong>#PR-INQ-{Math.floor(100000 + Math.random() * 900000)}</strong> has been routed to our regional freight team.
+                      Thank you for contacting PrimeRoute Logistics, <strong>{submissionResult.contactName}</strong> ({submissionResult.companyName}). Your freight consultation for <strong>{submissionResult.origin} → {submissionResult.destination}</strong> has been logged and routed to our regional operations team.
                     </p>
                     <button
                       onClick={() => {
                         setFormSuccess(false);
+                        setSubmissionResult(null);
                         setFormData({
                           companyName: '',
                           fullName: '',
@@ -236,23 +337,27 @@ export default function Contact() {
                           destination: '',
                           message: '',
                         });
+                        setErrors({});
+                        setTouched({});
+                        setFormError('');
                       }}
-                      className="pr-btn-primary"
-                      style={{ padding: '10px 24px', fontSize: '14px', margin: '0 auto' }}
+                      className="editorial-btn-primary"
+                      style={{ padding: '10px 24px', fontSize: '13px', margin: '0 auto' }}
                     >
                       Send Another Inquiry
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {formError && (
                       <div style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#b91c1c', padding: '10px 14px', borderRadius: '6px', fontSize: '13.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <AlertCircle size={16} />
+                        <AlertCircle size={16} style={{ flexShrink: 0 }} />
                         <span>{formError}</span>
                       </div>
                     )}
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                      {/* Company Name */}
                       <div>
                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                           Company Name *
@@ -261,12 +366,27 @@ export default function Contact() {
                           type="text"
                           required
                           value={formData.companyName}
-                          onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                          placeholder="e.g. Apex Industrial Ltd"
-                          style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                          onChange={(e) => handleChange('companyName', e.target.value)}
+                          onBlur={() => handleBlur('companyName')}
+                          placeholder="e.g. PrimeRoute Logistics Pvt. Ltd."
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '6px',
+                            border: errors.companyName && touched.companyName ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                            fontSize: '14px',
+                            outline: 'none',
+                            boxSizing: 'border-box'
+                          }}
                         />
+                        {errors.companyName && touched.companyName && (
+                          <span style={{ display: 'block', fontSize: '11.5px', color: '#dc2626', marginTop: '4px', fontWeight: 500 }}>
+                            {errors.companyName}
+                          </span>
+                        )}
                       </div>
 
+                      {/* Contact Person */}
                       <div>
                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                           Contact Person *
@@ -275,14 +395,29 @@ export default function Contact() {
                           type="text"
                           required
                           value={formData.fullName}
-                          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                          placeholder="e.g. Rajesh Sharma"
-                          style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                          onChange={(e) => handleChange('fullName', e.target.value)}
+                          onBlur={() => handleBlur('fullName')}
+                          placeholder="e.g. Shruti Sanjana Sahoo"
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '6px',
+                            border: (errors.contactName || errors.fullName) && (touched.fullName || touched.contactName) ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                            fontSize: '14px',
+                            outline: 'none',
+                            boxSizing: 'border-box'
+                          }}
                         />
+                        {(errors.contactName || errors.fullName) && (touched.fullName || touched.contactName) && (
+                          <span style={{ display: 'block', fontSize: '11.5px', color: '#dc2626', marginTop: '4px', fontWeight: 500 }}>
+                            {errors.contactName || errors.fullName}
+                          </span>
+                        )}
                       </div>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                      {/* Work Email */}
                       <div>
                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                           Work Email *
@@ -291,71 +426,137 @@ export default function Contact() {
                           type="email"
                           required
                           value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="rajesh@apex.com"
-                          style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                          onChange={(e) => handleChange('email', e.target.value)}
+                          onBlur={() => handleBlur('email')}
+                          placeholder="e.g. operations@primeroute.com"
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '6px',
+                            border: errors.email && touched.email ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                            fontSize: '14px',
+                            outline: 'none',
+                            boxSizing: 'border-box'
+                          }}
                         />
+                        {errors.email && touched.email && (
+                          <span style={{ display: 'block', fontSize: '11.5px', color: '#dc2626', marginTop: '4px', fontWeight: 500 }}>
+                            {errors.email}
+                          </span>
+                        )}
                       </div>
 
+                      {/* Phone */}
                       <div>
                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
-                          Phone Number
+                          Phone Number *
                         </label>
                         <input
                           type="tel"
+                          required
                           value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+91 98765 43210"
-                          style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                          onChange={(e) => handleChange('phone', e.target.value)}
+                          onBlur={() => handleBlur('phone')}
+                          placeholder="e.g. 9876543210"
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '6px',
+                            border: errors.phone && touched.phone ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                            fontSize: '14px',
+                            outline: 'none',
+                            boxSizing: 'border-box'
+                          }}
                         />
+                        {errors.phone && touched.phone && (
+                          <span style={{ display: 'block', fontSize: '11.5px', color: '#dc2626', marginTop: '4px', fontWeight: 500 }}>
+                            {errors.phone}
+                          </span>
+                        )}
                       </div>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                      {/* Corridor Origin */}
                       <div>
                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
-                          Corridor Origin
+                          Corridor Origin *
                         </label>
                         <input
                           type="text"
+                          required
                           value={formData.origin}
-                          onChange={(e) => setFormData({ ...formData, origin: e.target.value })}
+                          onChange={(e) => handleChange('origin', e.target.value)}
+                          onBlur={() => handleBlur('origin')}
                           placeholder="e.g. Bengaluru Hub"
-                          style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '6px',
+                            border: errors.origin && touched.origin ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                            fontSize: '14px',
+                            outline: 'none',
+                            boxSizing: 'border-box'
+                          }}
                         />
+                        {errors.origin && touched.origin && (
+                          <span style={{ display: 'block', fontSize: '11.5px', color: '#dc2626', marginTop: '4px', fontWeight: 500 }}>
+                            {errors.origin}
+                          </span>
+                        )}
                       </div>
 
+                      {/* Corridor Destination */}
                       <div>
                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
-                          Corridor Destination
+                          Corridor Destination *
                         </label>
                         <input
                           type="text"
+                          required
                           value={formData.destination}
-                          onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+                          onChange={(e) => handleChange('destination', e.target.value)}
+                          onBlur={() => handleBlur('destination')}
                           placeholder="e.g. Mumbai DC"
-                          style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '6px',
+                            border: errors.destination && touched.destination ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                            fontSize: '14px',
+                            outline: 'none',
+                            boxSizing: 'border-box'
+                          }}
                         />
+                        {errors.destination && touched.destination && (
+                          <span style={{ display: 'block', fontSize: '11.5px', color: '#dc2626', marginTop: '4px', fontWeight: 500 }}>
+                            {errors.destination}
+                          </span>
+                        )}
                       </div>
                     </div>
 
+                    {/* Service Interest */}
                     <div>
                       <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                         Service Interest
                       </label>
                       <select
                         value={formData.serviceRequired}
-                        onChange={(e) => setFormData({ ...formData, serviceRequired: e.target.value })}
-                        style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none', background: '#ffffff' }}
+                        onChange={(e) => handleChange('serviceRequired', e.target.value)}
+                        style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none', background: '#ffffff', boxSizing: 'border-box' }}
                       >
-                        <option value="Road Freight (FTL)">Road Freight — Full Truckload (FTL)</option>
-                        <option value="Road Freight (LTL)">Road Freight — Less-Than-Truckload (LTL)</option>
-                        <option value="Warehouse Hub Storage">Warehouse Hub Storage & Cross-Docking</option>
-                        <option value="Fleet Telematics">Fleet Telematics & Route Management</option>
-                        <option value="Last-Mile Distribution">Last-Mile Distribution & ePOD Handover</option>
+                        <option value="Road Freight (FTL)">Road Freight (FTL)</option>
+                        <option value="Part Load (LTL)">Part Load (LTL)</option>
+                        <option value="Express Priority Linehaul">Express Priority Linehaul</option>
+                        <option value="Warehousing & Cross-Docking">Warehousing & Cross-Docking</option>
+                        <option value="Last-Mile Delivery">Last-Mile Delivery</option>
+                        <option value="Cold Chain Freight">Cold Chain Freight</option>
+                        <option value="Intermodal Rail-Road">Intermodal Rail-Road</option>
                       </select>
                     </div>
 
+                    {/* Requirements / Cargo Details */}
                     <div>
                       <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                         Requirements / Cargo Details
@@ -363,33 +564,45 @@ export default function Contact() {
                       <textarea
                         rows={3}
                         value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        onChange={(e) => handleChange('message', e.target.value)}
+                        onBlur={() => handleBlur('message')}
                         placeholder="Expected freight tonnage, monthly frequency, or specific handling notes..."
-                        style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none', resize: 'vertical' }}
+                        style={{
+                          width: '100%',
+                          padding: '10px 12px',
+                          borderRadius: '6px',
+                          border: errors.message && touched.message ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                          fontSize: '14px',
+                          outline: 'none',
+                          resize: 'vertical',
+                          boxSizing: 'border-box'
+                        }}
                       />
+                      {errors.message && touched.message && (
+                        <span style={{ display: 'block', fontSize: '11.5px', color: '#dc2626', marginTop: '4px', fontWeight: 500 }}>
+                          {errors.message}
+                        </span>
+                      )}
                     </div>
 
                     <button
                       type="submit"
                       disabled={formSubmitting}
-                      className="pr-btn-primary"
-                      style={{ padding: '13px 24px', fontSize: '15px', justifyContent: 'center', marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}
+                      className="editorial-btn-primary"
+                      style={{ padding: '13px 24px', fontSize: '14px', justifyContent: 'center', marginTop: '6px', width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}
                     >
                       {formSubmitting ? (
                         <>
                           <Loader2 size={16} className="animate-spin" />
-                          <span>Routing inquiry to dispatch...</span>
+                          <span>SUBMITTING INQUIRY...</span>
                         </>
                       ) : (
                         <>
-                          <span>Submit Freight Inquiry</span>
-                          <Send size={15} />
+                          <span>SUBMIT FREIGHT INQUIRY</span>
+                          <ArrowRight size={15} />
                         </>
                       )}
                     </button>
-                    <div style={{ fontSize: '12px', color: '#94a3b8', textAlign: 'center' }}>
-                      PrimeRoute respects data privacy. Your contact details are stored securely.
-                    </div>
                   </form>
                 )}
               </div>

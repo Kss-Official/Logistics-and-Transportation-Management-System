@@ -14,6 +14,7 @@ import {
 import { authService, type UserRole } from '../services/authService';
 import { validatePassword } from '../utils/validation';
 import forgotPasswordBg from '../assets/forgot_password_bg.jpg';
+import BrandLogo from '../components/common/BrandLogo';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -138,59 +139,7 @@ export default function ResetPassword() {
         }}
       >
         {/* PrimeRoute Brand Logo */}
-        <Link
-          to="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            textDecoration: 'none',
-          }}
-        >
-          <div
-            style={{
-              width: '42px',
-              height: '42px',
-              borderRadius: '12px',
-              background: '#1D4ED8',
-              color: '#ffffff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 800,
-              fontSize: '17px',
-              letterSpacing: '0.02em',
-              boxShadow: '0 4px 14px rgba(29, 78, 216, 0.3)',
-            }}
-          >
-            PR
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span
-              style={{
-                fontSize: '20px',
-                fontWeight: 800,
-                color: '#0F172A',
-                lineHeight: 1.15,
-                letterSpacing: '-0.02em',
-              }}
-            >
-              PrimeRoute
-            </span>
-            <span
-              style={{
-                fontSize: '10.5px',
-                fontWeight: 700,
-                color: '#1D4ED8',
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
-              }}
-            >
-              LOGISTICS
-            </span>
-          </div>
-        </Link>
+        <BrandLogo size="md" />
 
         {/* Back to Home Button */}
         <Link

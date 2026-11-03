@@ -54,7 +54,8 @@ export default function SignInAdmin() {
       setErrorMessage('Please enter a valid email address.');
       return;
     }
-    if (!password) {
+    const cleanPassword = password.trim();
+    if (!cleanPassword) {
       setErrorMessage('Please enter your password.');
       return;
     }
@@ -62,7 +63,7 @@ export default function SignInAdmin() {
     setIsLoading(true);
 
     try {
-      const result = await login(cleanEmail, password, rememberMe);
+      const result = await login(cleanEmail, cleanPassword, rememberMe);
 
       if (!result.success || !result.user) {
         setErrorMessage(result.error || 'Invalid email or password.');

@@ -251,16 +251,24 @@ export const authService = {
       const axiosErr = err as {
         response?: {
           status?: number;
-          data?: string | { message?: string };
+          data?: string | { message?: string; errors?: Record<string, string>; data?: Record<string, string> };
         };
       };
 
       const responseData = axiosErr.response?.data;
 
-      const message =
-        typeof responseData === 'string'
-          ? responseData
-          : responseData?.message;
+      let message: string | undefined;
+      if (typeof responseData === 'string') {
+        message = responseData;
+      } else if (responseData && typeof responseData === 'object') {
+        if (responseData.message) {
+          message = responseData.message;
+        } else if (responseData.errors && Object.keys(responseData.errors).length > 0) {
+          message = Object.values(responseData.errors)[0];
+        } else if (responseData.data && Object.keys(responseData.data).length > 0) {
+          message = Object.values(responseData.data)[0];
+        }
+      }
 
       return {
         success: false,

@@ -60,6 +60,8 @@ export interface ProofOfDeliveryData {
   deliveredAt?: string;
   timestamp?: string;
   deliveryCoordinates?: [number, number];
+  codCollected?: boolean;
+  collectedAmount?: number;
 }
 
 export interface DriverTrackingEvent {
@@ -122,6 +124,12 @@ export interface DeliveryAssignment {
   pickupChecklistCompleted?: boolean;
   deliveryChecklistCompleted?: boolean;
   proofOfDelivery?: ProofOfDeliveryData;
+  paymentMethod?: string;
+  paymentStatus?: string;
+  totalAmount?: number;
+  codAmount?: number;
+  isCod?: boolean;
+  codCollected?: boolean;
 }
 
 export interface DriverProfileData {

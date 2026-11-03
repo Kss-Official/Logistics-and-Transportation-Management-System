@@ -13,7 +13,9 @@ import {
   Eye,
   ArrowRight,
   ShieldCheck,
-  ImageIcon
+  ImageIcon,
+  Banknote,
+  CreditCard,
 } from 'lucide-react';
 import { driverPortalService } from '../../services/driverPortalService';
 import type { DeliveryAssignment, ProofOfDeliveryData } from '../../types/driverPortal';
@@ -44,6 +46,18 @@ export default function ProofOfDeliveryModal({
   const [photoData, setPhotoData] = useState<string | null>(null);
   const [photoName, setPhotoName] = useState<string | null>(null);
   const [step, setStep] = useState<'CAPTURE' | 'REVIEW'>('CAPTURE');
+
+  // COD Payment logic
+  const isCodOrder = Boolean(
+    delivery.isCod ||
+    delivery.paymentMethod === 'COD' ||
+    delivery.paymentMethod === 'CASH_ON_DELIVERY' ||
+    (delivery.paymentStatus === 'UNPAID' && !['CARD', 'UPI', 'NET_BANKING', 'PREPAID', 'STRIPE', 'RAZORPAY'].includes(delivery.paymentMethod || ''))
+  );
+  const isAlreadyPaid = delivery.paymentStatus === 'PAID';
+  const requiresCodCollection = isCodOrder && !isAlreadyPaid;
+  const codAmount = Number(delivery.codAmount ?? delivery.totalAmount ?? 0);
+  const [codConfirmed, setCodConfirmed] = useState(false);
 
   // Submitting states
   const [submitting, setSubmitting] = useState(false);
@@ -214,6 +228,10 @@ export default function ProofOfDeliveryModal({
   // Validation
   const handleProceedToReview = () => {
     setErrorMessage(null);
+    if (requiresCodCollection && !codConfirmed) {
+      setErrorMessage(`Please confirm cash collection of ₹${codAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })} from the recipient before proceeding.`);
+      return;
+    }
     if (!hasSignature || !signatureData) {
       setErrorMessage('Customer digital signature is required to complete delivery.');
       return;
@@ -241,6 +259,8 @@ export default function ProofOfDeliveryModal({
         photoUrl: photoData || undefined,
         notes: deliveryNotes.trim() || 'Direct doorstep delivery verified',
         deliveredAt: new Date().toISOString(),
+        codCollected: requiresCodCollection ? true : (isAlreadyPaid ? false : undefined),
+        collectedAmount: requiresCodCollection ? codAmount : undefined,
       };
 
       const completed = await driverPortalService.submitProofOfDelivery(delivery.id, payload);
@@ -371,6 +391,94 @@ export default function ProofOfDeliveryModal({
 
           {step === 'CAPTURE' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              {/* Payment / COD Collection Section */}
+              {requiresCodCollection ? (
+                <div
+                  style={{
+                    border: codConfirmed ? '2px solid #16a34a' : '2px solid #f59e0b',
+                    borderRadius: 12,
+                    backgroundColor: codConfirmed ? '#f0fdf4' : '#fffbeb',
+                    padding: '16px',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 800, color: codConfirmed ? '#166534' : '#92400e' }}>
+                      <Banknote size={20} style={{ color: codConfirmed ? '#16a34a' : '#d97706' }} />
+                      CASH ON DELIVERY (COD) COLLECTION
+                    </div>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 800,
+                        padding: '3px 10px',
+                        borderRadius: 12,
+                        backgroundColor: codConfirmed ? '#dcfce7' : '#fef3c7',
+                        color: codConfirmed ? '#15803d' : '#b45309',
+                        border: codConfirmed ? '1px solid #86efac' : '1px solid #fde68a',
+                      }}
+                    >
+                      {codConfirmed ? '✓ CASH COLLECTED' : 'REQUIRED BEFORE COMPLETION'}
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 12 }}>
+                    <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>Amount to Collect:</span>
+                    <span style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>
+                      ₹{codAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+
+                  <label
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 10,
+                      cursor: 'pointer',
+                      padding: '10px 12px',
+                      borderRadius: 8,
+                      backgroundColor: codConfirmed ? '#dcfce7' : '#ffffff',
+                      border: codConfirmed ? '1.5px solid #86efac' : '1.5px solid #cbd5e1',
+                      userSelect: 'none',
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={codConfirmed}
+                      onChange={(e) => {
+                        setCodConfirmed(e.target.checked);
+                        if (e.target.checked) setErrorMessage(null);
+                      }}
+                      style={{ marginTop: 2, accentColor: '#16a34a', width: 18, height: 18, cursor: 'pointer' }}
+                    />
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', lineHeight: 1.4 }}>
+                      I confirm that cash payment of ₹{codAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} has been collected in full from the recipient.
+                    </span>
+                  </label>
+                </div>
+              ) : isAlreadyPaid ? (
+                <div
+                  style={{
+                    border: '1px solid #bfdbfe',
+                    borderRadius: 10,
+                    backgroundColor: '#eff6ff',
+                    padding: '10px 14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CreditCard size={16} style={{ color: '#2563eb' }} />
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#1e40af' }}>
+                      Payment Method: Prepaid ({delivery.paymentMethod || 'Online'})
+                    </span>
+                  </div>
+                  <span style={{ fontSize: 11.5, fontWeight: 800, padding: '2px 8px', borderRadius: 12, backgroundColor: '#dbeafe', color: '#1d4ed8' }}>
+                    PAID (₹{(delivery.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})
+                  </span>
+                </div>
+              ) : null}
               {/* Recipient Field */}
               <div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 6 }}>
@@ -651,6 +759,40 @@ export default function ProofOfDeliveryModal({
                   </div>
                 )}
               </div>
+
+              {/* Payment Summary */}
+              {requiresCodCollection ? (
+                <div style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: 14 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#166534' }}>
+                      <Banknote size={15} style={{ color: '#16a34a' }} /> CASH ON DELIVERY (COD) COLLECTED
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: '#15803d', backgroundColor: '#dcfce7', padding: '2px 8px', borderRadius: 10 }}>
+                      ✓ VERIFIED
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 16, fontWeight: 900, color: '#14532d', marginTop: 4 }}>
+                    ₹{codAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                  <div style={{ fontSize: 12, color: '#166534', marginTop: 2 }}>
+                    Driver confirmed cash payment collected prior to final signoff.
+                  </div>
+                </div>
+              ) : isAlreadyPaid ? (
+                <div style={{ backgroundColor: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: 14 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#1e40af' }}>
+                      <CreditCard size={15} style={{ color: '#2563eb' }} /> PREPAID ORDER
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: '#1d4ed8', backgroundColor: '#dbeafe', padding: '2px 8px', borderRadius: 10 }}>
+                      PAID
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: '#1e3a8a', marginTop: 4 }}>
+                    ₹{(delivery.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
+              ) : null}
 
               {/* Signature Preview */}
               <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: 14 }}>

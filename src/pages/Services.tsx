@@ -3,27 +3,109 @@ import { Link, useLocation } from 'react-router-dom';
 import PublicHeader from '../components/public/PublicHeader';
 import PublicFooter from '../components/public/PublicFooter';
 import {
-  Truck, Warehouse, Radio, CheckCircle2, ArrowRight,
-  ShieldCheck, Clock, Navigation, MapPin, Package, Layers,
-  ReceiptText, BarChart3, ChevronRight, Phone, Shield, Check
+  ArrowRight,
+  Truck,
+  Warehouse,
+  ShieldCheck,
+  CheckCircle2,
+  Navigation,
+  Globe,
+  Sparkles,
+  Zap,
+  Package,
+  Clock,
+  Activity
 } from 'lucide-react';
 
-import roadFreightImg from '../assets/corporate_road_freight.jpg';
-import cargoWarehouseImg from '../assets/cargo_warehouse_terminal.jpg';
-import warehouseHubImg from '../assets/warehouse_3d_hub.jpg';
-import lastmileDeliveryImg from '../assets/lastmile_3d_delivery.jpg';
+// Varied high-quality realistic logistics photography
+import heroPortImg from '../assets/login_container_ship.jpg';
+import ftlImg from '../assets/corporate_road_freight.jpg';
+import ltlImg from '../assets/hero_real_highway_truck.jpg';
+import whDistImg from '../assets/cargo_warehouse_terminal.jpg';
+import lastMileImg from '../assets/lastmile_3d_delivery.jpg';
+import specializedImg from '../assets/hero_real_intermodal_cargo.jpg';
+
+const SERVICES_LIST = [
+  {
+    num: '01',
+    title: 'FULL TRUCKLOAD (FTL)',
+    subtitle: 'Dedicated National Linehaul',
+    image: ftlImg,
+    desc: 'Dedicated multi-axle vehicle capacity for large volume enterprise shipments with direct origin-to-destination corridor transit and expedited turnaround.',
+    features: [
+      'Point-to-point dedicated linehaul transport',
+      'Tamper-evident digital electronic seals',
+      'Predictive corridor transit benchmarks',
+      'Priority dock booking & weighbridge sync'
+    ],
+    link: '/solutions#transportation',
+  },
+  {
+    num: '02',
+    title: 'LESS THAN TRUCKLOAD (LTL)',
+    subtitle: 'Consolidated Commercial Freight',
+    image: ltlImg,
+    desc: 'Cost-effective consolidated freight transport with dynamic regional cross-dock sorting, barcode scanning, and multi-shipper capacity optimization.',
+    features: [
+      'Volumetric weight rate calculations',
+      'Cross-dock transshipment staging hubs',
+      'Scheduled departure linehaul corridors',
+      'Full consignment milestone visibility'
+    ],
+    link: '/solutions#transportation',
+  },
+  {
+    num: '03',
+    title: 'WAREHOUSE & DISTRIBUTION',
+    subtitle: 'Multi-Hub Staging & Fulfillment',
+    image: whDistImg,
+    desc: 'Scalable multi-hub warehousing infrastructure equipped with dynamic bin slotting, safety inventory thresholds, and automated dock dispatch manifests.',
+    features: [
+      'Real-time SKU & pallet count tracking',
+      'Barcode inward receiving & QA inspection',
+      'Safety stock automated reorder triggers',
+      'Consolidation staging & outbound staging bays'
+    ],
+    link: '/solutions#warehouse',
+  },
+  {
+    num: '04',
+    title: 'LAST-MILE DELIVERY',
+    subtitle: 'Urban & Doorstep Distribution',
+    image: lastMileImg,
+    desc: 'Precision doorstep delivery tailored for urban distribution, featuring recipient notification alerts, electronic Proof of Delivery (ePOD), and instant billing.',
+    features: [
+      'Turn-by-turn mobile driver route execution',
+      'Recipient OTP & digital signature capture',
+      'Automated customer SMS arrival alerts',
+      'Instant GST invoice receipt downloads'
+    ],
+    link: '/solutions#fleet',
+  },
+  {
+    num: '05',
+    title: 'SPECIALIZED CARGO',
+    subtitle: 'Secured & High-Value Transit',
+    image: specializedImg,
+    desc: 'Special handling protocols for sensitive, oversized, or high-value cargo with specialized tie-down equipment, escort telemetry, and insured protection.',
+    features: [
+      'Heavy machinery & oversized freight permits',
+      'High-security GPS telemetry tracking',
+      'Dedicated handling & fragile goods protocols',
+      'Comprehensive transit protection coverage'
+    ],
+    link: '/contact',
+  },
+];
 
 export default function Services() {
   const location = useLocation();
 
-  // Support smooth scrolling to anchor hash if present
   useEffect(() => {
     if (location.hash) {
       const el = document.querySelector(location.hash);
       if (el) {
-        setTimeout(() => {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 100);
       }
     } else {
       window.scrollTo(0, 0);
@@ -31,314 +113,135 @@ export default function Services() {
   }, [location]);
 
   return (
-    <div className="pr-public-site">
+    <div className="editorial-root">
       <PublicHeader />
+
       <main>
-        {/* ========================================================
-            1. HERO SECTION (LIGHT ENTERPRISE THEME)
-            ======================================================== */}
-        <section
-          style={{
-            padding: '48px 0 64px',
-            background: 'linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%)',
-            borderBottom: '1px solid #e2e8f0',
-          }}
-        >
-          <div className="pr-container">
-            <div style={{ maxWidth: '780px' }}>
-              <div className="pr-hero-badge-corporate" style={{ marginBottom: '16px' }}>
-                <span className="pr-live-dot"></span>
-                <span>COMMERCIAL LOGISTICS PORTFOLIO</span>
+        {/* ── 1. EDITORIAL HERO ── */}
+        <section className="editorial-page-hero">
+          <div className="editorial-page-hero-media">
+            <img
+              src={heroPortImg}
+              alt="PrimeRoute Cargo Ship and Container Terminal"
+              className="editorial-page-hero-img"
+            />
+          </div>
+          <div className="editorial-page-hero-overlay" />
+
+          <div className="editorial-page-hero-container">
+            <div className="editorial-page-hero-content">
+              <div className="editorial-page-hero-label">
+                OUR SERVICES
               </div>
 
-              <h1
-                style={{
-                  fontSize: 'clamp(32px, 4.2vw, 48px)',
-                  fontWeight: 800,
-                  color: '#0f172a',
-                  lineHeight: 1.18,
-                  letterSpacing: '-0.02em',
-                  margin: '0 0 16px',
-                }}
-              >
-                End-to-End Transportation & Freight Services.
+              <h1 className="editorial-page-hero-title">
+                FLEXIBLE SERVICES<br />
+                <span className="blue-highlight">FOR A CONNECTED WORLD.</span>
               </h1>
 
-              <p
-                style={{
-                  fontSize: '17px',
-                  color: '#475569',
-                  lineHeight: 1.65,
-                  margin: '0 0 28px',
-                }}
-              >
-                From nationwide full truckload linehauls and automated warehouse hubs to connected fleet telematics and precision last-mile delivery, PrimeRoute provides reliable, scalable logistics services tailored for high-growth enterprises.
+              <p className="editorial-page-hero-desc">
+                From full truckload to last-mile delivery, we provide flexible and reliable logistics services tailored to your business needs.
               </p>
 
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                 <a
-                  href="#road-freight"
-                  className="pr-btn-primary"
-                  style={{ padding: '12px 26px', fontSize: '14.5px' }}
-                >
-                  <span>Explore Road Freight</span>
-                  <ArrowRight size={15} />
-                </a>
-                <Link
-                  to="/contact"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '12px 24px',
-                    borderRadius: '8px',
-                    background: '#ffffff',
-                    border: '1px solid #cbd5e1',
-                    color: '#1e293b',
-                    fontWeight: 600,
-                    fontSize: '14.5px',
-                    textDecoration: 'none',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                  href="#services-list"
+                  className="editorial-btn-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('services-list')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  <span>Request Custom Quote</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Quick Anchor Jump Bar */}
-        <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '14px 0' }}>
-          <div className="pr-container">
-            <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '4px' }}>
-              <a href="#road-freight" style={{ color: '#2563eb', fontWeight: 600, fontSize: '14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                1. Road Freight & Linehaul
-              </a>
-              <span style={{ color: '#cbd5e1' }}>•</span>
-              <a href="#warehouse" style={{ color: '#475569', fontWeight: 600, fontSize: '14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                2. Warehouse Hub Operations
-              </a>
-              <span style={{ color: '#cbd5e1' }}>•</span>
-              <a href="#telematics" style={{ color: '#475569', fontWeight: 600, fontSize: '14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                3. Fleet & Driver Telematics
-              </a>
-              <span style={{ color: '#cbd5e1' }}>•</span>
-              <a href="#last-mile" style={{ color: '#475569', fontWeight: 600, fontSize: '14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                4. Last-Mile Delivery
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================
-            2. SERVICE 1: ROAD FREIGHT & LINEHAUL
-            ======================================================== */}
-        <section id="road-freight" style={{ padding: '80px 0', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '48px', alignItems: 'center' }}>
-              <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#2563eb', background: '#eff6ff', padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', marginBottom: '12px' }}>
-                  <Truck size={14} />
-                  <span>LINEHAUL CORRIDORS</span>
-                </div>
-                <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: '0 0 16px' }}>
-                  Road Freight (FTL & LTL Linehaul)
-                </h2>
-                <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.65, margin: '0 0 20px' }}>
-                  Nationwide full truckload (FTL) and less-than-truckload (LTL) scheduled runs across high-density national highway corridors. Guaranteed departure windows, verified security seals, and continuous transit monitoring.
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#2563eb" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>High-Capacity Multi-Axle Trailers & Dry Vans (18T - 40T)</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#2563eb" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Corridor Express Toll Sync & FASTag Automated Clearance</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#2563eb" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Real-time GPS Tracking & Speed Telematics Monitoring</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#2563eb" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>GST E-Way Bill & Digital Bill of Lading Integration</span>
-                  </div>
-                </div>
-
-                <Link to="/tracking" className="pr-btn-primary" style={{ display: 'inline-flex', padding: '11px 22px', fontSize: '14px' }}>
-                  <span>Track Active Consignment</span>
+                  <span>EXPLORE SERVICES</span>
+                  <ArrowRight size={15} />
+                </a>
+                <Link to="/register" className="editorial-btn-outline-light">
+                  <span>GET STARTED</span>
                   <ArrowRight size={15} />
                 </Link>
               </div>
+            </div>
+          </div>
+        </section>
 
+        {/* ── 2. DARK NAVY STATISTICS STRIP ── */}
+        <section className="editorial-dark-stats">
+          <div className="editorial-container">
+            <div className="editorial-stats-grid">
               <div>
-                <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.08)' }}>
-                  <img src={roadFreightImg} alt="Road Freight" style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }} />
-                </div>
+                <div className="editorial-stat-num">98.6%</div>
+                <div className="editorial-stat-label">ON-TIME DELIVERY</div>
+              </div>
+              <div>
+                <div className="editorial-stat-num">24/7</div>
+                <div className="editorial-stat-label">OPERATIONS SUPPORT</div>
+              </div>
+              <div>
+                <div className="editorial-stat-num">1,248+</div>
+                <div className="editorial-stat-label">ACTIVE SHIPMENTS</div>
+              </div>
+              <div>
+                <div className="editorial-stat-num">PAN-INDIA</div>
+                <div className="editorial-stat-label">CONNECTED NETWORK</div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ========================================================
-            3. SERVICE 2: WAREHOUSE OPERATIONS
-            ======================================================== */}
-        <section id="warehouse" style={{ padding: '80px 0', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '48px', alignItems: 'center' }}>
-              <div style={{ order: 2 }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#059669', background: '#ecfdf5', padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', marginBottom: '12px' }}>
-                  <Warehouse size={14} />
-                  <span>HUB LOGISTICS</span>
-                </div>
-                <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: '0 0 16px' }}>
-                  Warehouse & Terminal Hub Operations
-                </h2>
-                <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.65, margin: '0 0 20px' }}>
-                  Strategic cross-docking facilities, staging bays, and automated inventory classification. Monitor pallet capacity, minimum safety thresholds, and incoming/outgoing dispatch schedules with zero paperwork friction.
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#059669" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Multi-Hub Inventory Tracking & Zone Allocation (Bay 1A - 8F)</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#059669" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Automated Low Stock & Buffer Capacity Alert Triggers</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#059669" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Cross-Dock Turnaround SLA Under 4 Hours</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#059669" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Dedicated Warehouse Manager Workstations & Role Portals</span>
-                  </div>
-                </div>
-
-                <Link to="/portals" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '11px 22px', borderRadius: '8px', background: '#059669', color: '#ffffff', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>
-                  <span>Explore Warehouse System</span>
-                  <ArrowRight size={15} />
-                </Link>
+        {/* ── 3. SERVICES TIERS (PHOTOGRAPHY GRID) ── */}
+        <section style={{ padding: '96px 0', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }} id="services-list">
+          <div className="editorial-container">
+            <div>
+              <div className="editorial-section-tag">
+                <Sparkles size={13} />
+                <span>COMMERCIAL PORTFOLIO</span>
               </div>
-
-              <div style={{ order: 1 }}>
-                <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.08)' }}>
-                  <img src={cargoWarehouseImg} alt="Warehouse Operations" style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }} />
-                </div>
-              </div>
+              <h2 style={{ fontFamily: 'var(--pr-font-display)', fontSize: 'clamp(2.6rem, 5vw, 4.4rem)', color: '#070b14', textTransform: 'uppercase', margin: 0, letterSpacing: '0.02em', lineHeight: 0.95 }}>
+                CORE FREIGHT CAPABILITIES
+              </h2>
+              <p style={{ fontSize: '16px', color: '#64748b', maxWidth: '640px', margin: '12px 0 0', lineHeight: 1.6 }}>
+                Tailored commercial logistics services powered by real-time telematics, verified drivers, and automated digital paperwork.
+              </p>
             </div>
-          </div>
-        </section>
 
-        {/* ========================================================
-            4. SERVICE 3: FLEET & DRIVER TELEMATICS
-            ======================================================== */}
-        <section id="telematics" style={{ padding: '80px 0', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '48px', alignItems: 'center' }}>
-              <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#7c3aed', background: '#f5f3ff', padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', marginBottom: '12px' }}>
-                  <Radio size={14} />
-                  <span>CONNECTED ASSETS</span>
-                </div>
-                <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: '0 0 16px' }}>
-                  Fleet Management & Telematics
-                </h2>
-                <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.65, margin: '0 0 20px' }}>
-                  Full lifecycle visibility across your commercial vehicular assets. Monitor driver duty logs (HOS), fuel efficiency benchmarks, speed thresholds, and proactive maintenance alerts from a synchronized command center.
-                </p>
+            <div className="editorial-services-grid">
+              {SERVICES_LIST.map((srv) => (
+                <div key={srv.num} className="editorial-service-tile">
+                  <div className="editorial-service-tile-img-wrap">
+                    <img src={srv.image} alt={srv.title} className="editorial-service-tile-img" />
+                    <div style={{ position: 'absolute', bottom: '12px', left: '12px', background: 'rgba(7,11,20,0.85)', backdropFilter: 'blur(8px)', color: '#ffffff', padding: '4px 10px', borderRadius: '4px', fontSize: '10px', fontWeight: 800, letterSpacing: '0.12em' }}>
+                      {srv.subtitle}
+                    </div>
+                  </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#7c3aed" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Live Driver Status, Waypoint Telemetry & Idle Time Alerts</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#7c3aed" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Commercial Fleet Vehicle Health & Service Scheduling</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#7c3aed" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Driver Smartphone App with Turn-by-Turn GPS Navigation</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#7c3aed" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Odometer, Fuel Efficiency & Insurance Compliance Audit</span>
+                  <div className="editorial-service-tile-body">
+                    <div className="editorial-service-num">{srv.num}</div>
+                    <h3 className="editorial-service-tile-title">{srv.title}</h3>
+                    <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.55, margin: '0 0 16px', flex: 1 }}>
+                      {srv.desc}
+                    </p>
+
+                    <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '14px', marginBottom: '20px' }}>
+                      {srv.features.map((feat, idx) => (
+                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', color: '#334155', fontWeight: 600, marginBottom: '6px' }}>
+                          <CheckCircle2 size={14} color="#0284c7" />
+                          <span>{feat}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <Link to={srv.link} className="editorial-btn-primary" style={{ padding: '10px 18px', fontSize: '11.5px', justifyContent: 'center' }}>
+                      <span>EXPLORE SERVICE</span>
+                      <ArrowRight size={13} className="btn-arrow" />
+                    </Link>
                   </div>
                 </div>
-
-                <Link to="/platform" className="pr-btn-primary" style={{ display: 'inline-flex', padding: '11px 22px', fontSize: '14px' }}>
-                  <span>View Telematics Platform</span>
-                  <ArrowRight size={15} />
-                </Link>
-              </div>
-
-              <div>
-                <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.08)' }}>
-                  <img src={warehouseHubImg} alt="Fleet Telematics" style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================
-            5. SERVICE 4: LAST-MILE DISTRIBUTION
-            ======================================================== */}
-        <section id="last-mile" style={{ padding: '80px 0', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '48px', alignItems: 'center' }}>
-              <div style={{ order: 2 }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#d97706', background: '#fffbeb', padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', marginBottom: '12px' }}>
-                  <Package size={14} />
-                  <span>PRECISION DELIVERY</span>
-                </div>
-                <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: '0 0 16px' }}>
-                  Last-Mile Distribution & ePOD Handover
-                </h2>
-                <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.65, margin: '0 0 20px' }}>
-                  Guaranteed final destination delivery with recipient verification, electronic Proof of Delivery (ePOD), customer OTP validation, and immediate automated GST tax invoice settlement.
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#d97706" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Secure Recipient Handover with 6-Digit Verification OTP</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#d97706" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Digital Signature Capture & Geotagged Proof-of-Delivery</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#d97706" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>Instant PDF GST Invoice Generation & Email Dispatch</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle2 size={18} color="#d97706" />
-                    <span style={{ fontSize: '14.5px', color: '#1e293b', fontWeight: 500 }}>99.2% First-Attempt Delivery Success SLA</span>
-                  </div>
-                </div>
-
-                <Link to="/contact" className="pr-btn-primary" style={{ display: 'inline-flex', padding: '11px 22px', fontSize: '14px' }}>
-                  <span>Book Consignment Service</span>
-                  <ArrowRight size={15} />
-                </Link>
-              </div>
-
-              <div style={{ order: 1 }}>
-                <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.08)' }}>
-                  <img src={lastmileDeliveryImg} alt="Last Mile Delivery" style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }} />
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
       </main>
+
       <PublicFooter />
     </div>
   );

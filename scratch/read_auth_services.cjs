@@ -1,21 +1,10 @@
 const fs = require('fs');
-const path = require('path');
 
-const backendDir = "C:\\Users\\shrut\\Documents\\workspace-spring-tools-for-eclipse-5.0.0.RELEASE\\Logistics-management";
+const resetFile = 'C:\\Users\\shrut\\Documents\\workspace-spring-tools-for-eclipse-5.0.0.RELEASE\\Logistics-management\\src\\main\\java\\com\\primeroute\\logistics\\service\\ResetPasswordService.java';
+const forgotFile = 'C:\\Users\\shrut\\Documents\\workspace-spring-tools-for-eclipse-5.0.0.RELEASE\\Logistics-management\\src\\main\\java\\com\\primeroute\\logistics\\service\\ForgotPasswordService.java';
 
-function printFile(relPath) {
-    const full = path.join(backendDir, relPath);
-    console.log(`\n======================================================`);
-    console.log(`=== FILE: ${relPath} ===`);
-    console.log(`======================================================`);
-    if (fs.existsSync(full)) {
-        console.log(fs.readFileSync(full, 'utf8'));
-    } else {
-        console.log("FILE NOT FOUND!");
-    }
-}
+console.log('=== ResetPasswordService.java ===');
+console.log(fs.readFileSync(resetFile, 'utf8'));
 
-printFile('src/main/java/com/primeroute/logistics/controller/AuthController.java');
-printFile('src/main/java/com/primeroute/logistics/service/ForgotPasswordService.java');
-printFile('src/main/java/com/primeroute/logistics/service/ResetPasswordService.java');
-printFile('src/main/java/com/primeroute/logistics/service/AuthService.java');
+console.log('=== ForgotPasswordService.java ===');
+console.log(fs.readFileSync(forgotFile, 'utf8'));

@@ -6,6 +6,9 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+import { validateEmail } from '../utils/validation';
+import BrandLogo from '../components/common/BrandLogo';
+
 export default function SignIn() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,9 +38,9 @@ export default function SignIn() {
       setErrorMessage('Please enter your email address.');
       return false;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      setErrorMessage('Please enter a valid email address format.');
+    const emailRes = validateEmail(email);
+    if (!emailRes.isValid) {
+      setErrorMessage(emailRes.error || 'Please enter a valid email address.');
       return false;
     }
     if (!password) {
@@ -58,7 +61,7 @@ export default function SignIn() {
     setIsLoading(true);
 
     try {
-      const result = await login(email, password, rememberMe);
+      const result = await login(email.trim().toLowerCase(), password.trim(), rememberMe);
 
       if (!result.success || !result.user) {
         setErrorMessage(result.error || 'Invalid email or password.');
@@ -145,15 +148,7 @@ export default function SignIn() {
           boxSizing: 'border-box',
         }}
       >
-        <Link to="/" className="pr-brand">
-          <div className="pr-logo-mark">
-            <span>PR</span>
-          </div>
-          <div className="pr-brand-text">
-            <span className="pr-brand-name">PrimeRoute</span>
-            <span className="pr-brand-tagline">Logistics</span>
-          </div>
-        </Link>
+        <BrandLogo size="md" />
 
         <Link
           to="/"

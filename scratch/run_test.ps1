@@ -4,4 +4,4 @@ $BACKEND_DIR = "C:\Users\shrut\Documents\workspace-spring-tools-for-eclipse-5.0.
 $env:JAVA_HOME = $STS_JDK
 $env:Path = "$STS_JDK\bin;" + $env:Path
 
-& "$BACKEND_DIR\mvnw.cmd" -f "$BACKEND_DIR\pom.xml" test
+& "$BACKEND_DIR\mvnw.cmd" -f "$BACKEND_DIR\pom.xml" test -Dtest=CustomerRegistrationAndLoginValidationTest

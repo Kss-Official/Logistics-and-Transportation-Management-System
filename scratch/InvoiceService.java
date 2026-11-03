@@ -1,5 +1,7 @@
 package com.primeroute.logistics.service;
 
+import com.primeroute.logistics.dto.OrderItemDTO;
+
 import com.primeroute.logistics.dto.*;
 import com.primeroute.logistics.entity.*;
 import com.primeroute.logistics.exception.ResourceNotFoundException;
@@ -83,24 +85,27 @@ public class InvoiceService {
         String method = order.getPaymentMethod() != null ? order.getPaymentMethod().name() : null;
         invoice.setPaymentMethod(method);
 
-        // Set status based on order state
+        // Set status strictly based on authoritative payment/order state (NO auto-PAID from DELIVERED)
+        PaymentStatus initialPaymentStatus = order.getPaymentStatus();
+        if (initialPaymentStatus == null) {
+            initialPaymentStatus = (order.getPaymentMethod() != null && order.getPaymentMethod() != PaymentMethod.COD)
+                    ? PaymentStatus.PAID : PaymentStatus.UNPAID;
+        }
+        invoice.setPaymentStatus(initialPaymentStatus);
+
         if (order.getStatus() == OrderStatus.CANCELLED) {
             invoice.setInvoiceStatus(InvoiceStatus.CANCELLED);
-            invoice.setPaymentStatus(PaymentStatus.UNPAID);
             invoice.setAmountPaid(0.0);
             invoice.setBalanceDue(totalAmount);
-        } else if (order.getStatus() == OrderStatus.DELIVERED) {
+        } else if (initialPaymentStatus == PaymentStatus.PAID) {
             invoice.setInvoiceStatus(InvoiceStatus.PAID);
-            invoice.setPaymentStatus(PaymentStatus.PAID);
-            if (invoice.getPaymentMethod() == null) {
-                invoice.setPaymentMethod("UPI");
-            }
             invoice.setAmountPaid(totalAmount);
             invoice.setBalanceDue(0.0);
-            invoice.setPaymentDate(LocalDate.now());
+            if (invoice.getPaymentDate() == null) {
+                invoice.setPaymentDate(LocalDate.now());
+            }
         } else {
             invoice.setInvoiceStatus(InvoiceStatus.ISSUED);
-            invoice.setPaymentStatus(PaymentStatus.UNPAID);
             invoice.setAmountPaid(0.0);
             invoice.setBalanceDue(totalAmount);
         }
@@ -119,13 +124,26 @@ public class InvoiceService {
     }
 
     private double calculateSubtotal(Order order) {
+        if (order.getSubtotal() != null && order.getSubtotal() > 0) {
+            return order.getSubtotal();
+        }
         double weight = order.getPackageWeight() != null ? order.getPackageWeight() : 1.0;
         int qty = order.getPackageQuantity() != null ? order.getPackageQuantity() : 1;
         double baseFee = order.getBaseFee() != null ? order.getBaseFee() : 250.0;
         double weightCharge = order.getWeightCharge() != null ? order.getWeightCharge() : (weight * 38.0 * qty);
         double surcharge = order.getPrioritySurcharge() != null ? order.getPrioritySurcharge() : 0.0;
-        double mult = (order.getDeliveryType() != null && order.getDeliveryType() == DeliveryType.EXPRESS) ? 1.6 : 1.0;
-        return Math.round((baseFee + weightCharge + surcharge) * mult * 100.0) / 100.0;
+        if (surcharge > 0) {
+            return Math.round((baseFee + weightCharge + surcharge) * 100.0) / 100.0;
+        }
+        double mult = 1.0;
+        if (order.getDeliveryType() != null) {
+            switch (order.getDeliveryType()) {
+                case SAME_DAY -> mult = 2.2;
+                case EXPRESS -> mult = 1.6;
+                default -> mult = 1.0;
+            }
+        }
+        return Math.round((baseFee + weightCharge) * mult * 100.0) / 100.0;
     }
 
     private String generateUniqueInvoiceNumber(Order order) {
@@ -164,22 +182,19 @@ public class InvoiceService {
     }
 
     public InvoiceSummaryDTO getInvoiceSummary() {
-        // Ensure synchronization first
-        List<Order> orders = orderRepository.findAll();
-        for (Order o : orders) {
-            getOrCreateInvoiceForOrder(o);
-        }
+        Long totalCount = invoiceRepository.countTotalInvoices();
+        Double totalBilled = invoiceRepository.sumTotalBilled();
+        Double paidAmount = invoiceRepository.sumPaidAmount();
+        Double outstanding = invoiceRepository.sumOutstandingAmount();
+        Double overdue = invoiceRepository.sumOverdueAmount();
 
-        List<Invoice> all = invoiceRepository.findAll();
-        long totalCount = all.size();
-        double totalBilled = all.stream().mapToDouble(i -> i.getTotalAmount() != null ? i.getTotalAmount() : 0.0).sum();
-        double paidAmount = all.stream().mapToDouble(i -> i.getAmountPaid() != null ? i.getAmountPaid() : 0.0).sum();
-        double outstanding = all.stream().mapToDouble(i -> i.getBalanceDue() != null ? i.getBalanceDue() : 0.0).sum();
-        double overdue = all.stream()
-                .filter(i -> i.getDueDate() != null && i.getDueDate().isBefore(LocalDate.now()) && i.getInvoiceStatus() != InvoiceStatus.PAID && i.getInvoiceStatus() != InvoiceStatus.CANCELLED)
-                .mapToDouble(i -> i.getBalanceDue() != null ? i.getBalanceDue() : 0.0).sum();
-
-        return new InvoiceSummaryDTO(totalCount, totalBilled, paidAmount, outstanding, overdue);
+        return new InvoiceSummaryDTO(
+                totalCount != null ? totalCount : 0L,
+                totalBilled != null ? totalBilled : 0.0,
+                paidAmount != null ? paidAmount : 0.0,
+                outstanding != null ? outstanding : 0.0,
+                overdue != null ? overdue : 0.0
+        );
     }
 
     public AdminInvoiceResponseDTO createInvoice(CreateInvoiceRequest req) {
@@ -325,6 +340,22 @@ public class InvoiceService {
             if (i.getOrder().getDeliveryAddress() != null) {
                 dto.setDeliveryAddress(formatAddress(i.getOrder().getDeliveryAddress()));
             }
+            if (i.getOrder().getItems() != null && !i.getOrder().getItems().isEmpty()) {
+                List<OrderItemDTO> itemDtos = i.getOrder().getItems().stream()
+                        .map(item -> new OrderItemDTO(
+                                item.getId(),
+                                item.getProduct() != null ? item.getProduct().getId() : null,
+                                item.getProduct() != null ? item.getProduct().getSku() : null,
+                                item.getProduct() != null ? item.getProduct().getName() : (i.getOrder().getPackageDescription() != null ? i.getOrder().getPackageDescription() : "Consignment Item"),
+                                item.getProduct() != null ? (item.getProduct().getCategory() != null ? item.getProduct().getCategory() : null) : null,
+                                item.getQuantity(),
+                                item.getUnitWeight(),
+                                item.getUnitPrice() != null ? item.getUnitPrice() : (item.getProduct() != null ? item.getProduct().getUnitPrice() : 0.0),
+                                item.getTotalWeight()
+                        ))
+                        .collect(Collectors.toList());
+                dto.setItems(itemDtos);
+            }
         }
 
         if (i.getShipment() != null) {
@@ -342,8 +373,12 @@ public class InvoiceService {
         dto.setTotalAmount(i.getTotalAmount());
         dto.setCurrency(i.getCurrency());
         dto.setInvoiceStatus(i.getInvoiceStatus());
-        dto.setPaymentStatus(i.getPaymentStatus());
-        dto.setPaymentMethod(i.getPaymentMethod());
+        dto.setPaymentStatus(i.getPaymentStatus() != null ? i.getPaymentStatus() : PaymentStatus.UNPAID);
+        String pMethod = i.getPaymentMethod();
+        if ((pMethod == null || pMethod.isBlank()) && i.getOrder() != null && i.getOrder().getPaymentMethod() != null) {
+            pMethod = i.getOrder().getPaymentMethod().name();
+        }
+        dto.setPaymentMethod(pMethod);
         dto.setTransactionId(i.getTransactionId());
         dto.setPaymentDate(i.getPaymentDate());
         dto.setAmountPaid(i.getAmountPaid());

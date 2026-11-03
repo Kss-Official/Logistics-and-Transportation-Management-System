@@ -8,6 +8,8 @@ import { useAuth } from '../context/AuthContext';
 import PortalLoginLayout from '../components/auth/PortalLoginLayout';
 import loginContainerShip from '../assets/login_container_ship.jpg';
 
+import { validateEmail } from '../utils/validation';
+
 export default function SignInCustomer() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,11 +45,13 @@ export default function SignInCustomer() {
       setErrorMessage('Please enter your email address.');
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
-      setErrorMessage('Please enter a valid email address.');
+    const emailRes = validateEmail(cleanEmail);
+    if (!emailRes.isValid) {
+      setErrorMessage(emailRes.error || 'Please enter a valid email address.');
       return;
     }
-    if (!password) {
+    const cleanPassword = password.trim();
+    if (!cleanPassword) {
       setErrorMessage('Please enter your password.');
       return;
     }
@@ -55,7 +59,7 @@ export default function SignInCustomer() {
     setIsLoading(true);
 
     try {
-      const result = await login(cleanEmail, password, rememberMe);
+      const result = await login(cleanEmail, cleanPassword, rememberMe);
 
       if (!result.success || !result.user) {
         setErrorMessage(result.error || 'Invalid email or password.');

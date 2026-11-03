@@ -95,8 +95,10 @@ export default function AppRoutes() {
       <Route path="/solutions" element={<Solutions />} />
       <Route path="/services" element={<Services />} />
       <Route path="/platform" element={<Platform />} />
+      <Route path="/technology" element={<Platform />} />
       <Route path="/tracking" element={<Tracking />} />
       <Route path="/about" element={<About />} />
+      <Route path="/about-us" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/portals" element={<Portals />} />
       <Route path="/faq" element={<FAQPage />} />

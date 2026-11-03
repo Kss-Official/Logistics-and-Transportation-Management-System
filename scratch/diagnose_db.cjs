@@ -38,6 +38,7 @@ async function main() {
     console.table(actDrv.rows);
 
     console.log('\n=== ACTIVE SHIPMENTS BY VEHICLE ===');
+    
     const actVeh = await client.query("SELECT id, tracking_number, vehicle_id, operational_stage, status FROM shipments WHERE vehicle_id IS NOT NULL AND status NOT IN ('DELIVERED', 'CANCELLED')");
     console.table(actVeh.rows);
 

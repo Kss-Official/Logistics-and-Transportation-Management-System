@@ -429,14 +429,14 @@ export default function DriverDashboard() {
             </div>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <button
-                onClick={() => navigate('/driver/current-delivery')}
+                onClick={() => navigate(activeDelivery?.id ? `/driver/current-delivery?id=${encodeURIComponent(activeDelivery.id)}` : '/driver/current-delivery')}
                 className="driver-btn-primary"
                 style={{ padding: '9px 18px', fontSize: 13, fontWeight: 800, letterSpacing: '0.03em' }}
               >
                 VIEW DELIVERY
               </button>
               <button
-                onClick={() => navigate('/driver/route')}
+                onClick={() => navigate(activeDelivery?.id ? `/driver/route?id=${encodeURIComponent(activeDelivery.id)}` : '/driver/route')}
                 className="driver-btn-secondary"
                 style={{ padding: '9px 18px', fontSize: 13, fontWeight: 800, letterSpacing: '0.03em' }}
               >

@@ -1,23 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 
-const backendDir = 'C:\\Users\\shrut\\Documents\\workspace-spring-tools-for-eclipse-5.0.0.RELEASE\\Logistics-management';
-const testDir = path.join(backendDir, 'src', 'test', 'java');
+const testDir = 'C:\\Users\\shrut\\Documents\\workspace-spring-tools-for-eclipse-5.0.0.RELEASE\\Logistics-management\\src\\test\\java';
 
-function listFiles(dir) {
+function walk(dir) {
+  if (!fs.existsSync(dir)) return [];
   let results = [];
   const list = fs.readdirSync(dir);
   list.forEach(file => {
-    file = path.join(dir, file);
-    const stat = fs.statSync(file);
+    const full = path.join(dir, file);
+    const stat = fs.statSync(full);
     if (stat && stat.isDirectory()) {
-      results = results.concat(listFiles(file));
+      results = results.concat(walk(full));
     } else {
-      results.push(file);
+      results.push(full);
     }
   });
   return results;
 }
 
-console.log('=== TEST FILES ===');
-console.log(listFiles(testDir).map(f => path.relative(testDir, f)));
+console.log(walk(testDir));

@@ -1,9 +1,12 @@
 package com.primeroute.logistics.controller;
 
+import com.primeroute.logistics.dto.OrderItemDTO;
+
 import com.primeroute.logistics.dto.ApiResponse;
 import com.primeroute.logistics.dto.InvoiceDTO;
 import com.primeroute.logistics.entity.Invoice;
 import com.primeroute.logistics.entity.InvoiceStatus;
+import com.primeroute.logistics.entity.PaymentStatus;
 import com.primeroute.logistics.entity.Order;
 import com.primeroute.logistics.entity.User;
 import com.primeroute.logistics.exception.ResourceNotFoundException;
@@ -21,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -143,8 +147,6 @@ public class InvoiceController {
         String status = "UNPAID";
         if (invoice.getPaymentStatus() != null) {
             status = invoice.getPaymentStatus().name();
-        } else if (invoice.getInvoiceStatus() == InvoiceStatus.PAID) {
-            status = "PAID";
         } else if (invoice.getInvoiceStatus() == InvoiceStatus.CANCELLED) {
             status = "CANCELLED";
         }
@@ -159,6 +161,16 @@ public class InvoiceController {
             destination = invoice.getOrder().getDeliveryAddress().getCity() + ", " + invoice.getOrder().getDeliveryAddress().getState();
         }
 
+        PaymentStatus pStatus = invoice.getPaymentStatus();
+        if (pStatus == null && invoice.getOrder() != null && invoice.getOrder().getPaymentStatus() != null) {
+            pStatus = invoice.getOrder().getPaymentStatus();
+        }
+        if (pStatus == null) {
+            pStatus = PaymentStatus.UNPAID;
+        }
+
+        String effectivePaymentStatus = pStatus.name();
+
         InvoiceDTO dto = new InvoiceDTO(
                 invoiceNumber,
                 orderNumber,
@@ -166,19 +178,50 @@ public class InvoiceController {
                 total,
                 sub,
                 tax,
-                status,
+                effectivePaymentStatus,
                 issueDate,
                 dueDate,
                 recipient,
                 destination
         );
 
-        dto.setPaymentStatus(invoice.getPaymentStatus() != null ? invoice.getPaymentStatus().name() : status);
-        dto.setPaymentMethod(invoice.getPaymentMethod());
+        dto.setPaymentStatus(effectivePaymentStatus);
+        dto.setStatus(effectivePaymentStatus);
+
+        String pMethod = invoice.getPaymentMethod();
+        if ((pMethod == null || pMethod.isBlank()) && invoice.getOrder() != null && invoice.getOrder().getPaymentMethod() != null) {
+            pMethod = invoice.getOrder().getPaymentMethod().name();
+        }
+        dto.setPaymentMethod(pMethod);
         dto.setTransactionId(invoice.getTransactionId());
-        dto.setPaymentDate(invoice.getPaymentDate());
-        dto.setAmountPaid(invoice.getAmountPaid());
-        dto.setBalanceDue(invoice.getBalanceDue());
+
+        LocalDate pDate = invoice.getPaymentDate();
+        if (pDate == null && pStatus == PaymentStatus.PAID) {
+            pDate = invoice.getCreatedAt() != null ? invoice.getCreatedAt().toLocalDate() : LocalDate.now();
+        }
+        dto.setPaymentDate(pDate);
+
+        double amtPaid = invoice.getAmountPaid() != null ? invoice.getAmountPaid() : (pStatus == PaymentStatus.PAID ? total : 0.0);
+        double balDue = invoice.getBalanceDue() != null ? invoice.getBalanceDue() : Math.max(0.0, total - amtPaid);
+        dto.setAmountPaid(amtPaid);
+        dto.setBalanceDue(balDue);
+
+        if (invoice.getOrder() != null && invoice.getOrder().getItems() != null && !invoice.getOrder().getItems().isEmpty()) {
+            List<OrderItemDTO> itemDtos = invoice.getOrder().getItems().stream()
+                    .map(item -> new OrderItemDTO(
+                            item.getId(),
+                            item.getProduct() != null ? item.getProduct().getId() : null,
+                            item.getProduct() != null ? item.getProduct().getSku() : null,
+                            item.getProduct() != null ? item.getProduct().getName() : (invoice.getOrder().getPackageDescription() != null ? invoice.getOrder().getPackageDescription() : "Consignment Item"),
+                            item.getProduct() != null ? (item.getProduct().getCategory() != null ? item.getProduct().getCategory() : null) : null,
+                            item.getQuantity(),
+                            item.getUnitWeight(),
+                            item.getUnitPrice() != null ? item.getUnitPrice() : (item.getProduct() != null ? item.getProduct().getUnitPrice() : 0.0),
+                            item.getTotalWeight()
+                    ))
+                    .collect(Collectors.toList());
+            dto.setItems(itemDtos);
+        }
 
         return dto;
     }

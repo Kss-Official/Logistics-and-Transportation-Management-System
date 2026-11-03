@@ -3,233 +3,241 @@ import { Link } from 'react-router-dom';
 import PublicHeader from '../components/public/PublicHeader';
 import PublicFooter from '../components/public/PublicFooter';
 import {
-  ShieldCheck, CheckCircle2, ArrowRight,
-  Building2, Users, Award, Globe, Truck, Warehouse,
-  Clock, Navigation, Shield, Check, Phone, Mail
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Building2,
+  Users,
+  Award,
+  Globe,
+  Truck,
+  Warehouse,
+  Sparkles,
+  Layers,
+  Activity,
+  Compass
 } from 'lucide-react';
 
-import heroTruckImg from '../assets/hero_3d_truck.jpg';
-import warehouseHubImg from '../assets/warehouse_3d_hub.jpg';
-import controlTowerImg from '../assets/control_tower_3d_network.jpg';
+// Varied high-quality realistic logistics photography
+import aboutHeroImg from '../assets/hero_real_primeroute_hub.jpg';
+import storyImg from '../assets/cargo_warehouse_terminal.jpg';
+import valuesImg from '../assets/corporate_road_freight.jpg';
+import futureBannerImg from '../assets/hero_real_express_bridge.jpg';
+
+const VALUES_LIST = [
+  {
+    num: '01',
+    title: 'VISIBILITY',
+    desc: 'Make every freight movement, hub scan, and gate-out verified and instantly visible to every participant in the supply chain.',
+  },
+  {
+    num: '02',
+    title: 'RELIABILITY',
+    desc: 'Build dependable, SLA-backed linehaul operations engineered to deliver consistently on time across national expressways.',
+  },
+  {
+    num: '03',
+    title: 'EFFICIENCY',
+    desc: 'Eliminate manual paperwork, redundant brokers, and transit blindspots through automated dispatch software.',
+  },
+  {
+    num: '04',
+    title: 'CONNECTION',
+    desc: 'Seamlessly unite consignors, dock managers, commercial haulers, and dispatchers into one synchronized ecosystem.',
+  },
+];
 
 export default function About() {
   return (
-    <div className="pr-public-site">
+    <div className="editorial-root">
       <PublicHeader />
+
       <main>
-        {/* ========================================================
-            1. HERO SECTION (LIGHT ENTERPRISE THEME)
-            ======================================================== */}
-        <section
-          style={{
-            padding: '48px 0 64px',
-            background: 'linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%)',
-            borderBottom: '1px solid #e2e8f0',
-          }}
-        >
-          <div className="pr-container">
-            <div style={{ maxWidth: '800px' }}>
-              <div className="pr-hero-badge-corporate" style={{ marginBottom: '16px' }}>
-                <span className="pr-live-dot"></span>
-                <span>ABOUT PRIMEROUTE LOGISTICS</span>
+        {/* ── 1. EDITORIAL HERO ── */}
+        <section className="editorial-page-hero">
+          <div className="editorial-page-hero-media">
+            <img
+              src={aboutHeroImg}
+              alt="PrimeRoute Logistics Hub and Multimodal Facility"
+              className="editorial-page-hero-img"
+            />
+          </div>
+          <div className="editorial-page-hero-overlay" />
+
+          <div className="editorial-page-hero-container">
+            <div className="editorial-page-hero-content">
+              <div className="editorial-page-hero-label">
+                ABOUT PRIMEROUTE
               </div>
 
-              <h1
-                style={{
-                  fontSize: 'clamp(32px, 4.2vw, 48px)',
-                  fontWeight: 800,
-                  color: '#0f172a',
-                  lineHeight: 1.18,
-                  letterSpacing: '-0.02em',
-                  margin: '0 0 16px',
-                }}
-              >
-                Building India's Most Connected Freight & Logistics Network.
+              <h1 className="editorial-page-hero-title">
+                PEOPLE. ROUTES.<br />
+                <span className="blue-highlight">OPPORTUNITIES.</span>
               </h1>
 
-              <p
-                style={{
-                  fontSize: '17px',
-                  color: '#475569',
-                  lineHeight: 1.65,
-                  margin: '0 0 28px',
-                }}
-              >
-                PrimeRoute Logistics brings modern technology to commercial transportation. We connect industrial shippers, cross-dock terminal hubs, long-haul highway carriers, and last-mile dispatchers into one synchronized, high-velocity logistics operating system.
+              <p className="editorial-page-hero-desc">
+                At PrimeRoute, we believe logistics is more than movement — it is about people, businesses and opportunities.
               </p>
 
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
-                <Link to="/contact" className="pr-btn-primary" style={{ padding: '12px 26px', fontSize: '14.5px' }}>
-                  <span>Partner With PrimeRoute</span>
-                  <ArrowRight size={15} />
-                </Link>
-                <Link
-                  to="/platform"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '12px 24px',
-                    borderRadius: '8px',
-                    background: '#ffffff',
-                    border: '1px solid #cbd5e1',
-                    color: '#1e293b',
-                    fontWeight: 600,
-                    fontSize: '14.5px',
-                    textDecoration: 'none',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                <a
+                  href="#story"
+                  className="editorial-btn-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  <span>Explore Our Technology</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================
-            2. KEY OPERATIONAL METRICS
-            ======================================================== */}
-        <section style={{ padding: '48px 0', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                gap: '24px',
-              }}
-            >
-              <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '32px', fontWeight: 800, color: '#2563eb', margin: '0 0 4px' }}>42+</div>
-                <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', margin: '0 0 4px' }}>Regional Warehouse Hubs</div>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Strategic cross-dock terminals across major industrial belts.</p>
-              </div>
-
-              <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', margin: '0 0 4px' }}>18+</div>
-                <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', margin: '0 0 4px' }}>Express Highway Corridors</div>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Daily scheduled FTL and LTL linehaul dispatches.</p>
-              </div>
-
-              <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '32px', fontWeight: 800, color: '#059669', margin: '0 0 4px' }}>99.4%</div>
-                <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', margin: '0 0 4px' }}>On-Time SLA Delivery</div>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Live telematics tracking and dynamic waypoint rerouting.</p>
-              </div>
-
-              <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '32px', fontWeight: 800, color: '#7c3aed', margin: '0 0 4px' }}>100%</div>
-                <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', margin: '0 0 4px' }}>Digital ePOD & E-Way Bill</div>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Automated paperless GST tax billing and electronic signatures.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================
-            3. COMPANY MISSION & CORE OPERATIONAL VALUES
-            ======================================================== */}
-        <section style={{ padding: '80px 0', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
-            <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 52px' }}>
-              <div className="pr-section-tag" style={{ margin: '0 auto 10px' }}>
-                <span>Core Operating Principles</span>
-              </div>
-              <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: '0 0 12px' }}>
-                Engineered for Commercial Reliability
-              </h2>
-              <p style={{ fontSize: '16px', color: '#64748b', margin: 0 }}>
-                Every consignment, vehicle, driver, and terminal runs under strict standard operating procedures backed by software automation.
-              </p>
-            </div>
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: '28px',
-              }}
-            >
-              <div style={{ background: '#ffffff', padding: '32px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                  <Navigation size={24} />
-                </div>
-                <h3 style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', margin: '0 0 10px' }}>Complete Transit Transparency</h3>
-                <p style={{ fontSize: '14.5px', color: '#475569', lineHeight: 1.6, margin: 0 }}>
-                  Shippers and enterprise customers never wonder where their freight is. Real-time GPS pings, estimated arrival times, and milestone alerts ensure 100% transparency.
-                </p>
-              </div>
-
-              <div style={{ background: '#ffffff', padding: '32px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: '#ecfdf5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                  <ShieldCheck size={24} />
-                </div>
-                <h3 style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', margin: '0 0 10px' }}>Cargo Integrity & Safety</h3>
-                <p style={{ fontSize: '14.5px', color: '#475569', lineHeight: 1.6, margin: 0 }}>
-                  Tamper-evident digital sealing, verified weighbridge records, trained commercial drivers, and round-the-clock control tower tracking safeguard high-value goods.
-                </p>
-              </div>
-
-              <div style={{ background: '#ffffff', padding: '32px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: '#f5f3ff', color: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                  <Clock size={24} />
-                </div>
-                <h3 style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', margin: '0 0 10px' }}>Predictable Corridor Velocity</h3>
-                <p style={{ fontSize: '14.5px', color: '#475569', lineHeight: 1.6, margin: 0 }}>
-                  Optimized highway routing, dedicated lane departures, and automated FASTag clearance prevent congestion delays and preserve strict customer SLAs.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================
-            4. CORRIDOR NETWORK & INFRASTRUCTURE
-            ======================================================== */}
-        <section style={{ padding: '80px 0', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
-          <div className="pr-container">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '48px', alignItems: 'center' }}>
-              <div>
-                <div className="pr-section-tag" style={{ marginBottom: '12px' }}>
-                  <span>Infrastructure & Reach</span>
-                </div>
-                <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: '0 0 16px' }}>
-                  Nationwide Express Freight Corridors
-                </h2>
-                <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.65, margin: '0 0 24px' }}>
-                  PrimeRoute operates heavy freight lanes interconnecting critical industrial corridors:
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '28px' }}>
-                  <div style={{ padding: '14px 18px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '14.5px' }}>Golden Quadrilateral & Western Corridor</div>
-                    <div style={{ fontSize: '13px', color: '#64748b', marginTop: '2px' }}>Bengaluru – Pune – Mumbai – Ahmedabad – Delhi NCR</div>
-                  </div>
-                  <div style={{ padding: '14px 18px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '14.5px' }}>Southern Industrial Triangle</div>
-                    <div style={{ fontSize: '13px', color: '#64748b', marginTop: '2px' }}>Chennai – Bengaluru – Hyderabad – Coimbatore</div>
-                  </div>
-                  <div style={{ padding: '14px 18px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '14.5px' }}>Eastern Mineral & Manufacturing Belt</div>
-                    <div style={{ fontSize: '13px', color: '#64748b', marginTop: '2px' }}>Kolkata – Jamshedpur – Bhubaneswar – Visakhapatnam</div>
-                  </div>
-                </div>
-
-                <Link to="/solutions" className="pr-btn-primary" style={{ display: 'inline-flex', padding: '11px 24px', fontSize: '14px' }}>
-                  <span>Explore Solutions</span>
+                  <span>LEARN MORE</span>
+                  <ArrowRight size={15} />
+                </a>
+                <Link to="/register" className="editorial-btn-outline-light">
+                  <span>GET STARTED</span>
                   <ArrowRight size={15} />
                 </Link>
               </div>
+            </div>
+          </div>
+        </section>
 
+        {/* ── 2. COMPANY STATISTICS STRIP ── */}
+        <section className="editorial-dark-stats">
+          <div className="editorial-container">
+            <div className="editorial-stats-grid">
               <div>
-                <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 12px 30px rgba(0,0,0,0.08)' }}>
-                  <img src={controlTowerImg} alt="Corridor Network" style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block' }} />
-                </div>
+                <div className="editorial-stat-num">5,000+</div>
+                <div className="editorial-stat-label">ACTIVE CUSTOMERS</div>
+              </div>
+              <div>
+                <div className="editorial-stat-num">1.2M+</div>
+                <div className="editorial-stat-label">SHIPMENTS MANAGED</div>
+              </div>
+              <div>
+                <div className="editorial-stat-num">98.6%</div>
+                <div className="editorial-stat-label">ON-TIME PERFORMANCE</div>
+              </div>
+              <div>
+                <div className="editorial-stat-num">24/7</div>
+                <div className="editorial-stat-label">OPERATIONS HOTLINE</div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* ── 3. ABOUT STORY SECTION (IMAGE & EDITORIAL TEXT) ── */}
+        <section id="story" style={{ padding: '96px 0', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+          <div className="editorial-container">
+            <div className="editorial-row-alternate">
+              <div>
+                <div className="editorial-section-tag">
+                  <Building2 size={13} />
+                  <span>OUR MISSION & FOUNDATION</span>
+                </div>
+
+                <h2 style={{ fontFamily: 'var(--pr-font-display)', fontSize: 'clamp(2.6rem, 5vw, 4.4rem)', color: '#070b14', textTransform: 'uppercase', margin: '0 0 20px', letterSpacing: '0.02em', lineHeight: 0.95 }}>
+                  BUILDING A SMARTER<br />SUPPLY CHAIN.
+                </h2>
+
+                <p style={{ fontSize: '16.5px', color: '#334155', lineHeight: 1.65, margin: '0 0 20px', fontWeight: 500 }}>
+                  PrimeRoute brings customers, warehouses, drivers, fleet operations, and shipment visibility together through one connected logistics platform.
+                </p>
+
+                <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.65, margin: '0 0 28px' }}>
+                  Founded to address the systemic fragmentation in national freight transport, PrimeRoute replaces opaque intermediaries with real-time software. We empower enterprise enterprises with instant rate calculations, automated dock staging, high-frequency GPS tracking, and digital Proof of Delivery.
+                </p>
+
+                <div className="editorial-feature-checklist">
+                  <div className="editorial-feature-check-item">
+                    <CheckCircle2 size={18} color="#0284c7" />
+                    <span>Synchronized multi-tier operational architecture</span>
+                  </div>
+                  <div className="editorial-feature-check-item">
+                    <CheckCircle2 size={18} color="#0284c7" />
+                    <span>End-to-end digital chain of custody and instant ePOD</span>
+                  </div>
+                  <div className="editorial-feature-check-item">
+                    <CheckCircle2 size={18} color="#0284c7" />
+                    <span>Nationwide multi-hub and linehaul corridor coverage</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="editorial-row-img-col">
+                <img
+                  src={storyImg}
+                  alt="Building a Smarter Supply Chain"
+                  className="editorial-row-img"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 4. COMPANY CORE VALUES ── */}
+        <section style={{ padding: '96px 0', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+          <div className="editorial-container">
+            <div>
+              <div className="editorial-section-tag">
+                <Award size={13} />
+                <span>GUIDING PRINCIPLES</span>
+              </div>
+
+              <h2 style={{ fontFamily: 'var(--pr-font-display)', fontSize: 'clamp(2.6rem, 5vw, 4.4rem)', color: '#070b14', textTransform: 'uppercase', margin: 0, letterSpacing: '0.02em', lineHeight: 0.95 }}>
+                THE VALUES THAT DRIVE US
+              </h2>
+
+              <p style={{ fontSize: '16px', color: '#64748b', maxWidth: '640px', margin: '12px 0 0', lineHeight: 1.6 }}>
+                Every tool, corridor route, and telematics integration we build is guided by four foundational pillars.
+              </p>
+            </div>
+
+            <div className="editorial-values-grid">
+              {VALUES_LIST.map((val) => (
+                <div key={val.num} className="editorial-value-card">
+                  <div className="editorial-giant-num" style={{ fontSize: '48px', marginBottom: '8px' }}>
+                    {val.num}
+                  </div>
+                  <h3 style={{ fontFamily: 'var(--pr-font-display)', fontSize: '24px', color: '#070b14', letterSpacing: '0.04em', margin: '0 0 10px', textTransform: 'uppercase' }}>
+                    {val.title}
+                  </h3>
+                  <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.6, margin: 0 }}>
+                    {val.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── 5. FINAL CAMPAIGN OVERLAY BANNER ── */}
+        <section
+          className="editorial-full-width-banner"
+          style={{ backgroundImage: `url(${futureBannerImg})` }}
+        >
+          <div className="editorial-full-width-overlay" />
+
+          <div className="editorial-full-width-content">
+            <div className="editorial-section-tag" style={{ color: '#38bdf8', borderColor: 'rgba(56,189,248,0.3)', margin: '0 auto 16px' }}>
+              <Sparkles size={13} />
+              <span>THE FUTURE OF COMMERCE</span>
+            </div>
+
+            <h2 className="editorial-full-width-headline">
+              THE FUTURE OF<br />LOGISTICS IS CONNECTED.
+            </h2>
+
+            <p className="editorial-full-width-sub">
+              Join thousands of businesses managing nationwide freight operations with complete confidence.
+            </p>
+
+            <Link to="/register" className="editorial-btn-hero-primary" style={{ padding: '16px 36px' }}>
+              <span>GET STARTED</span>
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </section>
       </main>
+
       <PublicFooter />
     </div>
   );

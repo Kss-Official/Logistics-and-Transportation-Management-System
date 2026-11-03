@@ -6,9 +6,9 @@
 // ── REGEX PATTERNS ───────────────────────────────────────────────────────────
 export const INDIAN_PHONE_REGEX = /^(?:\+91[\-\s]?)?[6-9]\d{9}$/;
 export const PINCODE_REGEX = /^\d{6}$/;
-export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-export const NAME_REGEX = /^(?!\d+$)[a-zA-Z0-9\s.'\-]{2,100}$/;
+export const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_+=\-\[\]{}|;:'",.<>\/?~`\\]).{8,}$/;
+export const NAME_REGEX = /^[a-zA-Z\s.'-]{2,100}$/;
 export const VEHICLE_NUMBER_REGEX = /^[A-Z]{2}[0-9]{1,2}[A-Z]{0,3}[0-9]{4}$|^[A-Z]{2}[ -]?[0-9]{2}[ -]?[A-Z]{1,2}[ -]?[0-9]{4}$/i;
 
 export interface ValidationResult {
@@ -115,6 +115,7 @@ export function validateEmail(email?: string | null): ValidationResult {
  * - At least 1 uppercase letter
  * - At least 1 lowercase letter
  * - At least 1 number
+ * - At least 1 special character
  */
 export function validatePassword(password?: string | null): ValidationResult {
   if (!password) {
@@ -137,13 +138,18 @@ export function validatePassword(password?: string | null): ValidationResult {
     return { isValid: false, error: 'Password must contain at least one number (0-9).' };
   }
 
+  if (!/[@$!%*?&#^()_+=\-\[\]{}|;:'",.<>\/?~`\\]/.test(password)) {
+    return { isValid: false, error: 'Password must contain at least one special character (e.g. @, #, $, !).' };
+  }
+
   return { isValid: true };
 }
 
 /**
  * Validates full names for customer, driver, contact person:
  * - 2 to 100 characters
- * - Rejects purely numeric inputs
+ * - Rejects numbers (cannot contain arbitrary digits)
+ * - Accepts letters, spaces, dots, hyphens, apostrophes
  * - Rejects blank or whitespace-only inputs
  */
 export function validateFullName(name?: string | null, fieldLabel = 'Full Name'): ValidationResult {
@@ -161,12 +167,16 @@ export function validateFullName(name?: string | null, fieldLabel = 'Full Name')
     return { isValid: false, error: `${fieldLabel} cannot exceed 100 characters.` };
   }
 
-  if (/^\d+$/.test(trimmed)) {
-    return { isValid: false, error: `${fieldLabel} cannot be purely numeric.` };
+  if (/\d/.test(trimmed)) {
+    return { isValid: false, error: `${fieldLabel} cannot contain numbers.` };
   }
 
   if (!NAME_REGEX.test(trimmed)) {
-    return { isValid: false, error: `${fieldLabel} contains invalid characters.` };
+    return { isValid: false, error: `${fieldLabel} can only contain letters, spaces, dots, hyphens, and apostrophes.` };
+  }
+
+  if (!/[a-zA-Z]/.test(trimmed)) {
+    return { isValid: false, error: `${fieldLabel} must contain at least one letter.` };
   }
 
   return { isValid: true, normalized: trimmed };

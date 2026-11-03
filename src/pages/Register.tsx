@@ -12,6 +12,7 @@ import {
   validateIndianPhone,
   validatePassword,
 } from '../utils/validation';
+import BrandLogo from '../components/common/BrandLogo';
 import registerBgImg from '../assets/register_intermodal_bg.jpg';
 
 export default function Register() {
@@ -267,19 +268,7 @@ export default function Register() {
         }}
       >
         {/* Brand Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
-          <div className="pr-logo-mark">
-            PR
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
-              PrimeRoute
-            </span>
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#2563EB', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-              LOGISTICS
-            </span>
-          </div>
-        </Link>
+        <BrandLogo size="md" />
 
         {/* Back to Home Button (Pill button with royal blue text and soft shadow) */}
         <Link
@@ -849,6 +838,11 @@ export default function Register() {
                         </span>
                       )}
                     </div>
+                  </div>
+
+                  {/* Password Requirements Guidance */}
+                  <div style={{ fontSize: 11, color: '#64748B', marginTop: -2, lineHeight: 1.4 }}>
+                    Must be at least 8 characters with 1 uppercase (A-Z), 1 lowercase (a-z), 1 digit (0-9), and 1 special symbol (@$!%*?&#).
                   </div>
 
                   {/* Terms & Privacy Checkbox */}

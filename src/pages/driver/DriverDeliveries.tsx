@@ -230,7 +230,7 @@ export default function DriverDeliveries() {
                   </Link>
                   {del.status !== 'DELIVERED' && (
                     <button
-                      onClick={() => navigate('/driver/current-delivery')}
+                      onClick={() => navigate(`/driver/current-delivery?id=${encodeURIComponent(del.id)}`)}
                       className="driver-btn-primary"
                       style={{ padding: '6px 14px', fontSize: 12 }}
                     >

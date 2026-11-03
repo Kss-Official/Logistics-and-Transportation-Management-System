@@ -277,6 +277,7 @@ async function main() {
   console.log(`TEST C (Cuttack -> Bangalore): Origin = ${orderC.originWarehouseCode || 'null (EXCEPTION)'} -> ${!orderC.originWarehouseCode ? 'PASS' : 'FAIL'}`);
   console.log(`TEST D1 (Kolkata -> Chennai): Origin = ${orderD1.originWarehouseCode} -> ${orderD1.originWarehouseCode === 'WH-CCU-006' ? 'PASS' : 'FAIL'}`);
   console.log(`TEST D2 (Kolkata -> Delhi): Origin = ${orderD2.originWarehouseCode} -> ${orderD2.originWarehouseCode === 'WH-CCU-006' ? 'PASS' : 'FAIL'}`);
+
 }
 
 main().catch(err => {

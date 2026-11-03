@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import {
   CheckCircle2,
   Navigation,
@@ -14,7 +14,9 @@ import {
   PenTool,
   CheckCheck,
   FileText,
-  ImageIcon
+  ImageIcon,
+  Banknote,
+  CreditCard,
 } from 'lucide-react';
 import { driverPortalService } from '../../services/driverPortalService';
 import { useDriverGpsBroadcaster } from '../../hooks/useDriverGpsBroadcaster';
@@ -30,6 +32,9 @@ const TIMELINE_STEPS = [
 
 export default function DriverCurrentDelivery() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const targetId = searchParams.get('id');
+
   const [delivery, setDelivery] = useState<DeliveryAssignment | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
@@ -57,7 +62,13 @@ export default function DriverCurrentDelivery() {
   const fetchActiveDelivery = async () => {
     try {
       setLoading(true);
-      const current = await driverPortalService.getCurrentDelivery();
+      let current: DeliveryAssignment | null = null;
+      if (targetId && targetId.trim()) {
+        current = await driverPortalService.getDeliveryById(targetId.trim());
+      }
+      if (!current) {
+        current = await driverPortalService.getCurrentDelivery();
+      }
       setDelivery(current);
       setError(null);
     } catch (err) {
@@ -70,7 +81,7 @@ export default function DriverCurrentDelivery() {
 
   useEffect(() => {
     fetchActiveDelivery();
-  }, []);
+  }, [targetId]);
 
   const getActiveStepIndex = (status: string) => {
     switch (status) {
@@ -285,6 +296,43 @@ export default function DriverCurrentDelivery() {
               </span>
               <span style={{ fontSize: 13, color: '#64748b', fontWeight: 600 }}>Tracking #{delivery.trackingNumber}</span>
               <span style={{ fontSize: 13, color: '#64748b' }}>&bull; Order #{delivery.orderNumber}</span>
+              {delivery.isCod || delivery.paymentMethod === 'COD' ? (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    fontSize: 12,
+                    fontWeight: 800,
+                    padding: '2px 8px',
+                    borderRadius: 12,
+                    backgroundColor: delivery.paymentStatus === 'PAID' ? '#dcfce7' : '#fef3c7',
+                    color: delivery.paymentStatus === 'PAID' ? '#15803d' : '#b45309',
+                    border: delivery.paymentStatus === 'PAID' ? '1px solid #86efac' : '1px solid #fde68a',
+                  }}
+                >
+                  <Banknote size={13} />
+                  COD: ₹{(delivery.codAmount || delivery.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({delivery.paymentStatus || 'UNPAID'})
+                </span>
+              ) : (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    fontSize: 12,
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: 12,
+                    backgroundColor: '#eff6ff',
+                    color: '#1d4ed8',
+                    border: '1px solid #bfdbfe',
+                  }}
+                >
+                  <CreditCard size={13} />
+                  Prepaid ({delivery.paymentMethod || 'Online'})
+                </span>
+              )}
             </div>
             <h2 style={{ margin: '6px 0 2px', fontSize: 22, fontWeight: 800, color: '#0f172a' }}>
               {delivery.recipientName}
@@ -305,7 +353,7 @@ export default function DriverCurrentDelivery() {
               </a>
             )}
             <button
-              onClick={() => navigate('/driver/route')}
+              onClick={() => navigate(delivery?.id ? `/driver/route?id=${encodeURIComponent(delivery.id)}` : '/driver/route')}
               className="driver-btn-secondary"
               style={{ padding: '8px 14px' }}
             >

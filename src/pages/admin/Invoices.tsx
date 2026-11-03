@@ -407,10 +407,9 @@ export default function AdminInvoices() {
                 <tr>
                   <th style={{ width: '22%' }}>Invoice #</th>
                   <th style={{ width: '26%' }}>Customer</th>
-                  <th style={{ width: '22%' }}>Order / Shipment</th>
+                  <th style={{ width: '24%' }}>Order / Shipment</th>
                   <th style={{ width: '14%', textAlign: 'center' }}>Status</th>
-                  <th style={{ width: '16%' }}>Due Date</th>
-                  <th style={{ textAlign: 'center', width: '16%' }}>Actions</th>
+                  <th style={{ textAlign: 'center', width: '14%' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -479,18 +478,7 @@ export default function AdminInvoices() {
                         <StatusBadge status={inv.paymentStatus || inv.invoiceStatus || 'ISSUED'} />
                       </td>
 
-                      {/* 5. Due Date */}
-                      <td>
-                        <div style={{ fontSize: 13, color: isOverdue ? '#dc2626' : '#334155', fontWeight: isOverdue ? 600 : 500 }}>
-                          {inv.dueDate
-                            ? new Date(inv.dueDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
-                            : inv.invoiceDate
-                            ? new Date(inv.invoiceDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
-                            : '—'}
-                        </div>
-                      </td>
-
-                      {/* 6. Actions */}
+                      {/* 5. Actions */}
                       <td style={{ textAlign: 'center', whiteSpace: 'nowrap' }}>
                         <div className="td-actions" style={{ justifyContent: 'center', gap: 8, flexWrap: 'nowrap' }}>
                           {/* View Button */}

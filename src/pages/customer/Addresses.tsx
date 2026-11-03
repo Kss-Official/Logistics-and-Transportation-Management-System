@@ -10,11 +10,17 @@ import {
   type AddressRequest,
 } from '../../services/addressService';
 import {
-  validateFullName,
-  validateIndianPhone,
-  validatePincode,
-  validateRequired,
-} from '../../utils/validation';
+  INDIAN_STATES,
+  validateAddressData,
+  validateContactPerson,
+  validateContactPhone,
+  validateStreetAddress,
+  validateLandmark,
+  validateCity,
+  validateState,
+  validatePostalCode,
+  validateCountry,
+} from '../../utils/addressValidation';
 
 export default function Addresses() {
   const { showToast } = useToast();
@@ -157,79 +163,63 @@ export default function Addresses() {
   const validateSingleAddressField = (field: string) => {
     const errs = { ...formErrors };
     if (field === 'contactName') {
-      const res = validateFullName(formData.contactName, 'Contact Name');
-      if (!res.isValid) errs.contactName = res.error!;
+      const err = validateContactPerson(formData.contactName);
+      if (err) errs.contactName = err;
       else delete errs.contactName;
     }
     if (field === 'phone') {
-      const res = validateIndianPhone(formData.phone);
-      if (!res.isValid) errs.phone = res.error!;
+      const err = validateContactPhone(formData.phone);
+      if (err) errs.phone = err;
       else delete errs.phone;
     }
     if (field === 'addressLine1') {
-      const res = validateRequired(formData.addressLine1, 'Address Line 1');
-      if (!res.isValid) errs.addressLine1 = res.error!;
+      const err = validateStreetAddress(formData.addressLine1);
+      if (err) errs.addressLine1 = err;
       else delete errs.addressLine1;
     }
+    if (field === 'addressLine2') {
+      const err = validateLandmark(formData.addressLine2);
+      if (err) errs.addressLine2 = err;
+      else delete errs.addressLine2;
+    }
     if (field === 'city') {
-      const res = validateRequired(formData.city, 'City');
-      if (!res.isValid) errs.city = res.error!;
+      const err = validateCity(formData.city);
+      if (err) errs.city = err;
       else delete errs.city;
     }
     if (field === 'state') {
-      const res = validateRequired(formData.state, 'State');
-      if (!res.isValid) errs.state = res.error!;
+      const err = validateState(formData.state);
+      if (err) errs.state = err;
       else delete errs.state;
     }
     if (field === 'postalCode') {
-      const res = validatePincode(formData.postalCode);
-      if (!res.isValid) errs.postalCode = res.error!;
+      const err = validatePostalCode(formData.postalCode);
+      if (err) errs.postalCode = err;
       else delete errs.postalCode;
     }
     if (field === 'country') {
-      const res = validateRequired(formData.country, 'Country');
-      if (!res.isValid) errs.country = res.error!;
+      const err = validateCountry(formData.country);
+      if (err) errs.country = err;
       else delete errs.country;
     }
     setFormErrors(errs);
   };
 
   const validateAddressForm = (): boolean => {
-    const errs: Record<string, string> = {};
-
-    const nameRes = validateFullName(formData.contactName, 'Contact Name');
-    if (!nameRes.isValid) errs.contactName = nameRes.error!;
-
-    const phoneRes = validateIndianPhone(formData.phone);
-    if (!phoneRes.isValid) errs.phone = phoneRes.error!;
-
-    const addr1Res = validateRequired(formData.addressLine1, 'Address Line 1');
-    if (!addr1Res.isValid) errs.addressLine1 = addr1Res.error!;
-
-    const cityRes = validateRequired(formData.city, 'City');
-    if (!cityRes.isValid) errs.city = cityRes.error!;
-
-    const stateRes = validateRequired(formData.state, 'State');
-    if (!stateRes.isValid) errs.state = stateRes.error!;
-
-    const pinRes = validatePincode(formData.postalCode);
-    if (!pinRes.isValid) errs.postalCode = pinRes.error!;
-
-    const countryRes = validateRequired(formData.country, 'Country');
-    if (!countryRes.isValid) errs.country = countryRes.error!;
-
-    setFormErrors(errs);
+    const { isValid, errors } = validateAddressData(formData);
+    setFormErrors(errors);
     setFormTouched({
       contactName: true,
       phone: true,
       addressLine1: true,
+      addressLine2: true,
       city: true,
       state: true,
       postalCode: true,
       country: true,
     });
 
-    return Object.keys(errs).length === 0;
+    return isValid;
   };
 
   const handleChange = (
@@ -335,9 +325,35 @@ export default function Addresses() {
       setIsModalOpen(false);
     } catch (error: any) {
       console.error('Failed to save address:', error);
-      const backendErrors = error.response?.data?.data || error.response?.data?.errors;
+      const resData = error.response?.data;
+      const backendErrors = resData?.errors || resData?.data;
       if (backendErrors && typeof backendErrors === 'object') {
-        setFormErrors((prev) => ({ ...prev, ...backendErrors }));
+        const mappedErrors: Record<string, string> = {};
+        for (const [key, val] of Object.entries(backendErrors)) {
+          if (typeof val === 'string') {
+            if (key === 'contactPerson' || key === 'contactName') mappedErrors.contactName = val;
+            else if (key === 'contactPhone' || key === 'phone') mappedErrors.phone = val;
+            else if (key === 'streetAddress' || key === 'addressLine1' || key === 'street') mappedErrors.addressLine1 = val;
+            else if (key === 'apartmentUnitLandmark' || key === 'addressLine2' || key === 'landmark') mappedErrors.addressLine2 = val;
+            else if (key === 'city') mappedErrors.city = val;
+            else if (key === 'state') mappedErrors.state = val;
+            else if (key === 'postalCode' || key === 'pincode' || key === 'pinCode') mappedErrors.postalCode = val;
+            else if (key === 'country') mappedErrors.country = val;
+            else mappedErrors[key] = val;
+          }
+        }
+        setFormErrors((prev) => ({ ...prev, ...mappedErrors }));
+        setFormTouched((prev) => ({
+          ...prev,
+          contactName: true,
+          phone: true,
+          addressLine1: true,
+          addressLine2: true,
+          city: true,
+          state: true,
+          postalCode: true,
+          country: true,
+        }));
       }
       const message = error.response?.data?.message || 'Failed to save address.';
       showToast('error', 'Action Failed', message);
@@ -745,7 +761,16 @@ export default function Addresses() {
                 placeholder="Flat, floor, suite, landmark..."
                 value={formData.addressLine2}
                 onChange={handleChange}
+                onBlur={() => handleFieldBlur('addressLine2')}
+                style={{
+                  borderColor: formTouched.addressLine2 && formErrors.addressLine2 ? '#ef4444' : undefined,
+                }}
               />
+              {formTouched.addressLine2 && formErrors.addressLine2 && (
+                <span style={{ color: '#ef4444', fontSize: '11.5px', marginTop: '4px', display: 'block' }}>
+                  {formErrors.addressLine2}
+                </span>
+              )}
             </div>
 
             {/* City */}
@@ -758,7 +783,7 @@ export default function Addresses() {
                 type="text"
                 name="city"
                 className="form-input"
-                placeholder="Enter city"
+                placeholder="Enter city (e.g. Bengaluru, Mumbai)"
                 value={formData.city}
                 onChange={handleChange}
                 onBlur={() => handleFieldBlur('city')}
@@ -779,18 +804,23 @@ export default function Addresses() {
                 State *
               </label>
 
-              <input
-                type="text"
+              <select
                 name="state"
-                className="form-input"
-                placeholder="Enter state"
+                className="form-select"
                 value={formData.state}
                 onChange={handleChange}
                 onBlur={() => handleFieldBlur('state')}
                 style={{
                   borderColor: formTouched.state && formErrors.state ? '#ef4444' : undefined,
                 }}
-              />
+              >
+                <option value="">Select State</option>
+                {INDIAN_STATES.map((st) => (
+                  <option key={st} value={st}>
+                    {st}
+                  </option>
+                ))}
+              </select>
               {formTouched.state && formErrors.state && (
                 <span style={{ color: '#ef4444', fontSize: '11.5px', marginTop: '4px', display: 'block' }}>
                   {formErrors.state}
@@ -808,7 +838,7 @@ export default function Addresses() {
                 type="text"
                 name="postalCode"
                 className="form-input"
-                placeholder="751024"
+                placeholder="e.g. 560001"
                 value={formData.postalCode}
                 onChange={handleChange}
                 onBlur={() => handleFieldBlur('postalCode')}
@@ -829,17 +859,18 @@ export default function Addresses() {
                 Country *
               </label>
 
-              <input
-                type="text"
+              <select
                 name="country"
-                className="form-input"
-                value={formData.country}
+                className="form-select"
+                value={formData.country || 'India'}
                 onChange={handleChange}
                 onBlur={() => handleFieldBlur('country')}
                 style={{
                   borderColor: formTouched.country && formErrors.country ? '#ef4444' : undefined,
                 }}
-              />
+              >
+                <option value="India">India</option>
+              </select>
               {formTouched.country && formErrors.country && (
                 <span style={{ color: '#ef4444', fontSize: '11.5px', marginTop: '4px', display: 'block' }}>
                   {formErrors.country}

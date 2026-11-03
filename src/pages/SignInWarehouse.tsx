@@ -52,7 +52,8 @@ export default function SignInWarehouse() {
       setErrorMessage('Please enter a valid work email address.');
       return;
     }
-    if (!password) {
+    const cleanPassword = password.trim();
+    if (!cleanPassword) {
       setErrorMessage('Please enter your password.');
       return;
     }
@@ -60,7 +61,7 @@ export default function SignInWarehouse() {
     setIsLoading(true);
 
     try {
-      const result = await login(cleanEmail, password, rememberMe);
+      const result = await login(cleanEmail, cleanPassword, rememberMe);
 
       if (!result.success || !result.user) {
         setErrorMessage(result.error || 'Invalid email or password.');

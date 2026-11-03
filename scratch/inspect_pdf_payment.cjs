@@ -1,9 +1,7 @@
 const fs = require('fs');
-const path = require('path');
-
-const BACKEND_SRC = 'C:\\Users\\shrut\\Documents\\workspace-spring-tools-for-eclipse-5.0.0.RELEASE\\Logistics-management\\src\\main\\java\\com\\primeroute\\logistics';
-const pdfSvcPath = path.join(BACKEND_SRC, 'service/InvoicePdfService.java');
-const content = fs.readFileSync(pdfSvcPath, 'utf8');
-
-const idx = content.indexOf('PAYMENT INFORMATION');
-console.log(content.substring(idx - 50, idx + 800));
+const baseDir = 'C:/Users/shrut/Documents/workspace-spring-tools-for-eclipse-5.0.0.RELEASE/Logistics-management/src/main/java/com/primeroute/logistics';
+const content = fs.readFileSync(`${baseDir}/service/InvoicePdfService.java`, 'utf8');
+const lines = content.split('\n');
+console.log(lines.slice(170, 205).join('\n'));
+console.log('--- second method ---');
+console.log(lines.slice(365, 400).join('\n'));

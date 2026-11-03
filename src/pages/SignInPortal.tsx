@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import truckWatermark from '../assets/hero_real_highway_truck.jpg';
 import warehouseWatermark from '../assets/cargo_warehouse_terminal.jpg';
+import BrandLogo from '../components/common/BrandLogo';
 
 export default function SignInPortal() {
   const portals = [
@@ -304,33 +305,7 @@ export default function SignInPortal() {
       >
         {/* PrimeRoute Logo & Tagline */}
         <div>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-            <div
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ffffff',
-                fontWeight: 800,
-                fontSize: '17px',
-                boxShadow: '0 4px 12px rgba(37, 99, 235, 0.28)',
-              }}
-            >
-              <span>PR</span>
-            </div>
-            <div>
-              <div style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                PrimeRoute
-              </div>
-              <div style={{ fontSize: '11px', fontWeight: 800, color: '#2563eb', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                LOGISTICS
-              </div>
-            </div>
-          </Link>
+          <BrandLogo size="md" />
           <div style={{ marginTop: '6px', fontSize: '12px', color: '#64748b', fontWeight: 500, letterSpacing: '0.02em' }}>
             Connected Logistics. Smarter Tomorrow.
           </div>

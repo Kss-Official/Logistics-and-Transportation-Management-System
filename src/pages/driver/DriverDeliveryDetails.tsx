@@ -194,7 +194,7 @@ export default function DriverDeliveryDetails() {
           )}
           {delivery.status !== 'DELIVERED' && (
             <button
-              onClick={() => navigate('/driver/current-delivery')}
+              onClick={() => navigate(`/driver/current-delivery?id=${encodeURIComponent(delivery.id)}`)}
               className="driver-btn-secondary"
               style={{ padding: '8px 16px', fontSize: 13 }}
             >

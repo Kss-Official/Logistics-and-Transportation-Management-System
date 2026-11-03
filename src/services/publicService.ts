@@ -23,10 +23,41 @@ export interface PublicContactInfo {
   website: string;
 }
 
+export interface PublicFreightInquiryRequest {
+  companyName: string;
+  contactName: string;
+  email: string;
+  phone: string;
+  origin: string;
+  destination: string;
+  serviceType: string;
+  weight?: number;
+  cargoType?: string;
+  message?: string;
+  inquiryType?: 'QUOTATION' | 'CONSULTATION';
+}
+
+export interface PublicFreightInquiryResponse {
+  inquiryNumber: string;
+  inquiryType: string;
+  companyName: string;
+  contactName: string;
+  email: string;
+  phone: string;
+  origin: string;
+  destination: string;
+  serviceType: string;
+  weight?: number;
+  status: string;
+  createdAt: string;
+  message: string;
+}
+
 interface ApiResponse<T> {
   success: boolean;
   message: string;
   data: T;
+  errors?: Record<string, string>;
   timestamp?: string;
 }
 
@@ -54,6 +85,22 @@ export const publicService = {
     const response = await api.get<ApiResponse<TrackingResponse>>(
       `/public/tracking/${encodeURIComponent(identifier.trim())}`
     );
+    return response.data.data;
+  },
+
+  /**
+   * Submits a formal corridor freight quotation request to the logistics desk.
+   */
+  submitFreightQuote: async (data: PublicFreightInquiryRequest): Promise<PublicFreightInquiryResponse> => {
+    const response = await api.post<ApiResponse<PublicFreightInquiryResponse>>('/public/quotes', data);
+    return response.data.data;
+  },
+
+  /**
+   * Submits a public freight consultation inquiry.
+   */
+  submitFreightInquiry: async (data: PublicFreightInquiryRequest): Promise<PublicFreightInquiryResponse> => {
+    const response = await api.post<ApiResponse<PublicFreightInquiryResponse>>('/public/inquiries', data);
     return response.data.data;
   },
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Phone, Mail, MapPin, Menu, X, ArrowRight, Loader2, User, ChevronDown, Check } from 'lucide-react';
+import { Phone, Mail, Menu, X, ArrowRight, Loader2, User, ChevronDown } from 'lucide-react';
 import publicService from '../../services/publicService';
 import type { PublicContactInfo } from '../../services/publicService';
 import { useAuth } from '../../context/AuthContext';
@@ -41,18 +41,12 @@ export default function PublicHeader() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Initial load and live event synchronization
   useEffect(() => {
     fetchContact();
-
-    const handleSync = () => {
-      fetchContact();
-    };
-
+    const handleSync = () => fetchContact();
     window.addEventListener('focus', handleSync);
     window.addEventListener('contact:updated', handleSync);
     window.addEventListener('storage', handleSync);
-
     return () => {
       window.removeEventListener('focus', handleSync);
       window.removeEventListener('contact:updated', handleSync);
@@ -84,7 +78,6 @@ export default function PublicHeader() {
     setSupportModalOpen(true);
   };
 
-  // Dynamic portal redirect for authenticated sessions
   const portalPath =
     role === 'ADMIN'
       ? '/admin/dashboard'
@@ -96,271 +89,199 @@ export default function PublicHeader() {
 
   return (
     <>
-      {/* ── 1. TOP INFORMATION BAR (Dark Navy Thin Bar) ── */}
-      <div className="pr-top-bar" style={{ background: '#0B1736', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-        <div className="pr-container">
-          <div className="pr-top-bar-inner">
-            {/* Left side: Phone, Email, 24/7 Status */}
-            <div className="pr-top-bar-left">
+      {/* ── 1. EDITORIAL TOP INFORMATION BAR ── */}
+      <div className="editorial-top-bar">
+        <div className="editorial-container">
+          <div className="editorial-top-bar-inner">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
               {loadingContact ? (
-                <span className="pr-top-bar-item" style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Loader2 size={12} className="animate-spin" color="#60a5fa" />
-                  <span>Syncing operations hotline...</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Loader2 size={12} className="animate-spin" color="#38bdf8" />
+                  <span>Connecting telematics gateway...</span>
                 </span>
               ) : (
                 <>
                   <a
                     href={`tel:${phone.replace(/\s+/g, '')}`}
                     onClick={handlePhoneClick}
-                    className="pr-top-bar-item"
-                    title="Click for Hotline Details & Direct Dial"
+                    className="editorial-top-link"
+                    title="Click for Hotline Details"
                   >
-                    <Phone size={13} color="#60a5fa" />
+                    <Phone size={12} color="#38bdf8" />
                     <span>{phone}</span>
                   </a>
                   <a
                     href={`mailto:${email}`}
                     onClick={handleEmailClick}
-                    className="pr-top-bar-item"
-                    title="Click to Email Support / Open Webmail"
+                    className="editorial-top-link"
+                    title="Click to Email Support"
                   >
-                    <Mail size={13} color="#60a5fa" />
+                    <Mail size={12} color="#38bdf8" />
                     <span>{email}</span>
                   </a>
-                  <span className="pr-top-bar-item pr-top-bar-status" style={{ color: '#cbd5e1' }}>
-                    <span className="pr-top-bar-pulse-dot"></span>
-                    <span>{availability}</span>
-                  </span>
                 </>
               )}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', display: 'inline-block' }} />
+              <span style={{ color: '#cbd5e1' }}>{availability}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── 2. MAIN NAVIGATION (Crisp White Navigation Bar) ── */}
-      <header className={`pr-header ${scrolled ? 'scrolled' : ''}`}>
-        <div className="pr-container">
-          <div className="pr-header-inner">
-            {/* Left: PrimeRoute Brand Logo */}
-            <Link to="/" className="pr-brand" onClick={closeMobile}>
-              <div className="pr-logo-mark">
-                <span>PR</span>
-              </div>
-              <div className="pr-brand-text">
-                <span className="pr-brand-name">PrimeRoute</span>
-                <span className="pr-brand-tagline">LOGISTICS</span>
-              </div>
+      {/* ── 2. EDITORIAL MAIN NAVIGATION ── */}
+      <header className={`editorial-nav-header ${scrolled ? 'scrolled' : ''}`}>
+        <div className="editorial-nav-container">
+          {/* Brand */}
+          <Link to="/" className="editorial-brand" onClick={closeMobile}>
+            <div className="editorial-brand-logo">PR</div>
+            <div>
+              <div className="editorial-brand-title">PRIMEROUTE</div>
+              <div className="editorial-brand-sub">LOGISTICS</div>
+            </div>
+          </Link>
+
+          {/* Center Links (Letter-spaced editorial navigation) */}
+          <nav className="editorial-nav-links">
+            <NavLink
+              to="/solutions"
+              className={({ isActive }) => `editorial-nav-item ${isActive ? 'active' : ''}`}
+            >
+              SOLUTIONS
+            </NavLink>
+
+            <NavLink
+              to="/services"
+              className={({ isActive }) => `editorial-nav-item ${isActive ? 'active' : ''}`}
+            >
+              SERVICES
+            </NavLink>
+
+            <NavLink
+              to="/platform"
+              className={({ isActive }) => `editorial-nav-item ${isActive ? 'active' : ''}`}
+            >
+              TECHNOLOGY
+            </NavLink>
+
+            <NavLink
+              to="/tracking"
+              className={({ isActive }) => `editorial-nav-item ${isActive ? 'active' : ''}`}
+            >
+              TRACKING
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              className={({ isActive }) => `editorial-nav-item ${isActive ? 'active' : ''}`}
+            >
+              ABOUT US
+            </NavLink>
+
+            <NavLink
+              to="/contact"
+              className={({ isActive }) => `editorial-nav-item ${isActive ? 'active' : ''}`}
+            >
+              CONTACT
+            </NavLink>
+          </nav>
+
+          {/* Right Actions */}
+          <div className="editorial-nav-actions">
+            {isAuthenticated ? (
+              <Link
+                to={portalPath}
+                className="editorial-btn-ghost"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+              >
+                <User size={14} />
+                <span>{user?.name ? user.name.split(' ')[0] : 'PORTAL'}</span>
+              </Link>
+            ) : (
+              <Link to="/signin" className="editorial-btn-ghost">
+                SIGN IN
+              </Link>
+            )}
+
+            <Link
+              to={isAuthenticated ? portalPath : '/register'}
+              className="editorial-btn-primary"
+            >
+              <span>{isAuthenticated ? 'LAUNCH APP' : 'GET STARTED'}</span>
+              <ArrowRight size={14} className="btn-arrow" />
             </Link>
 
-            {/* Center: Main Navigation Links */}
-            <nav className="pr-desktop-nav-links">
-              <NavLink
-                to="/solutions"
-                className={({ isActive }) => `pr-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Solutions
-              </NavLink>
-
-              {/* Services with Dropdown Indicator */}
-              <div
-                className="pr-nav-item-dropdown"
-                onMouseEnter={() => setServicesDropdownOpen(true)}
-                onMouseLeave={() => setServicesDropdownOpen(false)}
-              >
-                <NavLink
-                  to="/services"
-                  className={({ isActive }) => `pr-nav-link ${isActive ? 'active' : ''}`}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                >
-                  <span>Services</span>
-                  <ChevronDown size={14} className={`pr-dropdown-chevron ${servicesDropdownOpen ? 'rotate' : ''}`} />
-                </NavLink>
-
-                {servicesDropdownOpen && (
-                  <div className="pr-dropdown-panel">
-                    <Link to="/services#road-freight" className="pr-dropdown-panel-item" onClick={() => setServicesDropdownOpen(false)}>
-                      <div className="pr-dropdown-item-title">Road Freight & Linehaul</div>
-                      <div className="pr-dropdown-item-sub">Full truckload (FTL) and less-than-truckload (LTL) corridor transit</div>
-                    </Link>
-                    <Link to="/services#warehouse" className="pr-dropdown-panel-item" onClick={() => setServicesDropdownOpen(false)}>
-                      <div className="pr-dropdown-item-title">Warehouse Operations</div>
-                      <div className="pr-dropdown-item-sub">Multi-hub inventory tracking, staging bays & safety thresholds</div>
-                    </Link>
-                    <Link to="/services#telematics" className="pr-dropdown-panel-item" onClick={() => setServicesDropdownOpen(false)}>
-                      <div className="pr-dropdown-item-title">Fleet & Driver Telematics</div>
-                      <div className="pr-dropdown-item-sub">Live corridor tracking, HOS compliance & maintenance schedules</div>
-                    </Link>
-                    <Link to="/services#last-mile" className="pr-dropdown-panel-item" onClick={() => setServicesDropdownOpen(false)}>
-                      <div className="pr-dropdown-item-title">Last-Mile Distribution</div>
-                      <div className="pr-dropdown-item-sub">Direct delivery, electronic ePOD proof & instant GST invoices</div>
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              <NavLink
-                to="/platform"
-                className={({ isActive }) => `pr-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Technology
-              </NavLink>
-
-              <NavLink
-                to="/tracking"
-                className={({ isActive }) => `pr-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Tracking
-              </NavLink>
-
-              <NavLink
-                to="/about"
-                className={({ isActive }) => `pr-nav-link ${isActive ? 'active' : ''}`}
-              >
-                About Us
-              </NavLink>
-
-              <NavLink
-                to="/contact"
-                className={({ isActive }) => `pr-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Contact
-              </NavLink>
-            </nav>
-
-            {/* Right: Sign In + Get Started Button */}
-            <div className="pr-nav-actions">
-              {/* Sign In Button */}
-              {isAuthenticated ? (
-                <Link
-                  to={portalPath}
-                  className="pr-btn-signin"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                >
-                  <User size={14} />
-                  <span>{user?.name ? user.name.split(' ')[0] : 'Account'}</span>
-                </Link>
-              ) : (
-                <Link to="/signin" className="pr-btn-signin">
-                  Sign In
-                </Link>
-              )}
-
-              {/* Get Started Button */}
-              {isAuthenticated ? (
-                <Link to={portalPath} className="pr-btn-getstarted">
-                  <span>Dashboard</span>
-                  <ArrowRight size={15} />
-                </Link>
-              ) : (
-                <Link to="/register" className="pr-btn-getstarted">
-                  <span>Get Started</span>
-                  <ArrowRight size={15} />
-                </Link>
-              )}
-
-              {/* Mobile Hamburger Toggle Button */}
-              <button
-                className="pr-mobile-toggle-btn"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle Navigation Menu"
-              >
-                {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-              </button>
-            </div>
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              style={{
+                display: 'none',
+                background: 'transparent',
+                border: 'none',
+                padding: '8px',
+                cursor: 'pointer',
+                color: '#070b14',
+              }}
+              className="editorial-mobile-toggle"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
 
-        {/* ── Mobile Navigation Drawer ── */}
+        {/* Mobile Slideout Menu */}
         {mobileMenuOpen && (
-          <div className="pr-mobile-drawer">
-            <div className="pr-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <NavLink
-                to="/solutions"
-                onClick={closeMobile}
-                className={({ isActive }) => `pr-mobile-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Solutions
-              </NavLink>
-              <NavLink
-                to="/services"
-                onClick={closeMobile}
-                className={({ isActive }) => `pr-mobile-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Services
-              </NavLink>
-              <NavLink
-                to="/platform"
-                onClick={closeMobile}
-                className={({ isActive }) => `pr-mobile-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Technology
-              </NavLink>
-              <NavLink
-                to="/tracking"
-                onClick={closeMobile}
-                className={({ isActive }) => `pr-mobile-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Tracking
-              </NavLink>
-              <NavLink
-                to="/about"
-                onClick={closeMobile}
-                className={({ isActive }) => `pr-mobile-nav-link ${isActive ? 'active' : ''}`}
-              >
-                About Us
-              </NavLink>
-              <NavLink
-                to="/contact"
-                onClick={closeMobile}
-                className={({ isActive }) => `pr-mobile-nav-link ${isActive ? 'active' : ''}`}
-              >
-                Contact
-              </NavLink>
-              <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '12px', display: 'flex', gap: '10px' }}>
-                {isAuthenticated ? (
-                  <Link
-                    to={portalPath}
-                    onClick={closeMobile}
-                    className="pr-btn-getstarted"
-                    style={{ width: '100%', justifyContent: 'center' }}
-                  >
-                    <span>Go to Dashboard</span>
-                    <ArrowRight size={15} />
-                  </Link>
-                ) : (
-                  <>
-                    <Link
-                      to="/signin"
-                      onClick={closeMobile}
-                      className="pr-btn-signin"
-                      style={{ flex: 1, textAlign: 'center' }}
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      to="/register"
-                      onClick={closeMobile}
-                      className="pr-btn-getstarted"
-                      style={{ flex: 1, justifyContent: 'center' }}
-                    >
-                      <span>Get Started</span>
-                      <ArrowRight size={15} />
-                    </Link>
-                  </>
-                )}
-              </div>
+          <div
+            style={{
+              background: '#ffffff',
+              borderTop: '1px solid #e2e8f0',
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}
+          >
+            <NavLink to="/solutions" className="editorial-nav-item" onClick={closeMobile}>
+              SOLUTIONS
+            </NavLink>
+            <NavLink to="/services" className="editorial-nav-item" onClick={closeMobile}>
+              SERVICES
+            </NavLink>
+            <NavLink to="/platform" className="editorial-nav-item" onClick={closeMobile}>
+              TECHNOLOGY
+            </NavLink>
+            <NavLink to="/tracking" className="editorial-nav-item" onClick={closeMobile}>
+              TRACKING
+            </NavLink>
+            <NavLink to="/about" className="editorial-nav-item" onClick={closeMobile}>
+              ABOUT US
+            </NavLink>
+            <NavLink to="/contact" className="editorial-nav-item" onClick={closeMobile}>
+              CONTACT
+            </NavLink>
+            <div style={{ paddingTop: '16px', borderTop: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <Link to="/signin" className="editorial-btn-ghost" onClick={closeMobile} style={{ textAlign: 'center' }}>
+                SIGN IN
+              </Link>
+              <Link to="/register" className="editorial-btn-primary" onClick={closeMobile} style={{ justifyContent: 'center' }}>
+                <span>GET STARTED</span>
+                <ArrowRight size={14} />
+              </Link>
             </div>
           </div>
         )}
       </header>
 
-      {/* ── Support & Contact Dialog ── */}
-      <SupportModal
-        isOpen={supportModalOpen}
-        onClose={() => setSupportModalOpen(false)}
-        contact={contact}
-      />
+      {supportModalOpen && (
+        <SupportModal
+          isOpen={supportModalOpen}
+          onClose={() => setSupportModalOpen(false)}
+          contact={contact}
+        />
+      )}
     </>
   );
 }

@@ -135,6 +135,12 @@ function mapDelivery(data: any): DeliveryAssignment {
     lastLocationUpdatedAt: data.lastLocationUpdatedAt,
     pickupChecklistCompleted: Boolean(data.pickupChecklistCompleted),
     deliveryChecklistCompleted: Boolean(data.deliveryChecklistCompleted || data.proofOfDelivery),
+    paymentMethod: data.paymentMethod,
+    paymentStatus: data.paymentStatus,
+    totalAmount: data.totalAmount != null ? Number(data.totalAmount) : undefined,
+    codAmount: data.codAmount != null ? Number(data.codAmount) : (data.totalAmount != null ? Number(data.totalAmount) : undefined),
+    isCod: Boolean(data.isCod || data.paymentMethod === 'COD' || data.paymentMethod === 'CASH_ON_DELIVERY'),
+    codCollected: Boolean(data.codCollected || (data.paymentStatus === 'PAID' && (data.isCod || data.paymentMethod === 'COD'))),
     proofOfDelivery: data.proofOfDelivery
       ? {
           deliveryId: String(data.proofOfDelivery.shipmentId || data.id || ''),
@@ -146,6 +152,8 @@ function mapDelivery(data: any): DeliveryAssignment {
           notes: data.proofOfDelivery.deliveryNotes || data.proofOfDelivery.notes,
           deliveredAt: data.proofOfDelivery.deliveredAt,
           timestamp: data.proofOfDelivery.deliveredAt,
+          codCollected: Boolean(data.proofOfDelivery.codCollected || data.codCollected),
+          collectedAmount: data.proofOfDelivery.collectedAmount != null ? Number(data.proofOfDelivery.collectedAmount) : undefined,
         }
       : undefined,
   };
@@ -521,6 +529,8 @@ export const driverPortalService = {
         photoUrl: proof.photoUrl,
         deliveryNotes: proof.notes,
         notes: proof.notes,
+        codCollected: proof.codCollected,
+        collectedAmount: proof.collectedAmount,
       });
       const data = response.data?.data || response.data;
       if (!data) return null;
